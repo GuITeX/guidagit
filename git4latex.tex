@@ -9,9 +9,18 @@
 \usepackage{listings}
 \usepackage{framed}
 
+% \usepackage{tocloft}
+% \renewcommand{\cftdot}{}
+% 
+% \usepackage{hyperref}
 
 \begin{document}
-\lstset{frame=shadowbox}
+\lstset{
+  frame=single,
+%   language=bash,
+%   showspaces=false,
+%   showtabs=false,
+}
 \title{git4\LaTeX \\
   Una guida introduttiva a git per progetti \LaTeX}
 \author{Pietro Giuffrida}
@@ -57,11 +66,11 @@ $ commit -am "un ulteriore sviluppo del progetto"
 \end{lstlisting}
 
 \subsection{Aggiungere altri file al progetto}
-Finora abbiamo eseguito il commit passando a git le due opzioni "-am".
-Con l'opzione "-m" diciamo a git di utilizzare il testo virgolettato che segue
-il comando come nota di versione del commit che stiamo eseguendo.
-Con l'opzione "-a" chiediamo a git di salvare tutte le modifiche apportate a
-tutti i file che abbiamo precedentemente aggiunto al progetto.
+Finora abbiamo eseguito il commit passando a git le due opzioni ``-am''. Con
+l'opzione ``-m'' diciamo a git di utilizzare il testo virgolettato che segue il
+comando come nota di versione del commit che stiamo eseguendo. Con l'opzione
+``-a'' chiediamo a git di salvare tutte le modifiche apportate a tutti i file
+che abbiamo precedentemente aggiunto al progetto.
 
 Si presenta ora uno scenario tra i più comuni: dobbiamo aggiungere un ulteriore
 file al progetto, per esempio un file .tex contenente un ulteriore capitolo, o
@@ -107,11 +116,11 @@ che sia preferibile aggiungere eseguire la prima delle due operazioni.
 Dato però che nel corso dell'elaborazione di un testo inevitabilmente si
 procederà alla generazione del documento in pdf mediante i vari comandi di
 \LaTeX, si potrebbe determinare un controsenso. Se infatti eseguiamo il comando
-"git add ." dopo aver eseguito,
+``git add .'' dopo aver eseguito,
 per esempio, pdflatex, evidentemente git aggiungerebbe al repository anche i
 vari file di lavoro, dal pdf, ai file .log, .out e vari altri.
 Per ovviare a questo inconveniente, è utile creare nella nostra directory di
-lavoro un file denominato ".gitignore".
+lavoro un file denominato ``.gitignore''.
 
 \begin{lstlisting}
 $ touch .gitignore

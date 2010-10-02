@@ -1,0 +1,6 @@
+\select@language {italian}
+\contentsline {section}{\numberline {1}Un semplice progetto \textlatin {\LaTeX }}{1}
+\contentsline {subsection}{\numberline {1.1}Aggiungere altri file al progetto}{2}
+\contentsline {section}{\numberline {2}Consultazione dei log e ripristino di file}{3}
+\contentsline {section}{\numberline {3}backup su usb}{6}
+\contentsline {section}{\numberline {4}inotifywait e commit automatico}{6}
