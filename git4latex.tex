@@ -25,6 +25,7 @@ loro consultazione, il backup locale e remoto, tutto in estrema economia.
 
 Usando esclusivamente linux, il terminale, kate come editor!
 
+\tableofcontents
 
 \section{Un semplice progetto \LaTeX}
 Vogliamo sviluppare un documento con \LaTeX, utilizzando git come CVS.
@@ -38,7 +39,14 @@ aggiungendoli al repository.
 \end{enumerate}
 
 \begin{framed}
-\lstinputlisting{git_command.sh}
+\begin{lstlisting}
+$ mkdir nuovo_progetto
+$ cd nuovo_progetto
+$ touch np_main.tex
+$ git init
+$ git add .
+$ git commit -am "Inizializzazione del nuovo progetto np"
+\end{lstlisting}
 \end{framed}
 
 Così facendo saremmo già pronti a lavorare con il nostro editor di fiducia, e
@@ -47,7 +55,7 @@ modo da salvare cioè una determinata versione del progetto.
 
 \begin{framed}
 \begin{lstlisting}
-commit -am "un ulteriore sviluppo del progetto"
+$ commit -am "un ulteriore sviluppo del progetto"
 \end{lstlisting}
 \end{framed}
 
@@ -66,12 +74,12 @@ arrivato, ed in effetti dovrebbe restituire un messaggio di questo tipo:
 
 \begin{framed}
 \begin{lstlisting}
-git commit -am "aggiunto file secondary.tex"
+$ git commit -am "aggiunto file np_secondary.tex"
 # On branch master
 # Untracked files:
 #   (use "git add <file>..." to include in what will be committed)
 #
-#       secondary.tex
+#       np_secondary.tex
 nothing added to commit but untracked files present (use "git add" to track)
 \end{lstlisting}
 \end{framed}
@@ -88,7 +96,7 @@ inizializzazione:
 
 \begin{framed}
 \begin{lstlisting}
-git add.
+$ git add.
 \end{lstlisting}
 \end{framed}
 
@@ -96,7 +104,7 @@ Nel secondo caso aggiungiamo un singolo file:
 
 \begin{framed}
 \begin{lstlisting}
-git add secondary.tex
+$ git add np_secondary.tex
 \end{lstlisting}
 \end{framed}
 
@@ -116,17 +124,17 @@ lavoro un file denominato ".gitignore".
 
 \begin{framed}
 \begin{lstlisting}
-touch .gitignore
-echo "*.log" >> .gitignore
-echo "*.pdf" >> .gitignore
-echo "*.blg" >> .gitignore
-echo "*.bbl" >> .gitignore
-echo "*.aux" >> .gitignore
-echo "*-blx.bib" >> .gitignore
-echo "*.out" >> .gitignore
-echo "*~" >> .gitignore
-git add .gitignore
-git commit -am "Aggiunto il file .gitignore"
+$ touch .gitignore
+$ echo "*.log" >> .gitignore
+$ echo "*.pdf" >> .gitignore
+$ echo "*.blg" >> .gitignore
+$ echo "*.bbl" >> .gitignore
+$ echo "*.aux" >> .gitignore
+$ echo "*-blx.bib" >> .gitignore
+$ echo "*.out" >> .gitignore
+$ echo "*~" >> .gitignore
+$ git add .gitignore
+$ git commit -am "Aggiunto il file .gitignore"
 \end{lstlisting}
 \end{framed}
 
@@ -136,8 +144,138 @@ deve dar pena se non li aggiungiamo al repository.
 
 \section{Consultazione dei log e ripristino di file}
 Presi da una strano forma di pazzia abbiamo eliminato un file del nostro
-progetto.
+progetto, ed abbiamo anche eseguito un commi masochistico.
 
+\begin{framed}
+\begin{lstlisting}
+$ touch np_secondary.tex
+$ echo "\subsection{sezione}" >> np_secondary.tex
+$ git add .
+$ git commit -am "Ho solo iniziato a lavorare"
+$ rm np_secondary.tex
+$ git commit -am "Ma ho gia' perso tutto"
+\end{lstlisting}
+\end{framed}
 
+Ora chiediamo conto a git della sua capacità di ripristinare una versione
+precedentemente salvata.
+
+\begin{framed}
+\begin{lstlisting}
+$ git log
+commit 380228784f4095efdbce9d1d3408bcbdf01548cb
+Author: Pietro Giuffrida <pietro.giuffri@gmail.com>
+Date:   Sat Oct 2 18:58:44 2010 +0200
+
+    Ma ho gia' perso tutto
+
+commit c21d825df42f55ba127487fd93acf1c13c41b028
+Author: Pietro Giuffrida <pietro.giuffri@gmail.com>
+Date:   Sat Oct 2 18:55:07 2010 +0200
+
+    Ho solo iniziato a lavorare
+
+commit bef2662a93b8d57db934d2be69c290e8fcd282ae
+Author: Pietro Giuffrida <pietro.giuffri@gmail.com>
+Date:   Sat Oct 2 18:27:24 2010 +0200
+
+    aggiunto file np_secondary.tex
+
+commit 34e68a9db309081e67a693bf8153765298b73b10
+Author: Pietro Giuffrida <pietro.giuffri@gmail.com>
+Date:   Sat Oct 2 18:04:29 2010 +0200
+
+    Inizializzazione del nuovo progetto np
+\end{lstlisting}
+\end{framed}
+
+Trattandosi di un file eliminato, non possiamo chiedere a git di stampare solo i
+log relativi al singolo file. Dobbiamo quindi guardarli un pò di tutti, e
+scegliere uno dei commit proposti. Nel nostro caso, l'eliminazione del file è
+ben documentata dalla nota del commit, e quindi possiamo subito procedere a
+verificare se il commit contiene una versione del file che stiamo cercando.
+
+\begin{framed}
+\begin{lstlisting}
+$ git show c21d825df42f55ba127487fd93acf1c13c41b028
+commit c21d825df42f55ba127487fd93acf1c13c41b028
+Author: Pietro Giuffrida <pietro.giuffri@gmail.com>
+Date:   Sat Oct 2 18:58:29 2010 +0200
+
+    aggiunto file np_secondary.tex
+
+diff --git a/np_secondary.tex b/np_secondary.tex
+new file mode 100644
+index 0000000..bfa5424
+--- /dev/null
++++ b/np_secondary.tex
+@@ -0,0 +1 @@
++pippo
+\end{lstlisting}
+\end{framed}
+
+Trovato il commit che contiene il file che intendiamo ripristinare, procediamo
+a ricrearne una copia richiamandolo tramite l'index riportato da git con il
+comando che abbiamo appena dato.
+
+\begin{framed}
+\begin{lstlisting}
+$ git show bfa5424 > file_ripristinato
+\end{lstlisting}
+\end{framed}
+
+La procedura, con le complicazioni del caso, dovrebbe essere valida anche per
+circostanze concrete. Vi consiglio comunque di fare delle prove simulando per
+esempio commit di più file contenenti varie modifiche, per far pratica con gl
+indici e la sintassi di git.
+Possiamo ipotizzare in questo caso uno scenario di questo tipo:
+\begin{framed}
+\begin{lstlisting}
+$ touch topolino pippo
+$ echo qualcosa >> topolino
+$ echo qualcosaltro >> pippo
+$ git add.
+$ git commit -am "creati e modificati topolino e pippo"
+$ echo "ancora qualcosa" >> topolino
+$ git commit -am "ulteriormente elaborato topolino"
+$ git log topolino
+commit 87548d4cd43cda917cf788866abd76f8399b639b
+Author: Pietro Giuffrida <pietro.giuffri@gmail.com>
+Date:   Sat Oct 2 19:27:23 2010 +0200
+
+    ulteriormente elaborato topolino
+
+commit f7a696e891bb81446f56adc996bc0a20a23ae9b5
+Author: Pietro Giuffrida <pietro.giuffri@gmail.com>
+Date:   Sat Oct 2 19:27:01 2010 +0200
+
+    creati e modificati topolino e pippo
+$ git show f7a696e891bb81446f56adc996bc0a20a23ae9b5
+commit f7a696e891bb81446f56adc996bc0a20a23ae9b5
+Author: Pietro Giuffrida <pietro.giuffri@gmail.com>
+Date:   Sat Oct 2 19:27:01 2010 +0200
+
+    creati e modificati topolino e pippo
+
+diff --git a/pippo b/pippo
+new file mode 100644
+index 0000000..a09d8a1
+--- /dev/null
++++ b/pippo
+@@ -0,0 +1 @@
++qualcosa
+diff --git a/topolino b/topolino
+new file mode 100644
+index 0000000..a09d8a1
+--- /dev/null
++++ b/topolino
+@@ -0,0 +1 @@
++qualcosaltro
+$ git show a09d8a1 > topolino_ripristinato
+\end{lstlisting}
+\end{framed}
+
+\section{backup su usb}
+\section{inotifywait e commit automatico}
 
 \end{document}
