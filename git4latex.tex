@@ -11,6 +11,7 @@
 
 
 \begin{document}
+\lstset{frame=shadowbox}
 \title{git4\LaTeX \\
   Una guida introduttiva a git per progetti \LaTeX}
 \author{Pietro Giuffrida}
@@ -38,7 +39,6 @@ Aperto un terminale, i passaggi indispensabili sono:
 aggiungendoli al repository.
 \end{enumerate}
 
-\begin{framed}
 \begin{lstlisting}
 $ mkdir nuovo_progetto
 $ cd nuovo_progetto
@@ -47,17 +47,14 @@ $ git init
 $ git add .
 $ git commit -am "Inizializzazione del nuovo progetto np"
 \end{lstlisting}
-\end{framed}
 
 Così facendo saremmo già pronti a lavorare con il nostro editor di fiducia, e
 non resterebbe che eseguire un commit al termine di ogni modifica rilevante, in
 modo da salvare cioè una determinata versione del progetto.
 
-\begin{framed}
 \begin{lstlisting}
 $ commit -am "un ulteriore sviluppo del progetto"
 \end{lstlisting}
-\end{framed}
 
 \subsection{Aggiungere altri file al progetto}
 Finora abbiamo eseguito il commit passando a git le due opzioni "-am".
@@ -72,7 +69,6 @@ un file .bib contenente al bibliografia, o un qualsiasi altro file.
 Quando eseguiamo il commit, potremmo aspettarci che git si accorga del nuovo
 arrivato, ed in effetti dovrebbe restituire un messaggio di questo tipo:
 
-\begin{framed}
 \begin{lstlisting}
 $ git commit -am "aggiunto file np_secondary.tex"
 # On branch master
@@ -82,7 +78,6 @@ $ git commit -am "aggiunto file np_secondary.tex"
 #       np_secondary.tex
 nothing added to commit but untracked files present (use "git add" to track)
 \end{lstlisting}
-\end{framed}
 
 git si accorge quindi della presenza di un nuovo file, ma non lo aggiunge
 automaticamente al progetto. D'altra parte, se avesse rilevato delle modifiche
@@ -94,19 +89,15 @@ sviluppando; oppure aggiungere un singolo file.
 Nel primo caso dovremmo ripetere il comando già usato in fase di
 inizializzazione:
 
-\begin{framed}
 \begin{lstlisting}
 $ git add.
 \end{lstlisting}
-\end{framed}
 
 Nel secondo caso aggiungiamo un singolo file:
 
-\begin{framed}
 \begin{lstlisting}
 $ git add np_secondary.tex
 \end{lstlisting}
-\end{framed}
 
 Per quanto possa sembrare eccessivo, dato che accade con estrema frequenza di
 dover aggiungere dei file ad un progetto, e che spesso si è fin troppo
@@ -122,7 +113,6 @@ vari file di lavoro, dal pdf, ai file .log, .out e vari altri.
 Per ovviare a questo inconveniente, è utile creare nella nostra directory di
 lavoro un file denominato ".gitignore".
 
-\begin{framed}
 \begin{lstlisting}
 $ touch .gitignore
 $ echo "*.log" >> .gitignore
@@ -136,7 +126,6 @@ $ echo "*~" >> .gitignore
 $ git add .gitignore
 $ git commit -am "Aggiunto il file .gitignore"
 \end{lstlisting}
-\end{framed}
 
 Mediante questo file, diciamo a git che tutti i file con le estensioni in esso
 definite non devono essere considerati appartenenti al progetto, e che non si
@@ -146,7 +135,6 @@ deve dar pena se non li aggiungiamo al repository.
 Presi da una strano forma di pazzia abbiamo eliminato un file del nostro
 progetto, ed abbiamo anche eseguito un commi masochistico.
 
-\begin{framed}
 \begin{lstlisting}
 $ touch np_secondary.tex
 $ echo "\subsection{sezione}" >> np_secondary.tex
@@ -155,12 +143,10 @@ $ git commit -am "Ho solo iniziato a lavorare"
 $ rm np_secondary.tex
 $ git commit -am "Ma ho gia' perso tutto"
 \end{lstlisting}
-\end{framed}
 
 Ora chiediamo conto a git della sua capacità di ripristinare una versione
 precedentemente salvata.
 
-\begin{framed}
 \begin{lstlisting}
 $ git log
 commit 380228784f4095efdbce9d1d3408bcbdf01548cb
@@ -187,7 +173,6 @@ Date:   Sat Oct 2 18:04:29 2010 +0200
 
     Inizializzazione del nuovo progetto np
 \end{lstlisting}
-\end{framed}
 
 Trattandosi di un file eliminato, non possiamo chiedere a git di stampare solo i
 log relativi al singolo file. Dobbiamo quindi guardarli un pò di tutti, e
@@ -195,7 +180,6 @@ scegliere uno dei commit proposti. Nel nostro caso, l'eliminazione del file è
 ben documentata dalla nota del commit, e quindi possiamo subito procedere a
 verificare se il commit contiene una versione del file che stiamo cercando.
 
-\begin{framed}
 \begin{lstlisting}
 $ git show c21d825df42f55ba127487fd93acf1c13c41b028
 commit c21d825df42f55ba127487fd93acf1c13c41b028
@@ -212,24 +196,21 @@ index 0000000..bfa5424
 @@ -0,0 +1 @@
 +pippo
 \end{lstlisting}
-\end{framed}
 
 Trovato il commit che contiene il file che intendiamo ripristinare, procediamo
 a ricrearne una copia richiamandolo tramite l'index riportato da git con il
 comando che abbiamo appena dato.
 
-\begin{framed}
 \begin{lstlisting}
 $ git show bfa5424 > file_ripristinato
 \end{lstlisting}
-\end{framed}
 
 La procedura, con le complicazioni del caso, dovrebbe essere valida anche per
 circostanze concrete. Vi consiglio comunque di fare delle prove simulando per
 esempio commit di più file contenenti varie modifiche, per far pratica con gl
 indici e la sintassi di git.
 Possiamo ipotizzare in questo caso uno scenario di questo tipo:
-\begin{framed}
+
 \begin{lstlisting}
 $ touch topolino pippo
 $ echo qualcosa >> topolino
@@ -273,7 +254,6 @@ index 0000000..a09d8a1
 +qualcosaltro
 $ git show a09d8a1 > topolino_ripristinato
 \end{lstlisting}
-\end{framed}
 
 \section{backup su usb}
 \section{inotifywait e commit automatico}
