@@ -1,0 +1,143 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[italian]{babel}
+
+\usepackage{listings}
+\usepackage{fourier}
+
+\usepackage{color}
+\usepackage{listings}
+\usepackage{framed}
+
+
+\begin{document}
+\title{git4\LaTeX \\
+  Una guida introduttiva a git per progetti \LaTeX}
+\author{Pietro Giuffrida}
+\maketitle
+
+La presente guida si propone di presentare sinteticamente ed in modo spero non
+troppo lacunoso l'uso che si può fare di git nel corso di un lavoro sviluppato
+in \LaTeX\. Ritengo che git possa rappresentare un programma di estrema utilità
+per mantenere in ordine le versioni progressivamente accumulate di uno o più
+documenti. git permette infatti di gestire le versioni, il loro recupero o la
+loro consultazione, il backup locale e remoto, tutto in estrema economia.
+
+Usando esclusivamente linux, il terminale, kate come editor!
+
+
+\section{Un semplice progetto \LaTeX}
+Vogliamo sviluppare un documento con \LaTeX, utilizzando git come CVS.
+Aperto un terminale, i passaggi indispensabili sono:
+\begin{enumerate}
+\item creiamo la cartella che conterrà i nostri sorgenti;
+\item creiamo il primo file .tex;
+\item inizializziamo la medesima directory come un repository git;
+\item diciamo a git quali sono i file da \textit{tenere d'occhio},
+aggiungendoli al repository.
+\end{enumerate}
+
+\begin{framed}
+\lstinputlisting{git_command.sh}
+\end{framed}
+
+Così facendo saremmo già pronti a lavorare con il nostro editor di fiducia, e
+non resterebbe che eseguire un commit al termine di ogni modifica rilevante, in
+modo da salvare cioè una determinata versione del progetto.
+
+\begin{framed}
+\begin{lstlisting}
+commit -am "un ulteriore sviluppo del progetto"
+\end{lstlisting}
+\end{framed}
+
+\subsection{Aggiungere altri file al progetto}
+Finora abbiamo eseguito il commit passando a git le due opzioni "-am".
+Con l'opzione "-m" diciamo a git di utilizzare il testo virgolettato che segue
+il comando come nota di versione del commit che stiamo eseguendo.
+Con l'opzione "-a" chiediamo a git di salvare tutte le modifiche apportate a
+tutti i file che abbiamo precedentemente aggiunto al progetto.
+
+Si presenta ora uno scenario tra i più comuni: dobbiamo aggiungere un ulteriore
+file al progetto, per esempio un file .tex contenente un ulteriore capitolo, o
+un file .bib contenente al bibliografia, o un qualsiasi altro file.
+Quando eseguiamo il commit, potremmo aspettarci che git si accorga del nuovo
+arrivato, ed in effetti dovrebbe restituire un messaggio di questo tipo:
+
+\begin{framed}
+\begin{lstlisting}
+git commit -am "aggiunto file secondary.tex"
+# On branch master
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#       secondary.tex
+nothing added to commit but untracked files present (use "git add" to track)
+\end{lstlisting}
+\end{framed}
+
+git si accorge quindi della presenza di un nuovo file, ma non lo aggiunge
+automaticamente al progetto. D'altra parte, se avesse rilevato delle modifiche
+ai file precedentemente aggiunti al progetto, non si sarebbe nemmeno curato di
+comunicarci che il nuovo file non è ancora stato aggiunto al progetto.
+Si potrebbe quindi scegliere di procedere in due modi: aggiungere
+indiscriminatamente tutti i file della directory al progetto che stiamo
+sviluppando; oppure aggiungere un singolo file.
+Nel primo caso dovremmo ripetere il comando già usato in fase di
+inizializzazione:
+
+\begin{framed}
+\begin{lstlisting}
+git add.
+\end{lstlisting}
+\end{framed}
+
+Nel secondo caso aggiungiamo un singolo file:
+
+\begin{framed}
+\begin{lstlisting}
+git add secondary.tex
+\end{lstlisting}
+\end{framed}
+
+Per quanto possa sembrare eccessivo, dato che accade con estrema frequenza di
+dover aggiungere dei file ad un progetto, e che spesso si è fin troppo
+distratti da quel che si sta scrivendo per occuparci di quel che fa git, credo
+che sia preferibile aggiungere eseguire la prima delle due operazioni.
+
+Dato però che nel corso dell'elaborazione di un testo inevitabilmente si
+procederà alla generazione del documento in pdf mediante i vari comandi di
+\LaTeX, si potrebbe determinare un controsenso. Se infatti eseguiamo il comando
+"git add ." dopo aver eseguito,
+per esempio, pdflatex, evidentemente git aggiungerebbe al repository anche i
+vari file di lavoro, dal pdf, ai file .log, .out e vari altri.
+Per ovviare a questo inconveniente, è utile creare nella nostra directory di
+lavoro un file denominato ".gitignore".
+
+\begin{framed}
+\begin{lstlisting}
+touch .gitignore
+echo "*.log" >> .gitignore
+echo "*.pdf" >> .gitignore
+echo "*.blg" >> .gitignore
+echo "*.bbl" >> .gitignore
+echo "*.aux" >> .gitignore
+echo "*-blx.bib" >> .gitignore
+echo "*.out" >> .gitignore
+echo "*~" >> .gitignore
+git add .gitignore
+git commit -am "Aggiunto il file .gitignore"
+\end{lstlisting}
+\end{framed}
+
+Mediante questo file, diciamo a git che tutti i file con le estensioni in esso
+definite non devono essere considerati appartenenti al progetto, e che non si
+deve dar pena se non li aggiungiamo al repository.
+
+\section{Consultazione dei log e ripristino di file}
+Presi da una strano forma di pazzia abbiamo eliminato un file del nostro
+progetto.
+
+
+
+\end{document}
