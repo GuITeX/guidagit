@@ -1,18 +1,15 @@
-\documentclass{article}
+\documentclass[a4paper,12pt,oneside]{article}
+\usepackage{layaureo}
 \usepackage[utf8]{inputenc}
 \usepackage[italian]{babel}
 
 \usepackage{listings}
 \usepackage{fourier}
+% \usepackage{color}
+% \usepackage{framed}
+\usepackage{hyperref}
 
-\usepackage{color}
-\usepackage{listings}
-\usepackage{framed}
 
-% \usepackage{tocloft}
-% \renewcommand{\cftdot}{}
-% 
-% \usepackage{hyperref}
 
 \begin{document}
 \lstset{
@@ -29,59 +26,117 @@
 \author{Pietro Giuffrida}
 \maketitle
 
-La presente guida si propone di presentare sinteticamente ed in modo spero non
-troppo lacunoso l'uso che si può fare di git nel corso di un lavoro sviluppato
-in \LaTeX\. Ritengo che git possa rappresentare un programma di estrema utilità
-per mantenere in ordine le versioni progressivamente accumulate di uno o più
-documenti. git permette infatti di gestire le versioni, il loro recupero o la
-loro consultazione, il backup locale e remoto, tutto in estrema economia.
-
-Usando esclusivamente linux, il terminale, kate come editor!
-
 \tableofcontents
+
+\newpage
+\section{Scopo della guida}
+git è un revision control system, vale a dire un programma che permette di
+tener traccia di tutte le modifiche e le evoluzione effettuate nel corso della
+stesura di un codice o di un qualsiasi progetto su supporto digitale. git è
+rilasciato sotto licenza GPL, ed è disponibile, oltre che nei repository delle
+varie distribuzioni GNU-linux, all'indirizzo %inserire url ben formattato
+
+\LaTeX è un programma di composizione tipografica libero.
+Generalmente fa parte dei pacchetti fondamentali di ogni distribuzione
+GNU-linux, ed è comunque disponibile all'indirizzo  %inserire url ben formattato
+
+In questo documento desidero mostrare come utilizzare git per tener traccia
+delle modifiche rilevanti e delle versioni elaborate nel corso dell'elaborazione
+di un documento scritto con \LaTeX. Tramite git è infatti possibile mantenere un
+backup incrementale del proprio codice sorgente, sia in locale che in remoto,
+senza incorrere in un eccessivo dispendio di energie e senza deconcentrarsi
+eccessivamente dalla stesure del proprio testo. I passaggi descritti
+relativamente all'uso di git dovrebbero essere validi in linea di principio per
+l'elaborazione di qualsiasi documento (foto, codice sorgente, file doc, xls
+e quant'altro), anche se la guida è strutturata in modo specifico per
+illustrare l'interazione con \LaTeX.
+
+Solo il primo paragrafo è indispensabile. In esso vengono mostrati i passaggi
+fondamentali per la creazione di un repository locale del proprio progetto, per
+il salvataggio progressivo delle versioni, e quindi per svolgere eventuali
+operazioni di ripristino.
+
+I paragrafi successivi sono invece dedicate alla creazione ed alla
+sincronizzazione di un repository remoto (che si tratti di un servizio on-line
+o semplicemente di una memoria esterna), e ad uno script bash che permette di
+eseguire dei commit automatici ad ogni salvataggio dei file.
+
+La guida non si prefigge alcun compito specifico per quanto riguarda \LaTeX, a
+proposito del quale esistono numerose guide\footnote{Pantieri, Guit, 
+texdoc}.
+
+La guida non contempla l'uso di gui o di qualunque interfaccia grafica. Tutti i
+comandi ed i passaggi illustrati sono eseguiti tramite una shell linux.
+Non ho esperienza né di git né di \LaTeX su sistemi operativi non
+unix-like. Un minimo di compatibilità con altri sistemi è garantita dal fatto
+che i comandi tipici della shell linux sono evidenziati e commentati, in modo
+che l'utente di altri OS o abituato all'uso di GUI possa sostituirli svolgendo
+altrimenti le medesime attività. I comandi di git dovrebbero invece restare i
+medesimi in ogni OS, per quanto anche in questo caso le medesime attività
+possano essere svolte mediante GUI.
+
+Non sono un esperto di informatica, ma trovo bello far le cose, per quanto
+possibile, con le mie mani, sapere cosa fa la macchina ed avere l'illusione che
+nel rapporto quasi-simbiotico con il computer sia io a decidere.
+
+Dato il carattere ludico della presente guida, scelgo come licenza la Creative
+Commons con l'unico vincolo di riconoscere la paternità dell'opera
+originale\footnote{qualche cosa in più sulla licenza}.
 
 \section{Un semplice progetto \LaTeX}
 Vogliamo sviluppare un documento con \LaTeX, utilizzando git come CVS.
-Aperto un terminale, i passaggi indispensabili sono:
-\begin{enumerate}
-\item creiamo la cartella che conterrà i nostri sorgenti;
-\item creiamo il primo file .tex;
-\item inizializziamo la medesima directory come un repository git;
-\item diciamo a git quali sono i file da \textit{tenere d'occhio},
-aggiungendoli al repository.
-\end{enumerate}
+git non funziona in modo particolarmente esotico. Si tratta semplicemente di
+creare una directory, di posizionare in essa i nostri file .tex e di dire a git
+di considerare tale directory come un repository.
 
+\subsection{Creazione ed inizializzazione del repository}
 \begin{lstlisting}
 $ mkdir nuovo_progetto
 $ cd nuovo_progetto
 $ touch np_main.tex
 $ git init
 $ git add .
-$ git commit -am "Inizializzazione del nuovo progetto np"
+$ git commit -am "Inizializzazione del nuovo progetto"
 \end{lstlisting}
 
-Così facendo saremmo già pronti a lavorare con il nostro editor di fiducia, e
-non resterebbe che eseguire un commit al termine di ogni modifica rilevante, in
-modo da salvare cioè una determinata versione del progetto.
+Vediamo con calma i singoli passaggi. I primi tre comandi servono
+rispettivamente per creare la directory (mkdir nome\_directory), per spostarsi
+al suo interno (cd nome\_directory) e per creare un file vuoto chiamato
+np\_main.tex (touch nome\_file).
+
+I passaggi successivi, eseguiti sempre dati dall'interno della directory, sono
+quelli specifici di git. Con essi effettuiamo:
+l'inizializzazione della directory come un repository git (git init); l'aggiunta
+al repository appena creato di tutti i file al momento presenti nella stessa
+directory (git add .); il salvataggio di una prima versione del progetto (commit
+-am "nota di versione").
+
+Così facendo saremmo già pronti a lavorare con il nostro editor di fiducia sul
+file .tex appena creato.
+Non resta che eseguire un commit al termine di ogni modifica rilevante, in
+modo da salvare una determinata versione del progetto.
 
 \begin{lstlisting}
+$ echo "una modifica rilevante" >> np_main.tex
 $ commit -am "un ulteriore sviluppo del progetto"
 \end{lstlisting}
 
-\subsection{Aggiungere altri file al progetto}
+\subsection{Aggiungere altri file al progetto: il file `.gitignore'}
 Finora abbiamo eseguito il commit passando a git le due opzioni ``-am''. Con
-l'opzione ``-m'' diciamo a git di utilizzare il testo virgolettato che segue il
-comando come nota di versione del commit che stiamo eseguendo. Con l'opzione
+l'opzione ``-m'' diciamo a git di utilizzare il testo tra virgolette che segue
+il comando come nota di versione del commit che stiamo eseguendo. Con l'opzione
 ``-a'' chiediamo a git di salvare tutte le modifiche apportate a tutti i file
 che abbiamo precedentemente aggiunto al progetto.
 
 Si presenta ora uno scenario tra i più comuni: dobbiamo aggiungere un ulteriore
 file al progetto, per esempio un file .tex contenente un ulteriore capitolo, o
 un file .bib contenente al bibliografia, o un qualsiasi altro file.
-Quando eseguiamo il commit, potremmo aspettarci che git si accorga del nuovo
-arrivato, ed in effetti dovrebbe restituire un messaggio di questo tipo:
+Quando eseguiamo il commit successivo, potremmo aspettarci che git si accorga
+del nuovo arrivato, ed in effetti dovrebbe restituire un messaggio di questo
+tipo:
 
 \begin{lstlisting}
+$ touch np_secondary.tex
 $ git commit -am "aggiunto file np_secondary.tex"
 # On branch master
 # Untracked files:
@@ -94,12 +149,16 @@ nothing added to commit but untracked files present (use "git add" to track)
 git si accorge quindi della presenza di un nuovo file, ma non lo aggiunge
 automaticamente al progetto. D'altra parte, se avesse rilevato delle modifiche
 ai file precedentemente aggiunti al progetto, non si sarebbe nemmeno curato di
-comunicarci che il nuovo file non è ancora stato aggiunto al progetto.
-Si potrebbe quindi scegliere di procedere in due modi: aggiungere
-indiscriminatamente tutti i file della directory al progetto che stiamo
-sviluppando; oppure aggiungere un singolo file.
-Nel primo caso dovremmo ripetere il comando già usato in fase di
-inizializzazione:
+comunicarci che il nuovo file non è ancora stato aggiunto al progetto. Si
+sarebbe infatti limitato a salvare le modifiche ai file che gli abbiamo
+precedentemente detto di gestire. Solo con il comando ``git status'', git ci
+comunica con certezza l'anomalia di un nuovo file non ancora caricato nel
+repository.
+
+In tale circostanza si può scegliere di procedere in due modi:
+aggiungere indiscriminatamente tutti i file della directory al progetto che
+stiamo sviluppando; oppure aggiungere un singolo file. Nel primo caso dovremmo
+ripetere il comando già usato in fase di inizializzazione:
 
 \begin{lstlisting}
 $ git add.
@@ -111,19 +170,22 @@ Nel secondo caso aggiungiamo un singolo file:
 $ git add np_secondary.tex
 \end{lstlisting}
 
-Per quanto possa sembrare eccessivo, dato che accade con estrema frequenza di
-dover aggiungere dei file ad un progetto, e che spesso si è fin troppo
-distratti da quel che si sta scrivendo per occuparci di quel che fa git, credo
-che sia preferibile aggiungere eseguire la prima delle due operazioni.
-
-Dato però che nel corso dell'elaborazione di un testo inevitabilmente si
-procederà alla generazione del documento in pdf mediante i vari comandi di
-\LaTeX, si potrebbe determinare un controsenso. Se infatti eseguiamo il comando
-``git add .'' dopo aver eseguito,
-per esempio, pdflatex, evidentemente git aggiungerebbe al repository anche i
-vari file di lavoro, dal pdf, ai file .log, .out e vari altri.
-Per ovviare a questo inconveniente, è utile creare nella nostra directory di
-lavoro un file denominato ``.gitignore''.
+Per quanto possa sembrare eccessivo, io preferisco usare il secondo comando.
+Mi accade con estrema frequenza di
+dover aggiungere dei file ad un progetto, e spesso sono fin troppo
+distratto da quel che sto scrivendo per occuparmi di quel git si aspetta da me
+L'aggiunta indiscriminata di ogni file nella directory al repository presenta
+però delle controindicazioni.
+La più ovvia per chi lavora con \LaTeX è la seguente:
+nel corso dell'elaborazione di un testo inevitabilmente si
+procederà alla generazione del documento in pdf a partire dai sorgenti;
+\LaTeX provvederà quindi alla generazioni di una serie di file secondary (.toc,
+.out, ...), nonché di un pdf più o meno inutile.
+Se eseguissimo il comando ``git add .'' subito dopo una compilazione,
+evidentemente git aggiungerebbe al repository anche i vari file di lavoro, dal
+pdf, ai file  di log. Per ovviare a questo inconveniente, e continuare
+pigramente ad eseguire ``git add .'', è utile creare nella nostra directory di
+un file denominato ``.gitignore''.
 
 \begin{lstlisting}
 $ touch .gitignore
@@ -139,17 +201,20 @@ $ git add .gitignore
 $ git commit -am "Aggiunto il file .gitignore"
 \end{lstlisting}
 
-Mediante questo file, diciamo a git che tutti i file con le estensioni in esso
-definite non devono essere considerati appartenenti al progetto, e che non si
-deve dar pena se non li aggiungiamo al repository.
+Mediante questo file, istruiamo il repository a proposito di tutti i
+file che non fanno effettivamente parte del progetto, pur essendo presenti
+nella directory.
+Da questo momento in poi git si limiterà ad ignorarli - il che ci permette di
+eseguire prudenzialmente il comando ``git add.'' prima di ogni commit.
 
-\section{Consultazione dei log e ripristino di file}
-Presi da una strano forma di pazzia abbiamo eliminato un file del nostro
-progetto, ed abbiamo anche eseguito un commi masochistico.
+\subsection{Consultazione dei log e ripristino di file}
+Ipotizziamo a titolo esemplificativo il seguente scenario:
+abbiamo accidentalmente eliminato un file del nostro
+progetto, ed abbiamo anche eseguito un commit.
 
 \begin{lstlisting}
 $ touch np_secondary.tex
-$ echo "\subsection{sezione}" >> np_secondary.tex
+$ echo "pippo" >> np_secondary.tex
 $ git add .
 $ git commit -am "Ho solo iniziato a lavorare"
 $ rm np_secondary.tex
@@ -157,10 +222,24 @@ $ git commit -am "Ma ho gia' perso tutto"
 \end{lstlisting}
 
 Ora chiediamo conto a git della sua capacità di ripristinare una versione
-precedentemente salvata.
+precedentemente salvata. La prima cosa da fare è consultare i log dei commit
+precedentemente effettuati, per decidere quale di essi ripristinare. Il comando
+appropriato sarebbe quindi ``git log'', che contempla anche un'ampia serie di
+interessanti opzioni. Rimandando al manuale per la maggior parte di tali
+opzioni, segnalo solo che è possibile:
+\begin{itemize}
+\item selezionare esclusivamente i log relativi ad un dato file, con la
+sintassi ``git log nome\_file''
+\item chiedere a git di stampare solo gli ultimo \textit{n} log, con la
+sintassi ``git log -n \textit{n}''
+\end{itemize}
+
+Trattandosi di un file eliminato, non possiamo chiedere a git di stampare solo i
+log ad esso relativi. Dobbiamo quindi cercare tra i log più recenti fino ad
+identificare uno stadio del progetto in cui il file è ancora presente.
 
 \begin{lstlisting}
-$ git log
+$ git log -n 2
 commit 380228784f4095efdbce9d1d3408bcbdf01548cb
 Author: Pietro Giuffrida <pietro.giuffri@gmail.com>
 Date:   Sat Oct 2 18:58:44 2010 +0200
@@ -172,25 +251,11 @@ Author: Pietro Giuffrida <pietro.giuffri@gmail.com>
 Date:   Sat Oct 2 18:55:07 2010 +0200
 
     Ho solo iniziato a lavorare
-
-commit bef2662a93b8d57db934d2be69c290e8fcd282ae
-Author: Pietro Giuffrida <pietro.giuffri@gmail.com>
-Date:   Sat Oct 2 18:27:24 2010 +0200
-
-    aggiunto file np_secondary.tex
-
-commit 34e68a9db309081e67a693bf8153765298b73b10
-Author: Pietro Giuffrida <pietro.giuffri@gmail.com>
-Date:   Sat Oct 2 18:04:29 2010 +0200
-
-    Inizializzazione del nuovo progetto np
 \end{lstlisting}
 
-Trattandosi di un file eliminato, non possiamo chiedere a git di stampare solo i
-log relativi al singolo file. Dobbiamo quindi guardarli un pò di tutti, e
-scegliere uno dei commit proposti. Nel nostro caso, l'eliminazione del file è
-ben documentata dalla nota del commit, e quindi possiamo subito procedere a
-verificare se il commit contiene una versione del file che stiamo cercando.
+Nel nostro caso, l'eliminazione del file è ben documentata dalle note, e
+possiamo quindi subito verificare il contenuto del commit facendo riferimento
+alla stringa alfanumerica che lo identifica univocamente.
 
 \begin{lstlisting}
 $ git show c21d825df42f55ba127487fd93acf1c13c41b028
@@ -209,9 +274,11 @@ index 0000000..bfa5424
 +pippo
 \end{lstlisting}
 
-Trovato il commit che contiene il file che intendiamo ripristinare, procediamo
-a ricrearne una copia richiamandolo tramite l'index riportato da git con il
-comando che abbiamo appena dato.
+Il file np\_secondary.tex fa effettivamente parte del commit da noi
+individuato. Esso è identificato da un'ulteriore stringa alfanumerica
+denominata index. git, tramite il comando diff, ci comunica inoltre che esso
+contiene la stringa ``pippo''.
+Possiamo quindi procedere a ricrearne una copia facendo riferimento all'index
 
 \begin{lstlisting}
 $ git show bfa5424 > file_ripristinato
@@ -219,7 +286,7 @@ $ git show bfa5424 > file_ripristinato
 
 La procedura, con le complicazioni del caso, dovrebbe essere valida anche per
 circostanze concrete. Vi consiglio comunque di fare delle prove simulando per
-esempio commit di più file contenenti varie modifiche, per far pratica con gl
+esempio commit di più file contenenti varie modifiche, per far pratica con gli
 indici e la sintassi di git.
 Possiamo ipotizzare in questo caso uno scenario di questo tipo:
 
@@ -267,7 +334,90 @@ index 0000000..a09d8a1
 $ git show a09d8a1 > topolino_ripristinato
 \end{lstlisting}
 
-\section{backup su usb}
+Chiaramente, git permette il ripristino esclusivamente dei file aggiunti al
+repository, ed esclusivamente di versioni esplicitamente salvate mediante il
+comando commit. I salvataggi effettuati tra un commit e l'altro non sono quindi
+ricostruibili.
+
+\subsection{Configurazioni basilari di git}
+Per quanto non strettamente indispensabile per un uso individuale di git sul
+proprio pc, segnalo alcune configurazioni elementari necessarie per un uso
+ottimale di git.
+
+In primo luogo occorre passare a git qualche informazione circa l'utente.
+\begin{lstlisting}
+git config --global user.name "Pietro Giuffrida"
+git config --global user.email pietro.giuffri@gmail.com
+\end{lstlisting}
+
+In secondo luogo è utile dire a git di colorare i log, in modo da renderli più
+leggibili.
+\begin{lstlisting}
+git config --global color.branch auto
+git config --global color.diff auto
+git config --global color.interactive auto
+git config --global color.status auto
+\end{lstlisting}
+
+\section{Backup}
+\subsection{Backup su periferica esterna (usb)}
+\begin{lstlisting}
+
+$ git clone -l file:///home/pietro/elab/git4latex/ /media/usb/gigt/
+\end{lstlisting}
+
+\subsection{Backup on-line}
+
+\begin{enumerate}
+\item registrarsi su gitorius (richiede ssh key e passphrase!)
+\item git remote add origin git@gitorious.org:git4latex/git4latex.git
+(che chiederà la passphrase!)
+\item git push origin master
+per sincronizzare il tutto di volta in volta a fine giornata
+\end{enumerate}
+
+Se volete riclonare il tutto in locale:
+\begin{lstlisting}
+$ mkdir riprogetto
+$ cd riprogetto
+$ git clone git://gitorious.org/git4latex/git4latex.git
+\end{lstlisting}
+
+\begin{lstlisting}
+$ git remote add origin git@gitorious.org:progetto/progetto.git
+\end{lstlisting}
+
+\begin{lstlisting}
+$ git push origin master
+\end{lstlisting}
+
+\begin{lstlisting}
+$ git clone git://gitorious.org/git4latex/git4latex.git
+\end{lstlisting}
+
 \section{inotifywait e commit automatico}
+
+\begin{lstlisting}
+inotifywait -q -m -e CLOSE_WRITE --format="git commit -m 'autocommit on change' %w" file.txt | sh
+\end{lstlisting}
+
+\begin{lstlisting}
+#!/bin/bash
+#
+# gitwait - watch file and git commit all changes as they happen
+#
+
+while true; do
+
+  inotifywait -qq -e CLOSE_WRITE ~/.calendar/calendar
+
+  cd ~/.calendar; git commit -a -m 'autocommit on change'
+
+done
+\end{lstlisting}
+
+ma è quasi pericoloso se salvi automaicamente ogni tot minuti!!
+
+
 
 \end{document}
