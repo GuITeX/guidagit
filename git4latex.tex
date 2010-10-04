@@ -1,17 +1,37 @@
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% 
+% LICENZA
+% 
+% Quest'opera è stata rilasciata sotto la licenza
+% Creative Commons Attribution-NonCommercial-ShareAlike 2.5 Italy.
+% Per leggere una copia della licenza visita il sito web
+% http://creativecommons.org/licenses/by-nc-sa/2.5/it/
+% o spedisci una lettera a Creative Commons, 171 Second Street, Suite 300, San
+% Francisco, California, 94105, USA.
+%
+% This work is licensed under the Creative Commons
+% Attribution-NonCommercial-ShareAlike 3.0 Unported License. To view a copy of
+% this license, visit http://creativecommons.org/licenses/by-nc-sa/3.0/ or send
+% a letter to Creative Commons, 171 Second Street, Suite 300, San Francisco,
+% California, 94105, USA.
+%
+% For info send a mail to pietro.giuffri@gmail.com
+% 
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
 \documentclass[a4paper,12pt,oneside]{article}
-% \usepackage{layaureo}
 \usepackage[utf8]{inputenc}
 \usepackage[italian]{babel}
 
 \usepackage{listings}
 \usepackage{fourier}
 \usepackage[dvipsnames, usenames]{color}
-% \usepackage{framed}
+\definecolor{mygrey}{gray}{0.75}
+\definecolor{GY}{named}{GreenYellow} % SkyBlue
+\usepackage{breakurl}
 \usepackage{hyperref}
 
-\definecolor{mygrey}{gray}{0.75}
-\definecolor{GY}{named}{GreenYellow}
-% SkyBlue
+
 
 \begin{document}
 \lstset{%
@@ -39,15 +59,16 @@
 
 \newpage
 \section{Scopo della guida}
-git è un revision control system, vale a dire un programma che permette di
+Git è un revision control system, vale a dire un programma che permette di
 tener traccia di tutte le modifiche e le evoluzione effettuate nel corso della
 stesura di un codice o di un qualsiasi progetto su supporto digitale. git è
 rilasciato sotto licenza GPL, ed è disponibile, oltre che nei repository delle
-varie distribuzioni GNU-linux, all'indirizzo %inserire url ben formattato
+varie distribuzioni GNU-linux, all'indirizzo \url{http://git-scm.com/}
 
-\LaTeX è un programma di composizione tipografica libero.
-Generalmente fa parte dei pacchetti fondamentali di ogni distribuzione
-GNU-linux, ed è comunque disponibile all'indirizzo  %inserire url ben formattato
+\LaTeX è un programma di composizione tipografica di alta qualità. \LaTeX è
+free-software. Generalmente fa parte dei programmi fondamentali preinstallati in
+ogni distribuzione GNU-linux, ed è comunque disponibile a partire dall'indirizzo
+\url{http://www.latex-project.org/} per i principali OS.
 
 In questo documento desidero mostrare come utilizzare git per tener traccia
 delle modifiche rilevanti e delle versioni elaborate nel corso dell'elaborazione
@@ -89,12 +110,20 @@ possibile, con le mie mani, sapere cosa fa la macchina ed avere l'illusione che
 nel rapporto quasi-simbiotico con il computer sia io a decidere.
 
 Dato il carattere ludico della presente guida, scelgo come licenza la Creative
-Commons con l'unico vincolo di riconoscere la paternità dell'opera
-originale\footnote{qualche cosa in più sulla licenza}.
+Commons Attribution-NonCommercial-ShareAlike 2.5 Italy. Gli unici vincoli sono
+quindi quelli di riconoscere la paternità dell'opera
+originale, di non lucrare sulla sua distribuzione, e di distribuire l'opera ed
+i suoi eventuali derivati con la medesima licenza\footnote{
+Quest'opera è stata rilasciata sotto la licenza
+Creative Commons Attribution-NonCommercial-ShareAlike 2.5 Italy.
+Per leggere una copia della licenza visita il sito web
+\url{http://creativecommons.org/licenses/by-nc-sa/2.5/it/}
+o spedisci una lettera a Creative Commons, 171 Second Street, Suite 300, San
+Francisco, California, 94105, USA.}.
 
 \section{Un semplice progetto \LaTeX}
 Vogliamo sviluppare un documento con \LaTeX, utilizzando git come CVS.
-git non funziona in modo particolarmente esotico. Si tratta semplicemente di
+Git non funziona in modo particolarmente esotico. Si tratta semplicemente di
 creare una directory, di posizionare in essa i nostri file .tex e di dire a git
 di considerare tale directory come un repository.
 
@@ -155,7 +184,7 @@ tipo:
 nothing added to commit but untracked files present (use "git add" to track)
 \end{lstlisting}
 
-git si accorge quindi della presenza di un nuovo file, ma non lo aggiunge
+Git si accorge quindi della presenza di un nuovo file, ma non lo aggiunge
 automaticamente al progetto. D'altra parte, se avesse rilevato delle modifiche
 ai file precedentemente aggiunti al progetto, non si sarebbe nemmeno curato di
 comunicarci che il nuovo file non è ancora stato aggiunto al progetto. Si
@@ -285,7 +314,7 @@ index 0000000..bfa5424
 
 Il file np\_secondary.tex fa effettivamente parte del commit da noi
 individuato. Esso è identificato da un'ulteriore stringa alfanumerica
-denominata index. git, tramite il comando diff, ci comunica inoltre che esso
+denominata index. Git, tramite il comando diff, ci comunica inoltre che esso
 contiene la stringa ``pippo''.
 Possiamo quindi procedere a ricrearne una copia facendo riferimento all'index
 
@@ -386,26 +415,24 @@ git config --global color.status auto
 per sincronizzare il tutto di volta in volta a fine giornata
 \end{enumerate}
 
-Se volete riclonare il tutto in locale:
+Prima sincronizzazione da locale verso gitorius:
+\begin{lstlisting}
+$ git remote add origin git@gitorious.org:progetto/progetto.git
+\end{lstlisting}
+
+A fine giornata di lavoro:
+\begin{lstlisting}
+$ git push origin master
+\end{lstlisting}
+
+Se volete ricreare il repository in locale:
 \begin{lstlisting}
 $ mkdir riprogetto
 $ cd riprogetto
 $ git clone git://gitorious.org/git4latex/git4latex.git
 \end{lstlisting}
 
-\begin{lstlisting}
-$ git remote add origin git@gitorious.org:progetto/progetto.git
-\end{lstlisting}
-
-\begin{lstlisting}
-$ git push origin master
-\end{lstlisting}
-
-\begin{lstlisting}
-$ git clone git://gitorious.org/git4latex/git4latex.git
-\end{lstlisting}
-
-\section{commit automatico: inotifywait}
+\section{c  ommit automatico: inotifywait}
 
 \begin{lstlisting}
 inotifywait -q -m -e CLOSE_WRITE --format="git commit -m 'autocommit on change' %w" file.txt | sh
