@@ -1,26 +1,35 @@
 \documentclass[a4paper,12pt,oneside]{article}
-\usepackage{layaureo}
+% \usepackage{layaureo}
 \usepackage[utf8]{inputenc}
 \usepackage[italian]{babel}
 
 \usepackage{listings}
 \usepackage{fourier}
-% \usepackage{color}
+\usepackage[dvipsnames, usenames]{color}
 % \usepackage{framed}
 \usepackage{hyperref}
 
-
+\definecolor{mygrey}{gray}{0.75}
+\definecolor{GY}{named}{GreenYellow}
+% SkyBlue
 
 \begin{document}
-\lstset{
-  frame=single,
+\lstset{%
+%   frame=single,
+  backgroundcolor=\color{GY},
   breaklines = true, % per mandare a capo le righe troppo lunghe
   breakautoindent = true, % indenta le righe spezzate
-  breakindent = 90pt, % indenta le righe di 30pt
-%   language=bash,
-%   showspaces=false,
-%   showtabs=false,
-}
+  breakindent = 200pt, % indenta le righe di 30pt
+  language=bash,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  emph={touch,mkdir,echo,rm,git},
+  emphstyle=\textbf,
+%   emph={[2]git},
+%   emphstyle={[2]\underbar},
+  }
+
 \title{git4\LaTeX \\
   Una guida introduttiva a git per progetti \LaTeX}
 \author{Pietro Giuffrida}
@@ -91,12 +100,12 @@ di considerare tale directory come un repository.
 
 \subsection{Creazione ed inizializzazione del repository}
 \begin{lstlisting}
-$ mkdir nuovo_progetto
-$ cd nuovo_progetto
-$ touch np_main.tex
-$ git init
-$ git add .
-$ git commit -am "Inizializzazione del nuovo progetto"
+~$ mkdir progetto
+~/progetto$ cd progetto
+~/progetto$ touch np_main.tex
+~/progetto$ git init
+~/progetto$ git add .
+~/progetto$ git commit -am "Inizializzazione del nuovo progetto"
 \end{lstlisting}
 
 Vediamo con calma i singoli passaggi. I primi tre comandi servono
@@ -117,8 +126,8 @@ Non resta che eseguire un commit al termine di ogni modifica rilevante, in
 modo da salvare una determinata versione del progetto.
 
 \begin{lstlisting}
-$ echo "una modifica rilevante" >> np_main.tex
-$ commit -am "un ulteriore sviluppo del progetto"
+~/progetto$ echo "una modifica rilevante" >> np_main.tex
+~/progetto$ git commit -am "ulteriore sviluppo"
 \end{lstlisting}
 
 \subsection{Aggiungere altri file al progetto: il file `.gitignore'}
@@ -136,8 +145,8 @@ del nuovo arrivato, ed in effetti dovrebbe restituire un messaggio di questo
 tipo:
 
 \begin{lstlisting}
-$ touch np_secondary.tex
-$ git commit -am "aggiunto file np_secondary.tex"
+~/progetto$ touch np_secondary.tex
+~/progetto$ git commit -am "aggiunto file np_secondary.tex"
 # On branch master
 # Untracked files:
 #   (use "git add <file>..." to include in what will be committed)
@@ -161,13 +170,13 @@ stiamo sviluppando; oppure aggiungere un singolo file. Nel primo caso dovremmo
 ripetere il comando già usato in fase di inizializzazione:
 
 \begin{lstlisting}
-$ git add.
+~/progetto$ git add.
 \end{lstlisting}
 
 Nel secondo caso aggiungiamo un singolo file:
 
 \begin{lstlisting}
-$ git add np_secondary.tex
+~/progetto$ git add np_secondary.tex
 \end{lstlisting}
 
 Per quanto possa sembrare eccessivo, io preferisco usare il secondo comando.
@@ -188,17 +197,17 @@ pigramente ad eseguire ``git add .'', è utile creare nella nostra directory di
 un file denominato ``.gitignore''.
 
 \begin{lstlisting}
-$ touch .gitignore
-$ echo "*.log" >> .gitignore
-$ echo "*.pdf" >> .gitignore
-$ echo "*.blg" >> .gitignore
-$ echo "*.bbl" >> .gitignore
-$ echo "*.aux" >> .gitignore
-$ echo "*-blx.bib" >> .gitignore
-$ echo "*.out" >> .gitignore
-$ echo "*~" >> .gitignore
-$ git add .gitignore
-$ git commit -am "Aggiunto il file .gitignore"
+~/progetto$ touch .gitignore
+~/progetto$ echo "*.log" >> .gitignore
+~/progetto$ echo "*.pdf" >> .gitignore
+~/progetto$ echo "*.blg" >> .gitignore
+~/progetto$ echo "*.bbl" >> .gitignore
+~/progetto$ echo "*.aux" >> .gitignore
+~/progetto$ echo "*-blx.bib" >> .gitignore
+~/progetto$ echo "*.out" >> .gitignore
+~/progetto$ echo "*~" >> .gitignore
+~/progetto$ git add .gitignore
+~/progetto$ git commit -am "Aggiunto il file .gitignore"
 \end{lstlisting}
 
 Mediante questo file, istruiamo il repository a proposito di tutti i
@@ -213,12 +222,12 @@ abbiamo accidentalmente eliminato un file del nostro
 progetto, ed abbiamo anche eseguito un commit.
 
 \begin{lstlisting}
-$ touch np_secondary.tex
-$ echo "pippo" >> np_secondary.tex
-$ git add .
-$ git commit -am "Ho solo iniziato a lavorare"
-$ rm np_secondary.tex
-$ git commit -am "Ma ho gia' perso tutto"
+~/progetto$ touch np_secondary.tex
+~/progetto$ echo "pippo" >> np_secondary.tex
+~/progetto$ git add .
+~/progetto$ git commit -am "Ho solo iniziato a lavorare"
+~/progetto$ rm np_secondary.tex
+~/progetto$ git commit -am "Ma ho gia' perso tutto"
 \end{lstlisting}
 
 Ora chiediamo conto a git della sua capacità di ripristinare una versione
@@ -239,7 +248,7 @@ log ad esso relativi. Dobbiamo quindi cercare tra i log più recenti fino ad
 identificare uno stadio del progetto in cui il file è ancora presente.
 
 \begin{lstlisting}
-$ git log -n 2
+~/progetto$ git log -n 2
 commit 380228784f4095efdbce9d1d3408bcbdf01548cb
 Author: Pietro Giuffrida <pietro.giuffri@gmail.com>
 Date:   Sat Oct 2 18:58:44 2010 +0200
@@ -258,7 +267,7 @@ possiamo quindi subito verificare il contenuto del commit facendo riferimento
 alla stringa alfanumerica che lo identifica univocamente.
 
 \begin{lstlisting}
-$ git show c21d825df42f55ba127487fd93acf1c13c41b028
+~/progetto$ git show c21d825df42f55ba127487fd93acf1c13c41b028
 commit c21d825df42f55ba127487fd93acf1c13c41b028
 Author: Pietro Giuffrida <pietro.giuffri@gmail.com>
 Date:   Sat Oct 2 18:58:29 2010 +0200
@@ -281,7 +290,7 @@ contiene la stringa ``pippo''.
 Possiamo quindi procedere a ricrearne una copia facendo riferimento all'index
 
 \begin{lstlisting}
-$ git show bfa5424 > file_ripristinato
+~/progetto$ git show bfa5424 > file_ripristinato
 \end{lstlisting}
 
 La procedura, con le complicazioni del caso, dovrebbe essere valida anche per
@@ -291,14 +300,14 @@ indici e la sintassi di git.
 Possiamo ipotizzare in questo caso uno scenario di questo tipo:
 
 \begin{lstlisting}
-$ touch topolino pippo
-$ echo qualcosa >> topolino
-$ echo qualcosaltro >> pippo
-$ git add.
-$ git commit -am "creati e modificati topolino e pippo"
-$ echo "ancora qualcosa" >> topolino
-$ git commit -am "ulteriormente elaborato topolino"
-$ git log topolino
+~/progetto$ touch topolino pippo
+~/progetto$ echo qualcosa >> topolino
+~/progetto$ echo qualcosaltro >> pippo
+~/progetto$ git add.
+~/progetto$ git commit -am "creati e modificati topolino e pippo"
+~/progetto$ echo "ancora qualcosa" >> topolino
+~/progetto$ git commit -am "ulteriormente elaborato topolino"
+~/progetto$ git log topolino
 commit 87548d4cd43cda917cf788866abd76f8399b639b
 Author: Pietro Giuffrida <pietro.giuffri@gmail.com>
 Date:   Sat Oct 2 19:27:23 2010 +0200
@@ -310,7 +319,8 @@ Author: Pietro Giuffrida <pietro.giuffri@gmail.com>
 Date:   Sat Oct 2 19:27:01 2010 +0200
 
     creati e modificati topolino e pippo
-$ git show f7a696e891bb81446f56adc996bc0a20a23ae9b5
+
+~/progetto$ git show f7a696e891bb81446f56adc996bc0a20a23ae9b5
 commit f7a696e891bb81446f56adc996bc0a20a23ae9b5
 Author: Pietro Giuffrida <pietro.giuffri@gmail.com>
 Date:   Sat Oct 2 19:27:01 2010 +0200
@@ -331,7 +341,8 @@ index 0000000..a09d8a1
 +++ b/topolino
 @@ -0,0 +1 @@
 +qualcosaltro
-$ git show a09d8a1 > topolino_ripristinato
+
+~/progetto$ git show a09d8a1 > topolino_ripristinato
 \end{lstlisting}
 
 Chiaramente, git permette il ripristino esclusivamente dei file aggiunti al
@@ -362,8 +373,7 @@ git config --global color.status auto
 \section{Backup}
 \subsection{Backup su periferica esterna (usb)}
 \begin{lstlisting}
-
-$ git clone -l file:///home/pietro/elab/git4latex/ /media/usb/gigt/
+~/progetto$ git clone -l file:///home/pietro/elab/git4latex/ /media/usb/gigt/
 \end{lstlisting}
 
 \subsection{Backup on-line}
@@ -395,7 +405,7 @@ $ git push origin master
 $ git clone git://gitorious.org/git4latex/git4latex.git
 \end{lstlisting}
 
-\section{inotifywait e commit automatico}
+\section{commit automatico: inotifywait}
 
 \begin{lstlisting}
 inotifywait -q -m -e CLOSE_WRITE --format="git commit -m 'autocommit on change' %w" file.txt | sh
