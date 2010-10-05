@@ -30,8 +30,12 @@
 \definecolor{GY}{named}{GreenYellow} % SkyBlue
 \usepackage{breakurl}
 \usepackage{hyperref}
+\usepackage{guit}
 
-
+\usepackage[%
+% paper size={90mm,120mm},left=2mm,right=2mm,top=2mm,bottom=2mm,nohead]%
+paper size={200mm,200mm},left=20mm,right=20mm,top=10mm,bottom=15mm,nohead]%
+{geometry}
 
 \begin{document}
 \lstset{%
@@ -54,16 +58,16 @@
   Una guida introduttiva a git per progetti \LaTeX}
 \author{Pietro Giuffrida}
 \maketitle
-
-\tableofcontents
-
 \newpage
+\tableofcontents
+\newpage
+\large
 \section{Scopo della guida}
 Git è un revision control system, vale a dire un programma che permette di
 tener traccia di tutte le modifiche e le evoluzione effettuate nel corso della
 stesura di un codice o di un qualsiasi progetto su supporto digitale. git è
 rilasciato sotto licenza GPL, ed è disponibile, oltre che nei repository delle
-varie distribuzioni GNU-linux, all'indirizzo \url{http://git-scm.com/}
+varie distribuzioni GNU-linux, all'indirizzo \url{http://git-scm.com/}.
 
 \LaTeX è un programma di composizione tipografica di alta qualità. \LaTeX è
 free-software. Generalmente fa parte dei programmi fondamentali preinstallati in
@@ -92,7 +96,7 @@ o semplicemente di una memoria esterna), e ad uno script bash che permette di
 eseguire dei commit automatici ad ogni salvataggio dei file.
 
 La guida non si prefigge alcun compito specifico per quanto riguarda \LaTeX, a
-proposito del quale esistono numerose guide\footnote{Pantieri, Guit, 
+proposito del quale esistono numerose guide\footnote{Pantieri, \guit,
 texdoc}.
 
 La guida non contempla l'uso di gui o di qualunque interfaccia grafica. Tutti i
@@ -159,6 +163,7 @@ modo da salvare una determinata versione del progetto.
 ~/progetto$ git commit -am "ulteriore sviluppo"
 \end{lstlisting}
 
+\bigskip
 \subsection{Aggiungere altri file al progetto: il file `.gitignore'}
 Finora abbiamo eseguito il commit passando a git le due opzioni ``-am''. Con
 l'opzione ``-m'' diciamo a git di utilizzare il testo tra virgolette che segue
@@ -432,7 +437,7 @@ $ cd riprogetto
 $ git clone git://gitorious.org/git4latex/git4latex.git
 \end{lstlisting}
 
-\section{c  ommit automatico: inotifywait}
+\section{commit automatico: inotifywait}
 
 \begin{lstlisting}
 inotifywait -q -m -e CLOSE_WRITE --format="git commit -m 'autocommit on change' %w" file.txt | sh
