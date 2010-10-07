@@ -23,19 +23,20 @@
 \usepackage[utf8]{inputenc}
 \usepackage[italian]{babel}
 
+\usepackage[dvipsnames, usenames]{xcolor}
+\definecolor{GY}{named}{GreenYellow} % SkyBlue
+
 \usepackage{listings}
 \usepackage{fourier}
-\usepackage[dvipsnames, usenames]{color}
-\definecolor{mygrey}{gray}{0.75}
-\definecolor{GY}{named}{GreenYellow} % SkyBlue
+
+\usepackage[bookmarks=false]{hyperref}
 \usepackage{breakurl}
-\usepackage{hyperref}
 \usepackage{guit}
 
-\usepackage[%
+% \usepackage[%
 % paper size={90mm,120mm},left=2mm,right=2mm,top=2mm,bottom=2mm,nohead]%
-paper size={200mm,200mm},left=20mm,right=20mm,top=10mm,bottom=15mm,nohead]%
-{geometry}
+% paper size={200mm,200mm},left=20mm,right=20mm,top=10mm,bottom=15mm,nohead]%
+% {geometry}
 
 \begin{document}
 \lstset{%
@@ -49,9 +50,7 @@ paper size={200mm,200mm},left=20mm,right=20mm,top=10mm,bottom=15mm,nohead]%
   showstringspaces=false,
   showtabs=false,
   emph={touch,mkdir,echo,rm,git},
-  emphstyle=\textbf,
-%   emph={[2]git},
-%   emphstyle={[2]\underbar},
+  emphstyle=\textbf
   }
 
 \title{git4\LaTeX \\
@@ -96,8 +95,11 @@ o semplicemente di una memoria esterna), e ad uno script bash che permette di
 eseguire dei commit automatici ad ogni salvataggio dei file.
 
 La guida non si prefigge alcun compito specifico per quanto riguarda \LaTeX, a
-proposito del quale esistono numerose guide\footnote{Pantieri, \guit,
-texdoc}.
+proposito del quale esistono numerose guide\footnote{Si veda a questo proposito,
+oltre alla documentazione reperibile sul proprio computer mediante il comando
+``texdoc nomepacchetto'', la documentazione in italiano reperibile a partire dal
+sito del \guit\ (\url{http://www.guit.sssup.it}), oltre all'ottima guida di L. Pantieri
+disponibile sul sito \url{http://www.lorenzopantieri.net/LaTeX.html}}.
 
 La guida non contempla l'uso di gui o di qualunque interfaccia grafica. Tutti i
 comandi ed i passaggi illustrati sono eseguiti tramite una shell linux.
