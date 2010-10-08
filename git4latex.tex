@@ -81,10 +81,10 @@ l'elaborazione di qualsiasi documento (foto, codice sorgente, file doc, xls
 e quant'altro), anche se la guida è strutturata in modo specifico per
 illustrare l'interazione con \LaTeX.
 
-Solo il primo paragrafo è indispensabile. In esso vengono mostrati i passaggi
-fondamentali per la creazione di un repository locale del proprio progetto, per
-il salvataggio progressivo delle versioni, e quindi per svolgere eventuali
-operazioni di ripristino.
+Solo i primi due paragrafo sono indispensabili. In essi vengono tratte le basi
+del funzionamento di Git e  mostrati i passaggi fondamentali per la creazione di
+un repository locale del proprio progetto, per il salvataggio progressivo delle
+versioni, e quindi per svolgere eventuali operazioni di ripristino.
 
 I paragrafi successivi sono invece dedicate alla creazione e alla
 sincronizzazione di un repository remoto (che si tratti di un servizio on-line
@@ -176,7 +176,7 @@ Git lavora più o meno così:
   git directory in maniera definitiva.
 \end{enumerate}
 Se una particolare versione di un file si trova nella cartella git è considerato
-\emph{committed}. Se è stato modificato ma aggiunto alla \emph{staging area} esso
+\emph{committed}. Se è stato modificato e aggiunto alla \emph{staging area} esso
 è detto \emph{staged}. Se è stato modificato da quando è stata aperta la cartella
 di lavoro ma non ancora aggiunto alla \emph{staging area} allora il file è detto
 \emph{modified}.\footnote{Questo paragrafo è stato tradotto in parte da
@@ -436,9 +436,18 @@ index 0000000..a09d8a1
 \end{lstlisting}
 
 Chiaramente, Git permette il ripristino esclusivamente dei file aggiunti al
-repository, ed esclusivamente di versioni esplicitamente salvate mediante il
-comando \lstinline|commit|. I salvataggi effettuati tra un commit e l'altro non
-sono quindi ricostruibili.
+repository ed esclusivamente di versioni esplicitamente salvate mediante il
+comando \lstinline|commit|. I salvataggi effettuati tra un \emph{commit} e
+l'altro non sono quindi ricostruibili.
+
+Nel caso in cui stiamo modificando un file, per esempio
+\lstinline|topolino|, ma ci rendiamo conto che le modifiche apportate non ci
+soddisfano e vogliamo ripristinarlo alla versione del file salvata nell'ultimo
+\emph{commit}, se il file è \emph{modified} ma non \emph{staged}, usando la
+terminologia vista all'inizio, possiamo usare il comando \lstinline|checkout|:
+\begin{lstlisting}
+  git checkout topolino
+\end{lstlisting}
 
 \subsection{Configurazioni basilari di Git}
 Per quanto non strettamente indispensabile per un uso individuale di Git sul
