@@ -1,7 +1,7 @@
-% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
-% 
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+%
 % LICENZA
-% 
+%
 % Quest'opera è stata rilasciata sotto la licenza
 % Creative Commons Attribution-NonCommercial-ShareAlike 2.5 Italy.
 % Per leggere una copia della licenza visita il sito web
@@ -16,12 +16,15 @@
 % California, 94105, USA.
 %
 % For info send a mail to pietro.giuffri@gmail.com
-% 
+%
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 
 \documentclass[a4paper,12pt,oneside]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[italian]{babel}
+
+\usepackage[font=small,format=hang]{caption}
+\usepackage{graphicx}
 
 \usepackage[dvipsnames, usenames]{xcolor}
 \definecolor{GY}{named}{GreenYellow} % SkyBlue
@@ -33,12 +36,6 @@
 \usepackage{breakurl}
 \usepackage{guit}
 
-% \usepackage[%
-% paper size={90mm,120mm},left=2mm,right=2mm,top=2mm,bottom=2mm,nohead]%
-% paper size={200mm,200mm},left=20mm,right=20mm,top=10mm,bottom=15mm,nohead]%
-% {geometry}
-
-\begin{document}
 \lstset{basicstyle=\small\ttfamily,
   keywordstyle=\color{blue},
   commentstyle=\color{red},
@@ -55,8 +52,9 @@
   emphstyle=\color{blue}
 }
 
+\begin{document}
 \title{git4\LaTeX \\
-  Una guida introduttiva a git per progetti \LaTeX}
+  Una guida introduttiva a Git per progetti \LaTeX}
 \author{Pietro Giuffrida}
 \maketitle
 \clearpage
@@ -75,13 +73,13 @@ software libero. Generalmente fa parte dei programmi fondamentali preinstallati 
 ogni distribuzione GNU-Linux, ed è comunque disponibile a partire dall'indirizzo
 \url{http://www.latex-project.org/} per i principali OS.
 
-In questo documento desidero mostrare come utilizzare git per tener traccia
+In questo documento desidero mostrare come utilizzare Git per tener traccia
 delle modifiche rilevanti e delle versioni elaborate nel corso dell'elaborazione
-di un documento scritto con \LaTeX. Tramite git è infatti possibile mantenere un
+di un documento scritto con \LaTeX. Tramite Git è infatti possibile mantenere un
 backup incrementale del proprio codice sorgente, sia in locale che in remoto,
 senza incorrere in un eccessivo dispendio di energie e senza deconcentrarsi
 eccessivamente dalla stesure del proprio testo. I passaggi descritti
-relativamente all'uso di git dovrebbero essere validi in linea di principio per
+relativamente all'uso di Git dovrebbero essere validi in linea di principio per
 l'elaborazione di qualsiasi documento (foto, codice sorgente, file doc, xls
 e quant'altro), anche se la guida è strutturata in modo specifico per
 illustrare l'interazione con \LaTeX.
@@ -97,20 +95,21 @@ o semplicemente di una memoria esterna), e a uno script bash che permette di
 eseguire dei commit automatici a ogni salvataggio dei file.
 
 La guida non si prefigge alcun compito specifico per quanto riguarda \LaTeX, a
-proposito del quale esistono numerose guide\footnote{Si veda a questo proposito,
-oltre alla documentazione reperibile sul proprio computer mediante il comando
-\lstinline|texdoc nomepacchetto|, la documentazione in italiano reperibile a
-partire dal sito del \guit\ (\url{http://www.guit.sssup.it}), oltre all'ottima guida
-di L. Pantieri disponibile sul sito \url{http://www.lorenzopantieri.net/LaTeX.html}.}.
+proposito del quale esistono numerose guide.\footnote{Si veda a questo proposito,
+  oltre alla documentazione reperibile sul proprio computer mediante il comando
+  \lstinline|texdoc nomepacchetto|, la documentazione in italiano reperibile a
+  partire dal sito del \guit\ (\url{http://www.guit.sssup.it}), oltre all'ottima guida
+  di L. Pantieri disponibile sul sito
+  \url{http://www.lorenzopantieri.net/LaTeX.html}.}
 
 La guida non contempla l'uso di una qualunque interfaccia grafica (GUI). Tutti i
 comandi e i passaggi illustrati sono eseguiti tramite una shell Linux.
-Non ho esperienza né di git né di \LaTeX{} su sistemi operativi non
+Non ho esperienza né di Git né di \LaTeX{} su sistemi operativi non
 Unix-like. Un minimo di compatibilità con altri sistemi è garantita dal fatto
 che i comandi tipici della shell Linux sono evidenziati e commentati, in modo
 che l'utente di altri sistemi operativi o abituato all'uso di (GUI) possa
 sostituirli svolgendo altrimenti le medesime attività. I comandi di
-git dovrebbero invece restare i medesimi in ogni OS, per quanto anche in questo
+Git dovrebbero invece restare i medesimi in ogni OS, per quanto anche in questo
 caso le medesime attività possano essere svolte mediante GUI.
 
 Non sono un esperto di informatica, ma trovo bello far le cose, per quanto
@@ -121,20 +120,76 @@ Dato il carattere ludico della presente guida, scelgo come licenza la Creative
 Commons Attribution-NonCommercial-ShareAlike 2.5 Italy. Gli unici vincoli sono
 quindi quelli di riconoscere la paternità dell'opera
 originale, di non lucrare sulla sua distribuzione, e di distribuire l'opera ed
-i suoi eventuali derivati con la medesima licenza\footnote{
+i suoi eventuali derivati con la medesima licenza.\footnote{
   Quest'opera è stata rilasciata sotto la licenza
   Creative Commons Attribution-NonCommercial-ShareAlike 2.5 Italy.
   Per leggere una copia della licenza visita il sito web
   \url{http://creativecommons.org/licenses/by-nc-sa/2.5/it/}
   o spedisci una lettera a Creative Commons, 171 Second Street, Suite 300, San
-  Francisco, California, 94105, USA.}.
+  Francisco, California, 94105, USA.}
+
+\section{Introduzione a Git}
+Git permette di tenere traccia delle modifiche apportate a un progetto registrando
+una copia dei file del progetto in un database. Sostanzialmente Git scatta una
+foto dei file presenti nella cartella nel momento in cui si effettua il
+\emph{commit}.
+
+Per controllare continuamente l'integrità dei dati Git utilizza un sistema, detto
+\emph{checksum}, che associa a ogni stato di un progetto una sequenza di bit che
+la identifica. Nella fattispecie Git utilizza l'algoritmo SHA-1 che restituisce
+una stringa esadecimale (detta \emph{hash}) composta da $40$ caratteri
+alfanumerici (numeri da \lstinline|0| a \lstinline|9| e lettere da \lstinline|a|
+a \lstinline|f|) che può apparire così:
+\begin{lstlisting}
+  43c5858e91a7090b834dd9f09ddfae1061901ee4
+\end{lstlisting}
+In questo modo è impossibile modificare un file del progetto senza che Git se
+ne renda conto. Per fare riferimento a una particolare versione del progetto
+si indica il corrispondente \emph{hash} o, a volte, solo i primi $7$ caratteri.
+
+\begin{figure}
+  \centering
+  \includegraphics{18333fig0106-tn}
+  \caption{Working directory, staging area e git directory. Immagine presa da:
+    \url{http://progit.org/book/ch1-3.html}.}
+\end{figure}
+Prima di iniziare a metterci al lavoro c'è un'ultima cosa da sapere su Git. I
+file possono trovarsi in tre stati chiamati, in inglese, \emph{committed},
+\emph{modified} e \emph{staged}. \emph{Commited} significa che il file è stato
+salvato nel proprio database locale; \emph{modified} indica che il file è stato
+modificato ma non ancora salvato nel database con un \emph{commit};
+\emph{staged} significa che il file è stato modificato e la sua versione attuale
+verrà salvata nel database con il \emph{commit} successivo.
+Un progetto Git può quindi essere suddiviso in tre sezioni principali: la
+\emph{git directory}, la \emph{working directory} e la \emph{staging area}. La
+prima è dove Git conserva i metadati e gli oggetti del database del proprio
+progetto. La \emph{working directory} è, come dice il nome stesso, la ``cartella
+di lavoro'', ossia una copia di una versione del progetto a nostra disposizione
+per l'uso e la modifica dei file. L'ultima sezione, la \emph{staging area}, è un
+semplice file, generalmente contenuto nella cartella Git, che conserva le
+informazioni su ciò che dovrà entrare nel \emph{commit} successivo.
+
+Git lavora più o meno così:
+\begin{enumerate}
+\item modifichi un file presente nella \emph{working directory};
+\item aggiungi un suo \emph{snapshot}, cioè una sua copia, nella \emph{staging
+    area};
+\item esegui un \emph{commit}, cioè l'operazione con la quale i file vengono
+  copiati così come sono presenti alla \emph{staging area} all'interno della
+  git directory in maniera definitiva.
+\end{enumerate}
+Se una particolare versione di un file si trova nella cartella git è considerato
+\emph{committed}. Se è stato modificato ma aggiunto alla \emph{staging area} esso
+è detto \emph{staged}. Se è stato modificato da quando è stata aperta la cartella
+di lavoro ma non ancora aggiunto alla \emph{staging area} allora il file è detto
+\emph{modified}.\footnote{Questo paragrafo è stato tradotto in parte da
+  \url{http://progit.org/book/it/ch1-3.html}.}
 
 \section{Un semplice progetto \LaTeX}
-Vogliamo sviluppare un documento con \LaTeX, utilizzando git come VCS.
+Vogliamo sviluppare un documento con \LaTeX, utilizzando Git come VCS.
 Git non funziona in modo particolarmente esotico. Si tratta semplicemente di
 creare una directory, di posizionare in essa i nostri file \lstinline|.tex| e di
-dire a git di considerare tale directory come un repository.
-
+dire a Git di considerare tale directory come un repository.
 \subsection{Creazione e inizializzazione del repository}
 \begin{lstlisting}
 ~$ mkdir progetto
@@ -150,34 +205,44 @@ per spostarsi al suo interno (\lstinline|cd nome_directory|) e per creare
 un file vuoto chiamato \lstinline|np_main.tex| (\lstinline|touch nome_file|).
 
 I passaggi successivi, eseguiti sempre dati dall'interno della directory, sono
-quelli specifici di git. Con essi effettuiamo:
-l'inizializzazione della directory come un repository git (\lstinline|git init|);
-l'aggiunta al repository appena creato di tutti i file al momento presenti nella
-stessa directory (\lstinline|git add .|); il salvataggio di una prima versione
-del progetto (\lstinline|commit -am "nota di versione"|).
+quelli specifici di Git:
+\begin{itemize}
+\item con \lstinline|git init| creiamo una cartella nascosta chiamata
+  \lstinline|.git/| che contiene il nostro repository Git;
+\item \lstinline|git add .| aggiunge `\lstinline|.|', ossia la cartella in cui
+  siamo posizionati e tutti i file al suo interno,  alla \emph{staging area}
+  del repository appena creato;
+\item con col comando \lstinline|commit -am "nota di versione"| effettuiamo il
+  commit che, come detto, salva una copia dei file contenuti nella \emph{staging
+    area} all'interno del database. Nel registro delle operazioni effettuate a
+  questa operazione risulterà associato il messaggio \lstinline|"nota di versione"|.
+\end{itemize}
 
 Così facendo saremo già pronti a lavorare con il nostro editor di fiducia sul
 file \lstinline|.tex| appena creato.
-Non resta che eseguire un commit al termine di ogni modifica rilevante, in
-modo da salvare una determinata versione del progetto.
+Non resta che eseguire un \emph{commit} al termine di ogni modifica rilevante,
+in modo da salvare una determinata versione del progetto.
 \begin{lstlisting}
 ~/progetto$ echo "una modifica rilevante" >> np_main.tex
 ~/progetto$ git commit -am "ulteriore sviluppo"
 \end{lstlisting}
 
-\subsection{Aggiungere altri file al progetto: il file \lstinline|.gitignore|}
-Finora abbiamo eseguito il commit passando a git le due opzioni \lstinline|-am|.
-Con l'opzione \lstinline|-m| diciamo a git di utilizzare il testo tra virgolette
-che segue il comando come nota di versione del commit che stiamo eseguendo. Con
-l'opzione \lstinline|-a| chiediamo a git di salvare tutte le modifiche apportate
-a tutti i file che abbiamo precedentemente aggiunto al progetto.
+Finora abbiamo eseguito il \emph{commit} passando a Git le due opzioni
+\lstinline|-am|. Con l'opzione \lstinline|-m| diciamo a Git di utilizzare il
+testo tra virgolette che segue il comando come nota di versione del \emph{commit}
+che stiamo eseguendo. Con l'opzione \lstinline|-a| chiediamo a Git di salvare
+tutte le modifiche apportate a tutti i file che abbiamo precedentemente aggiunto
+al progetto. Se non specifichiamo un messaggio con \lstinline|-m| si aprirà
+l'editor di testo associato di default a Git in cui potremo scrivere il messaggio
+del \emph{commit}. Vedremo più avanti come impostare l'editor.
 
+\subsection{Aggiungere altri file al progetto: il file \lstinline|.gitignore|}
 Si presenta ora uno scenario tra i più comuni: dobbiamo aggiungere un ulteriore
 file al progetto, per esempio un file \lstinline|.tex| contenente un ulteriore
 capitolo, o un file \lstinline|.bib| contenente la bibliografia, o un qualsiasi
-altro file. Quando eseguiamo il commit successivo, potremmo aspettarci che git
-si accorga del nuovo arrivato, e in effetti dovrebbe restituire un messaggio di
-questo tipo:
+altro file. Quando eseguiamo il \emph{commit} successivo, potremmo aspettarci
+che Git si accorga del nuovo arrivato, e in effetti dovrebbe restituire un
+messaggio di questo tipo:
 \begin{lstlisting}
 ~/progetto$ touch np_secondary.tex
 ~/progetto$ git commit -am "aggiunto file np_secondary.tex"
@@ -194,11 +259,12 @@ ai file precedentemente aggiunti al progetto, non si sarebbe nemmeno curato di
 comunicarci che il nuovo file non è ancora stato aggiunto al progetto. Si
 sarebbe infatti limitato a salvare le modifiche ai file che gli abbiamo
 precedentemente detto di gestire. Solo con il comando \lstinline|git status|
-git ci comunica con certezza l'anomalia di un nuovo file non ancora caricato nel
+Git ci comunica con certezza l'anomalia di un nuovo file non ancora caricato nel
 repository.
 
-Se osserviamo attentamente l'output del comando possiamo vedere che git ci sta
-dicendo che possiamo includere i nuovi file con il comando
+Git è un programma molto gentile perché ci dà spesso dei suggerimenti molto utili.
+Infatti se osserviamo attentamente l'output del comando possiamo vedere che Git
+ci sta dicendo che possiamo includere i nuovi file con il comando
 \begin{lstlisting}
   git add <file>...
 \end{lstlisting}
@@ -207,7 +273,7 @@ aggiungere indiscriminatamente tutti i file della directory al progetto che
 stiamo sviluppando; oppure aggiungere un singolo file. Nel primo caso dovremmo
 ripetere il comando già usato in fase di inizializzazione:
 \begin{lstlisting}
-~/progetto$ git add.
+~/progetto$ git add .
 \end{lstlisting}
 Nel secondo caso aggiungiamo un singolo file:
 \begin{lstlisting}
@@ -217,7 +283,7 @@ Nel secondo caso aggiungiamo un singolo file:
 Per quanto possa sembrare eccessivo, io preferisco usare il secondo comando.
 Mi accade con estrema frequenza di
 dover aggiungere dei file a un progetto, e spesso sono fin troppo
-distratto da quel che sto scrivendo per occuparmi di quel git si aspetta da me
+distratto da quel che sto scrivendo per occuparmi di quel Git si aspetta da me
 L'aggiunta indiscriminata di ogni file nella directory al repository presenta
 però delle controindicazioni.
 La più ovvia per chi lavora con \LaTeX{} è la seguente:
@@ -226,8 +292,8 @@ procederà alla generazione del documento in pdf a partire dai sorgenti;
 \LaTeX{} provvederà quindi alla generazioni di una serie di file secondary
 (\lstinline|.toc|, \lstinline|.out|, \dots), nonché di un pdf più o meno inutile.
 Se eseguissimo il comando \lstinline|git add .| subito dopo una compilazione,
-evidentemente git aggiungerebbe al repository anche i vari file di lavoro, dal
-pdf, ai file  di log. Per ovviare a questo inconveniente, e continuare
+evidentemente Git aggiungerebbe alla \emph{staging area} anche i vari file di
+lavoro, dal pdf, ai file  di log. Per ovviare a questo inconveniente, e continuare
 pigramente a eseguire \lstinline|git add .|, è utile creare nella nostra
 directory di un file denominato \lstinline|.gitignore|.
 \begin{lstlisting}
@@ -243,16 +309,16 @@ directory di un file denominato \lstinline|.gitignore|.
 ~/progetto$ git commit -am "Aggiunto il file .gitignore"
 \end{lstlisting}
 
-Mediante questo file, istruiamo il repository a proposito di tutti i
-file che non fanno effettivamente parte del progetto, pur essendo presenti
-nella directory.
-Da questo momento in poi git si limiterà a ignorarli, il che ci permette di
-eseguire prudenzialmente il comando \lstinline|git add .| prima di ogni commit.
+Mediante questo file, istruiamo Git a proposito di tutti i file che non fanno
+effettivamente parte del progetto, pur essendo presenti nella cartella.
+Da questo momento in poi Git si limiterà a ignorarli, il che ci permette di
+eseguire prudenzialmente il comando \lstinline|git add .| prima di ogni
+\emph{commit}.
 
 \subsection{Consultazione dei log e ripristino di file}
 Ipotizziamo a titolo esemplificativo il seguente scenario:
 abbiamo accidentalmente eliminato un file del nostro
-progetto, e abbiamo anche eseguito un commit.
+progetto, e abbiamo anche eseguito un \emph{commit}.
 \begin{lstlisting}
 ~/progetto$ echo "pippo" >> np_secondary.tex
 ~/progetto$ git add .
@@ -261,7 +327,7 @@ progetto, e abbiamo anche eseguito un commit.
 ~/progetto$ git commit -am "Ma ho gia' perso tutto"
 \end{lstlisting}
 
-Ora chiediamo conto a git della sua capacità di ripristinare una versione
+Ora chiediamo conto a Git della sua capacità di ripristinare una versione
 precedentemente salvata. La prima cosa da fare è consultare i log dei commit
 precedentemente effettuati, per decidere quale di essi ripristinare. Il comando
 appropriato sarebbe quindi \lstinline|git log|, che contempla anche un'ampia
@@ -270,10 +336,10 @@ opzioni, segnalo solo che è possibile:
 \begin{itemize}
 \item selezionare esclusivamente i log relativi a un dato file, con la
   sintassi \lstinline|git log nome_file|;
-\item chiedere a git di stampare solo gli ultimi $n$ log, con la
+\item chiedere a Git di stampare solo gli ultimi $n$ log, con la
   sintassi \lstinline|git log -n|.
 \end{itemize}
-Trattandosi di un file eliminato, non possiamo chiedere a git di stampare solo i
+Trattandosi di un file eliminato, non possiamo chiedere a Git di stampare solo i
 log a esso relativi. Dobbiamo quindi cercare tra i log più recenti fino ad
 identificare uno stadio del progetto in cui il file è ancora presente.
 \begin{lstlisting}
@@ -290,9 +356,11 @@ Date:   Sat Oct 2 18:55:07 2010 +0200
 
     Ho solo iniziato a lavorare
 \end{lstlisting}
-Nel nostro caso, l'eliminazione del file è ben documentata dalle note, e
-possiamo quindi subito verificare il contenuto del commit facendo riferimento
-alla stringa alfanumerica che lo identifica univocamente.
+Nel nostro caso, l'eliminazione del file è ben documentata dalle note.
+La lunga stringa che compare dopo \lstinline|commit| è l'\emph{hash} che, come
+anticipato prima, è la stringa che identifica univocamente una particolare
+versione del progetto. Possiamo subito verificare il contenuto del \emph{commit}
+facendo riferimento al corrispettivo \emph{hash}:
 \begin{lstlisting}
 ~/progetto$ git show c21d825df42f55ba127487fd93acf1c13c41b028
 commit c21d825df42f55ba127487fd93acf1c13c41b028
@@ -311,20 +379,19 @@ index 0000000..bfa5424
 \end{lstlisting}
 Il file \lstinline|np_secondary.tex| fa effettivamente parte del commit da noi
 individuato. Esso è identificato da un'ulteriore stringa alfanumerica
-denominata index. Git, tramite il comando diff, ci comunica inoltre che esso
-contiene la stringa \lstinline|pippo|.
-Possiamo quindi procedere a ricrearne una copia facendo riferimento all'index
-
+denominata \emph{index}. Git, tramite il comando \lstinline|diff|, ci comunica
+inoltre che esso contiene la stringa \lstinline|pippo|.
+Possiamo quindi procedere a ricrearne una copia facendo riferimento
+all'\emph{index}:
 \begin{lstlisting}
 ~/progetto$ git show bfa5424 > file_ripristinato
 \end{lstlisting}
 
 La procedura, con le complicazioni del caso, dovrebbe essere valida anche per
 circostanze concrete. Vi consiglio comunque di fare delle prove simulando per
-esempio commit di più file contenenti varie modifiche, per far pratica con gli
-indici e la sintassi di git.
+esempio \emph{commit} di più file contenenti varie modifiche, per far pratica
+con gli indici e la sintassi di Git.
 Possiamo ipotizzare in questo caso uno scenario di questo tipo:
-
 \begin{lstlisting}
 ~/progetto$ touch topolino pippo
 ~/progetto$ echo qualcosa >> topolino
@@ -371,18 +438,18 @@ index 0000000..a09d8a1
 ~/progetto$ git show a09d8a1 > topolino_ripristinato
 \end{lstlisting}
 
-Chiaramente, git permette il ripristino esclusivamente dei file aggiunti al
+Chiaramente, Git permette il ripristino esclusivamente dei file aggiunti al
 repository, ed esclusivamente di versioni esplicitamente salvate mediante il
 comando \lstinline|commit|. I salvataggi effettuati tra un commit e l'altro non
 sono quindi ricostruibili.
 
-\subsection{Configurazioni basilari di git}
-Per quanto non strettamente indispensabile per un uso individuale di git sul
+\subsection{Configurazioni basilari di Git}
+Per quanto non strettamente indispensabile per un uso individuale di Git sul
 proprio pc, segnalo alcune configurazioni elementari necessarie per un uso
-ottimale di git.
+ottimale di Git.
 
-Le impostazioni di git possono essere impostate con il comando
-\lstinline|config| di git. Usando l'opzione \lstinline|--system| le configurazioni
+Le impostazioni di Git possono essere impostate con il comando
+\lstinline|config| di Git. Usando l'opzione \lstinline|--system| le configurazioni
 così impostate saranno valide per tutti gli utenti che hanno accesso al sistema
 e verranno generalmente salvate nel file di configurazione
 \lstinline|$(prefix)/etc/gitconfig|. Con l'opzione \lstinline|--global| le impostazioni
@@ -390,19 +457,24 @@ saranno valide solo per il proprio utente e verranno salvate nel file
 \lstinline|~/.gitconfig|. Infine non usando alcuna opzione le configurazioni
 avranno valore solo per il repository in cui vengono impostate.
 
-In primo luogo occorre passare a git qualche informazione circa l'utente:
+In primo luogo occorre passare a Git qualche informazione circa l'utente:
 \begin{lstlisting}
 git config --global user.name "Pietro Giuffrida"
 git config --global user.email pietro.giuffri@gmail.com
 \end{lstlisting}
-
-In secondo luogo è utile dire a git di colorare i log, in modo da renderli più
+In secondo luogo è utile dire a Git di colorare i log, in modo da renderli più
 leggibili:
 \begin{lstlisting}
 git config --global color.branch auto
 git config --global color.diff auto
 git config --global color.interactive auto
 git config --global color.status auto
+\end{lstlisting}
+Possiamo poi impostare l'editor di testo predefinito da associre a Git con
+l'opzione \lstinline|core.editor|. Se per esempio vogliamo usare Gedit daremo
+il comando
+\begin{lstlisting}
+git config --global core.editor gedit
 \end{lstlisting}
 
 \section{Backup}
@@ -415,10 +487,10 @@ git config --global color.status auto
 
 \begin{enumerate}
 \item registrarsi su gitorius (richiede ssh key e passphrase!)
-\item git remote add origin git@gitorious.org:git4latex/git4latex.git
-(che chiederà la passphrase!)
-\item git push origin master
-per sincronizzare il tutto di volta in volta a fine giornata
+\item \lstinline|git remote add origin git@gitorious.org:git4latex/git4latex.git|
+  (che chiederà la passphrase!)
+\item \lstinline|git push origin master|
+  per sincronizzare il tutto di volta in volta a fine giornata
 \end{enumerate}
 
 Prima sincronizzazione da locale verso gitorius:
@@ -452,9 +524,9 @@ inotifywait -q -m -e CLOSE_WRITE --format="git commit -m 'autocommit on change' 
 
 while true; do
 
-  inotifywait -qq -e CLOSE_WRITE ~/.calendar/calendar
+    inotifywait -qq -e CLOSE_WRITE ~/.calendar/calendar
 
-  cd ~/.calendar; git commit -a -m 'autocommit on change'
+    cd ~/.calendar; git commit -a -m 'autocommit on change'
 
 done
 \end{lstlisting}
