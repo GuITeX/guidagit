@@ -85,8 +85,8 @@ dei software.\footnote{Git, infatti, è stato creato da Linus Torvalds, inventor
   del kernel Linux, perché aveva bisogno di un buon VCS per gestire lo sviluppo
   di Linux.} Anche il codice dei documenti \LaTeX{} si scrive su file di testo
 puro e quindi Git è particolarmente adatto a essere utilizzato in accoppiata con
-\LaTeX. Questa guida è proprio strutturata in modo specifico per illustrare
-l'interazione, almeno a livello base, di questi due programmi.
+\LaTeX. Questa guida è proprio strutturata in modo specifico per illustrare la
+loro interazione, almeno a livello base.
 
 Solo i primi due paragrafo sono indispensabili. In essi vengono tratte le basi
 del funzionamento di Git e  mostrati i passaggi fondamentali per la creazione di
@@ -111,7 +111,7 @@ comandi e i passaggi illustrati sono eseguiti tramite una shell Linux.
 Non ho esperienza né di Git né di \LaTeX{} su sistemi operativi non
 Unix-like. Un minimo di compatibilità con altri sistemi è garantita dal fatto
 che i comandi tipici della shell Linux sono evidenziati e commentati, in modo
-che l'utente di altri sistemi operativi o abituato all'uso di (GUI) possa
+che l'utente di altri sistemi operativi o abituato all'uso di GUI possa
 sostituirli svolgendo altrimenti le medesime attività. I comandi di
 Git dovrebbero invece restare i medesimi in ogni OS, per quanto anche in questo
 caso le medesime attività possano essere svolte mediante GUI.
@@ -123,7 +123,7 @@ nel rapporto quasi-simbiotico con il computer sia io a decidere.
 Dato il carattere ludico della presente guida, scelgo come licenza la Creative
 Commons Attribution-NonCommercial-ShareAlike 2.5 Italy. Gli unici vincoli sono
 quindi quelli di riconoscere la paternità dell'opera
-originale, di non lucrare sulla sua distribuzione, e di distribuire l'opera ed
+originale, di non lucrare sulla sua distribuzione, e di distribuire l'opera e
 i suoi eventuali derivati con la medesima licenza.\footnote{
   Quest'opera è stata rilasciata sotto la licenza
   Creative Commons Attribution-NonCommercial-ShareAlike 2.5 Italy.
@@ -214,9 +214,9 @@ quelli specifici di Git:
 \begin{itemize}
 \item con \lstinline|git init| creiamo una cartella nascosta chiamata
   \lstinline|.git/| che contiene il nostro repository Git;
-\item \lstinline|git add .| aggiunge `\lstinline|.|', ossia la cartella in cui
-  siamo posizionati e tutti i file al suo interno,  alla \emph{staging area}
-  del repository appena creato;
+\item \lstinline|git add .| aggiunge l'argomento (in questo caso `\lstinline|.|',
+  ossia la cartella in cui siamo posizionati e tutti i file al suo interno) alla
+  \emph{staging area} del repository appena creato;
 \item con col comando \lstinline|commit -am "nota di versione"| effettuiamo il
   commit che, come detto, salva una copia dei file contenuti nella \emph{staging
     area} all'interno del database. Nel registro delle operazioni effettuate a
@@ -235,11 +235,11 @@ in modo da salvare una determinata versione del progetto.
 Finora abbiamo eseguito il \emph{commit} passando a Git le due opzioni
 \lstinline|-am|. Con l'opzione \lstinline|-m| diciamo a Git di utilizzare il
 testo tra virgolette che segue il comando come nota di versione del \emph{commit}
-che stiamo eseguendo. Con l'opzione \lstinline|-a| chiediamo a Git di salvare
-tutte le modifiche apportate a tutti i file che abbiamo precedentemente aggiunto
-al progetto. Se non specifichiamo un messaggio con \lstinline|-m| si aprirà
-l'editor di testo associato di default a Git in cui potremo scrivere il messaggio
-del \emph{commit}. Vedremo più avanti come impostare l'editor.
+che stiamo eseguendo. Con l'opzione \lstinline|-a| chiediamo a Git di mettere
+nella \emph{staging area} tutti i file del progetto prima di eseguire il
+\emph{commit}. Se non specifichiamo un messaggio con l'opzione \lstinline|-m| si
+aprirà l'editor di testo associato di default a Git in cui potremo scrivere il
+messaggio del \emph{commit}. Vedremo più avanti come impostare l'editor.
 
 \subsection{Aggiungere altri file al progetto: il file \lstinline|.gitignore|}
 Si presenta ora uno scenario tra i più comuni: dobbiamo aggiungere un ulteriore
@@ -345,7 +345,7 @@ opzioni, segnalo solo che è possibile:
   sintassi \lstinline|git log -n|.
 \end{itemize}
 Trattandosi di un file eliminato, non possiamo chiedere a Git di stampare solo i
-log a esso relativi. Dobbiamo quindi cercare tra i log più recenti fino ad
+log a esso relativi. Dobbiamo quindi cercare tra i log più recenti fino a
 identificare uno stadio del progetto in cui il file è ancora presente.
 \begin{lstlisting}
 ~/progetto$ git log -2
@@ -365,7 +365,8 @@ Nel nostro caso, l'eliminazione del file è ben documentata dalle note.
 La lunga stringa che compare dopo \lstinline|commit| è l'\emph{hash} che, come
 anticipato prima, è la stringa che identifica univocamente una particolare
 versione del progetto. Possiamo subito verificare il contenuto del \emph{commit}
-facendo riferimento al corrispettivo \emph{hash}:
+facendo riferimento al corrispettivo \emph{hash} con il comando
+\lstinline[language={},emph=git,emphstyle=\color{blue}]|git show <hash>|:
 \begin{lstlisting}
 ~/progetto$ git show c21d825df42f55ba127487fd93acf1c13c41b028
 commit c21d825df42f55ba127487fd93acf1c13c41b028
