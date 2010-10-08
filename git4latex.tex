@@ -68,7 +68,7 @@ GNU-Linux, all'indirizzo \url{http://git-scm.com/}.
 \LaTeX{} è un programma di composizione tipografica di alta qualità. \LaTeX{} è
 software libero. Generalmente fa parte dei programmi fondamentali preinstallati in
 ogni distribuzione GNU-Linux, ed è comunque disponibile a partire dall'indirizzo
-\url{http://www.latex-project.org/} per i principali OS.
+\url{http://www.latex-project.org/} per i principali sistemi operativi.
 
 In questo documento desidero mostrare come utilizzare Git per tener traccia
 delle modifiche rilevanti e delle versioni elaborate nel corso dell'elaborazione
@@ -77,9 +77,16 @@ backup incrementale del proprio codice sorgente, sia in locale che in remoto,
 senza incorrere in un eccessivo dispendio di energie e senza deconcentrarsi
 eccessivamente dalla stesure del proprio testo. I passaggi descritti
 relativamente all'uso di Git dovrebbero essere validi in linea di principio per
-l'elaborazione di qualsiasi documento (foto, codice sorgente, file doc, xls
-e quant'altro), anche se la guida è strutturata in modo specifico per
-illustrare l'interazione con \LaTeX.
+l'elaborazione di qualsiasi documento (foto, file \lstinline|.doc|, \lstinline|.xls|
+e quant'altro), ma Git dà il meglio di sé con i file di testo puro, poiché permette
+di vedere tutte le modifiche apportate al file di volta in volta. Proprio per questo
+l'uso principale di Git, e dei VCS in generale, è quello di controllare lo sviluppo
+dei software.\footnote{Git, infatti, è stato creato da Linus Torvalds, inventore
+  del kernel Linux, perché aveva bisogno di un buon VCS per gestire lo sviluppo
+  di Linux.} Anche il codice dei documenti \LaTeX{} si scrive su file di testo
+puro e quindi Git è particolarmente adatto a essere utilizzato in accoppiata con
+\LaTeX. Questa guida è proprio strutturata in modo specifico per illustrare
+l'interazione, almeno a livello base, di questi due programmi.
 
 Solo i primi due paragrafo sono indispensabili. In essi vengono tratte le basi
 del funzionamento di Git e  mostrati i passaggi fondamentali per la creazione di
@@ -166,14 +173,15 @@ per l'uso e la modifica dei file. L'ultima sezione, la \emph{staging area}, è u
 semplice file, generalmente contenuto nella cartella Git, che conserva le
 informazioni su ciò che dovrà entrare nel \emph{commit} successivo.
 
-Git lavora più o meno così:
+Con Git si lavora più o meno così:
 \begin{enumerate}
 \item modifichi un file presente nella \emph{working directory};
 \item aggiungi un suo \emph{snapshot}, cioè una sua copia, nella \emph{staging
     area};
 \item esegui un \emph{commit}, cioè l'operazione con la quale i file vengono
   copiati così come sono presenti alla \emph{staging area} all'interno della
-  git directory in maniera definitiva.
+  git directory in maniera definitiva. Al \emph{commit} viene associato
+  l'\emph{hash} che identifica univocamente la versione del progetto così salvata.
 \end{enumerate}
 Se una particolare versione di un file si trova nella cartella git è considerato
 \emph{committed}. Se è stato modificato e aggiunto alla \emph{staging area} esso
@@ -260,7 +268,7 @@ Git ci comunica con certezza l'anomalia di un nuovo file non ancora caricato nel
 repository.
 
 Git è un programma molto gentile perché ci dà spesso dei suggerimenti molto utili.
-Infatti se osserviamo attentamente l'output del comando possiamo vedere che Git
+Infatti se osserviamo attentamente l'output precedente possiamo vedere che Git
 ci sta dicendo che possiamo includere i nuovi file con il comando
 \begin{lstlisting}
   git add <file>...
