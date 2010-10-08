@@ -29,7 +29,7 @@
 \usepackage{listings}
 \usepackage{fourier}
 
-\usepackage[bookmarks=false]{hyperref}
+\usepackage[bookmarks=false,colorlinks=true]{hyperref}
 \usepackage{breakurl}
 \usepackage{guit}
 
@@ -39,9 +39,11 @@
 % {geometry}
 
 \begin{document}
-\lstset{%
-%   frame=single,
-  backgroundcolor=\color{GY},
+\lstset{basicstyle=\small\ttfamily,
+  keywordstyle=\color{blue},
+  commentstyle=\color{red},
+  stringstyle=\color{green},
+  frame=lines,
   breaklines = true, % per mandare a capo le righe troppo lunghe
   breakautoindent = true, % indenta le righe spezzate
   breakindent = 200pt, % indenta le righe di 30pt
@@ -50,8 +52,8 @@
   showstringspaces=false,
   showtabs=false,
   emph={touch,mkdir,echo,rm,git},
-  emphstyle=\textbf
-  }
+  emphstyle=\color{blue}
+}
 
 \title{git4\LaTeX \\
   Una guida introduttiva a git per progetti \LaTeX}
