@@ -99,17 +99,17 @@ eseguire dei commit automatici a ogni salvataggio dei file.
 La guida non si prefigge alcun compito specifico per quanto riguarda \LaTeX, a
 proposito del quale esistono numerose guide\footnote{Si veda a questo proposito,
 oltre alla documentazione reperibile sul proprio computer mediante il comando
-``texdoc nomepacchetto'', la documentazione in italiano reperibile a partire dal
-sito del \guit\ (\url{http://www.guit.sssup.it}), oltre all'ottima guida di L. Pantieri
-disponibile sul sito \url{http://www.lorenzopantieri.net/LaTeX.html}.}.
+\lstinline|texdoc nomepacchetto|, la documentazione in italiano reperibile a
+partire dal sito del \guit\ (\url{http://www.guit.sssup.it}), oltre all'ottima guida
+di L. Pantieri disponibile sul sito \url{http://www.lorenzopantieri.net/LaTeX.html}.}.
 
-La guida non contempla l'uso di GUI o di qualunque interfaccia grafica. Tutti i
+La guida non contempla l'uso di una qualunque interfaccia grafica (GUI). Tutti i
 comandi e i passaggi illustrati sono eseguiti tramite una shell Linux.
 Non ho esperienza né di git né di \LaTeX{} su sistemi operativi non
 Unix-like. Un minimo di compatibilità con altri sistemi è garantita dal fatto
 che i comandi tipici della shell Linux sono evidenziati e commentati, in modo
-che l'utente di altri sistemi operativi o abituato all'uso di interfaccia grafica
-(GUI) possa sostituirli svolgendo altrimenti le medesime attività. I comandi di
+che l'utente di altri sistemi operativi o abituato all'uso di (GUI) possa
+sostituirli svolgendo altrimenti le medesime attività. I comandi di
 git dovrebbero invece restare i medesimi in ogni OS, per quanto anche in questo
 caso le medesime attività possano essere svolte mediante GUI.
 
@@ -122,18 +122,18 @@ Commons Attribution-NonCommercial-ShareAlike 2.5 Italy. Gli unici vincoli sono
 quindi quelli di riconoscere la paternità dell'opera
 originale, di non lucrare sulla sua distribuzione, e di distribuire l'opera ed
 i suoi eventuali derivati con la medesima licenza\footnote{
-Quest'opera è stata rilasciata sotto la licenza
-Creative Commons Attribution-NonCommercial-ShareAlike 2.5 Italy.
-Per leggere una copia della licenza visita il sito web
-\url{http://creativecommons.org/licenses/by-nc-sa/2.5/it/}
-o spedisci una lettera a Creative Commons, 171 Second Street, Suite 300, San
-Francisco, California, 94105, USA.}.
+  Quest'opera è stata rilasciata sotto la licenza
+  Creative Commons Attribution-NonCommercial-ShareAlike 2.5 Italy.
+  Per leggere una copia della licenza visita il sito web
+  \url{http://creativecommons.org/licenses/by-nc-sa/2.5/it/}
+  o spedisci una lettera a Creative Commons, 171 Second Street, Suite 300, San
+  Francisco, California, 94105, USA.}.
 
 \section{Un semplice progetto \LaTeX}
 Vogliamo sviluppare un documento con \LaTeX, utilizzando git come VCS.
 Git non funziona in modo particolarmente esotico. Si tratta semplicemente di
-creare una directory, di posizionare in essa i nostri file .tex e di dire a git
-di considerare tale directory come un repository.
+creare una directory, di posizionare in essa i nostri file \lstinline|.tex| e di
+dire a git di considerare tale directory come un repository.
 
 \subsection{Creazione e inizializzazione del repository}
 \begin{lstlisting}
@@ -144,11 +144,10 @@ di considerare tale directory come un repository.
 ~/progetto$ git add .
 ~/progetto$ git commit -am "Inizializzazione del nuovo progetto"
 \end{lstlisting}
-
 Vediamo con calma i singoli passaggi. I primi tre comandi servono
 rispettivamente per creare la directory (\lstinline|mkdir nome_directory|),
 per spostarsi al suo interno (\lstinline|cd nome_directory|) e per creare
-un file vuoto chiamato \lstinline|np main.tex| (\lstinline|touch nome_file|).
+un file vuoto chiamato \lstinline|np_main.tex| (\lstinline|touch nome_file|).
 
 I passaggi successivi, eseguiti sempre dati dall'interno della directory, sono
 quelli specifici di git. Con essi effettuiamo:
@@ -166,7 +165,7 @@ modo da salvare una determinata versione del progetto.
 ~/progetto$ git commit -am "ulteriore sviluppo"
 \end{lstlisting}
 
-\subsection{Aggiungere altri file al progetto: il file `.gitignore'}
+\subsection{Aggiungere altri file al progetto: il file \lstinline|.gitignore|}
 Finora abbiamo eseguito il commit passando a git le due opzioni \lstinline|-am|.
 Con l'opzione \lstinline|-m| diciamo a git di utilizzare il testo tra virgolette
 che segue il comando come nota di versione del commit che stiamo eseguendo. Con
@@ -189,7 +188,6 @@ questo tipo:
 #       np_secondary.tex
 nothing added to commit but untracked files present (use "git add" to track)
 \end{lstlisting}
-
 Git si accorge quindi della presenza di un nuovo file, ma non lo aggiunge
 automaticamente al progetto. D'altra parte, se avesse rilevato delle modifiche
 ai file precedentemente aggiunti al progetto, non si sarebbe nemmeno curato di
@@ -199,7 +197,12 @@ precedentemente detto di gestire. Solo con il comando \lstinline|git status|
 git ci comunica con certezza l'anomalia di un nuovo file non ancora caricato nel
 repository.
 
-In tale circostanza si può scegliere di procedere in due modi:
+Se osserviamo attentamente l'output del comando possiamo vedere che git ci sta
+dicendo che possiamo includere i nuovi file con il comando
+\begin{lstlisting}
+  git add <file>...
+\end{lstlisting}
+Si può scegliere di procedere in due modi:
 aggiungere indiscriminatamente tutti i file della directory al progetto che
 stiamo sviluppando; oppure aggiungere un singolo file. Nel primo caso dovremmo
 ripetere il comando già usato in fase di inizializzazione:
@@ -379,10 +382,10 @@ proprio pc, segnalo alcune configurazioni elementari necessarie per un uso
 ottimale di git.
 
 Le impostazioni di git possono essere impostate con il comando
-\lstinline|git config|. Usando l'opzione \lstinline|--system| le configurazioni
+\lstinline|config| di git. Usando l'opzione \lstinline|--system| le configurazioni
 così impostate saranno valide per tutti gli utenti che hanno accesso al sistema
 e verranno generalmente salvate nel file di configurazione
-\lstinline|/etc/gitconfig|. Con l'opzione \lstinline|--global| le impostazioni
+\lstinline|$(prefix)/etc/gitconfig|. Con l'opzione \lstinline|--global| le impostazioni
 saranno valide solo per il proprio utente e verranno salvate nel file
 \lstinline|~/.gitconfig|. Infine non usando alcuna opzione le configurazioni
 avranno valore solo per il repository in cui vengono impostate.
