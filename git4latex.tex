@@ -145,7 +145,7 @@ una stringa esadecimale (detta \emph{hash}) composta da $40$ caratteri
 alfanumerici (numeri da \lstinline|0| a \lstinline|9| e lettere da \lstinline|a|
 a \lstinline|f|) che può apparire così:
 \begin{lstlisting}
-  43c5858e91a7090b834dd9f09ddfae1061901ee4
+43c5858e91a7090b834dd9f09ddfae1061901ee4
 \end{lstlisting}
 In questo modo è impossibile modificare un file del progetto senza che Git se
 ne renda conto. Per fare riferimento a una particolare versione del progetto
@@ -175,10 +175,10 @@ informazioni su ciò che dovrà entrare nel \emph{commit} successivo.
 
 Con Git si lavora più o meno così:
 \begin{enumerate}
-\item modifichi un file presente nella \emph{working directory};
-\item aggiungi un suo \emph{snapshot}, cioè una sua copia, nella \emph{staging
+\item si modifica un file presente nella \emph{working directory};
+\item si aggiunge un suo \emph{snapshot}, cioè una sua copia, nella \emph{staging
     area};
-\item esegui un \emph{commit}, cioè l'operazione con la quale i file vengono
+\item si esegue un \emph{commit}, cioè l'operazione con la quale i file vengono
   copiati così come sono presenti alla \emph{staging area} all'interno della
   git directory in maniera definitiva. Al \emph{commit} viene associato
   l'\emph{hash} che identifica univocamente la versione del progetto così salvata.
@@ -188,7 +188,7 @@ Se una particolare versione di un file si trova nella cartella git è considerat
 è detto \emph{staged}. Se è stato modificato da quando è stata aperta la cartella
 di lavoro ma non ancora aggiunto alla \emph{staging area} allora il file è detto
 \emph{modified}.\footnote{Questo paragrafo è stato tradotto in parte da
-  \url{http://progit.org/book/it/ch1-3.html}.}
+  \url{http://progit.org/book/ch1-3.html}.}
 
 \section{Un semplice progetto \LaTeX}
 Vogliamo sviluppare un documento con \LaTeX, utilizzando Git come VCS.
@@ -271,7 +271,7 @@ Git è un programma molto gentile perché ci dà spesso dei suggerimenti molto u
 Infatti se osserviamo attentamente l'output precedente possiamo vedere che Git
 ci sta dicendo che possiamo includere i nuovi file con il comando
 \begin{lstlisting}
-  git add <file>...
+git add <file>...
 \end{lstlisting}
 Si può scegliere di procedere in due modi:
 aggiungere indiscriminatamente tutti i file della directory al progetto che
@@ -366,7 +366,7 @@ La lunga stringa che compare dopo \lstinline|commit| è l'\emph{hash} che, come
 anticipato prima, è la stringa che identifica univocamente una particolare
 versione del progetto. Possiamo subito verificare il contenuto del \emph{commit}
 facendo riferimento al corrispettivo \emph{hash} con il comando
-\lstinline[language={},emph=git,emphstyle=\color{blue}]|git show <hash>|:
+\lstinline[language={}]|git show <hash>|:
 \begin{lstlisting}
 ~/progetto$ git show c21d825df42f55ba127487fd93acf1c13c41b028
 commit c21d825df42f55ba127487fd93acf1c13c41b028
@@ -455,7 +455,239 @@ soddisfano e vogliamo ripristinarlo alla versione del file salvata nell'ultimo
 \emph{commit}, se il file è \emph{modified} ma non \emph{staged}, usando la
 terminologia vista all'inizio, possiamo usare il comando \lstinline|checkout|:
 \begin{lstlisting}
-  git checkout topolino
+git checkout topolino
+\end{lstlisting}
+
+\subsection{Gestione dei \emph{branch}}
+Con il comando \lstinline|git status| possiamo controllare lo stato del progetto,
+per esempio se ci sono dei file che sono stati modificati ma non ancora salvati
+nel \emph{commit} e così via. Un tipico output di questo comando è:
+\begin{lstlisting}
+$ git status
+# On branch master
+nothing to commit (working directory clean)
+\end{lstlisting}
+All'ultimo rigo leggiamo \lstinline|nothing to commit (working directory clean)|,
+cioè non sono presenti file modificati (a parte eventualmente quelli ignorati con
+il file \lstinline|.gitignore|) dopo l'ultimo \emph{commit}. Ma cosa significa
+\lstinline|On branch master|? \emph{Branch} in inglese significa ``ramo'' e
+Git ci dà la possibilità di creare una linea di sviluppo per il nostro progetto
+parallela a quella iniziale (chiamata \emph{master} in Git) ma con delle
+modifiche che divergono da questa proprio come il ramo di un albero diverge dal
+tronco centrale (e per completare questa analogia botanica la linea di sviluppo
+centrale è chiamata a volte \emph{trunk}, cioè ``tronco'').
+
+\subsubsection{Perché creare un \emph{branch}?}
+Le risposte a questa domanda possono essere diverse. Una potrebbe essere, per
+esempio perché abbiamo intenzione di scrivere un capitolo per il nostro documento
+\LaTeX{} ma non siamo sicuri che sia veramente necessario: possiamo allora creare
+un \emph{branch} nel quale scriveremo solo questo capitolo mentre nel ramo
+principale \emph{master} continueremo normalmente a modificare il documento.
+Quando il capitolo sarà pronto, se il risultato sarà soddisfacente potremo
+procedere alla funsione del ramo ``sperimentale'' in quello principale, operazione
+chiamata \emph{merge} in gergo, e nel nostro documento ``comparirà magicamente''
+il capitolo che abbiamo sviluppato nel \emph{branch}, in caso contrario possiamo
+semplicemente cancellare il \emph{branch}, come se avessimo potato il ramo
+indesiderato dell'albero.
+
+Un altro caso in cui può essere utile creare un \emph{branch} è quello in cui si
+lavori a più mani su un documento: mentre voi scrivete il vostro documento un
+vostro amico vi chiede di collaborarvi (e anch'egli userà Git per tenere traccia
+delle sue modifiche). Lui si creerà un suo ramo di sviluppo in modo che voi
+potrete continuare a redigere il vostro documento senza che le sue modifiche
+vadano a confliggere con le vostre. Alla fine il vostro amico vi farà vedere il
+risultato delle sue modifiche: se le apprezzate potete effettuare il \emph{merge}
+del suo ramo nel vostro, altrimenti potete dirgli che le sue modifiche non vi
+piacciono e il suo \emph{branch} sarà cancellato.\footnote{Il vostro (forse ormai
+  ex) amico potrebbe anche decidere di continuare a sviluppare il suo
+  \emph{branch} in maniera completamente indipendente da voi: questa situazione,
+  nel mondo della programmazione, è detta \emph{fork}.}
+
+Un semplice grafico dello sviluppo di un progetto in cui è stato effettuato un
+\emph{branching} potrebbe avere questo aspetto:
+\begin{lstlisting}
+      E---F---G branch
+     /         \
+A---B---C---D---H master
+\end{lstlisting}
+Nel ramo \lstinline|master| abbiamo effettuato le modifiche indicate con
+\lstinline|A| e \lstinline|B|. A questo punto creiamo il ramo
+\lstinline|branch|. D'ora in poi le modifiche effettuate su un ramo avranno
+valore solo su quello: così continuiamo a lavorare normalmente sul ramo
+\lstinline|master| apportando le modifiche indicate con \lstinline|C| e
+\lstinline|D|, mentre in \lstinline|branch| avremo effettuato le modifiche
+\lstinline|E|, \lstinline|F| e \lstinline|G| che apparterranno solo a questo ramo.
+Decidiamo quindi di fondere i due rami perché le modifiche fatte in
+\lstinline|branch| ci soddisfano: con la modifica \lstinline|H| tutte le modifiche
+effettuate in \lstinline|branch| verranno importate nel ramo principale e potremo
+continuare lì il nostro lavoro.
+
+\subsubsection{Creare e cancellare un \emph{branch}}
+Per creare un \emph{branch} dobbiamo usare il comando
+\lstinline|git branch <nome_branch>|. Se il comando va a buon fine non ci sarà
+nessun output, possiamo però controllare l'elenco dei rami esistenti con il comando
+\lstinline|git branch| senza alcun ulteriore argomento:
+\begin{lstlisting}
+$ git branch foo
+$ git branch
+  foo
+* master
+\end{lstlisting}
+L'asterisco vicino a \lstinline|master| sta a indicare che al momento ci troviamo
+nel \emph{branch} \lstinline|master|. Per spostarci in un altro \emph{branch}
+usiamo il comando \lstinline|git checkout <nome_branch>|:
+\begin{lstlisting}
+$ git checkout foo
+Switched to branch 'foo'
+$ git branch 
+* foo
+  master
+\end{lstlisting}
+Che significa che ci siamo spostati in un altro \emph{branch}? Abbiamo cambiato
+cartella? No, siamo sempre nella stessa cartella (possiamo controllarlo con il
+comand \lstinline|pwd|), ma è stato Git che ha modificato la nostra cartella di
+lavoro, la \emph{working directory}, andando a prendere dal suo database l'ultimo
+\emph{snapshot}, l'ultima ``fotografia'', del \emph{branch} che gli abbiamo
+richiesto. In alternativa a \lstinline|git checkout <nome_branch>|, per creare
+un nuovo ramo si può usare il comando \lstinline|git checkout -b <nome_branch>|
+che in più effettua direttamente il \emph{checkout} del nuovo \emph{branch}:
+\begin{lstlisting}
+$ git checkout -b foo
+Switched to a new branch 'foo'
+\end{lstlisting}
+
+Un \emph{branch} appena creato e non modificato è uguale al ramo da cui è stato
+creato, contiene i suoi stessi file e la stessa cronologia. Lo sviluppo del progetto
+può continuare in maniera identica a quella vista prima (cioè si usano i soliti
+comandi \lstinline|git add| e \lstinline|git commit|), però le modifiche apportate
+in questo \emph{branch} non compariranno nel registro di quello principale. Possiamo
+verificarlo controllando i rispettivi log:
+\begin{lstlisting}
+$ git branch 
+* foo
+  master
+$ git log 
+commit c71da4fe9bf764274e67a2326ec1dc3911691928
+Author: Pietro Giuffrida <pietro.giuffri@gmail.com>
+Date:   Sat Oct 9 19:09:56 2010 +0200
+
+    primo commit nel branch `foo'
+
+commit e17384278acadbfefefebf0ced4e7103005a597c
+Author: Pietro Giuffrida <pietro.giuffri@gmail.com>
+Date:   Sat Oct 9 19:08:46 2010 +0200
+
+    iniziamo il nuovo progetto
+$ git checkout master 
+Switched to branch 'master'
+$ git log 
+commit e17384278acadbfefefebf0ced4e7103005a597c
+Author: Pietro Giuffrida <pietro.giuffri@gmail.com>
+Date:   Sat Oct 9 19:08:46 2010 +0200
+
+    iniziamo il nuovo progetto
+\end{lstlisting}
+
+Per cancellare un ramo di cui si è già effettuato il \emph{merge} con il ramo
+principale (vedremo più avanti come si fa) si usa l'opzione \lstinline|-d| del
+comando \lstinline|git branch|:
+\begin{lstlisting}
+$ git branch -d foo 
+Deleted branch foo (was c71da4f).
+\end{lstlisting}
+Se proviamo a usare l'opzione \lstinline|-d| con un ramo di cui non è stato
+ancora effettuato il \emph{merge} Git ci avverte:
+\begin{lstlisting}
+$ git branch -d foo
+error: The branch foo' is not fully merged.
+If you are sure you want to delete it, run 'git branch -D foo'.
+\end{lstlisting}
+Come al solito Git ci suggerisce i comandi che ci possono tornare utili: se
+vogliamo ugualmente cancellare il \emph{branch} che non è stato fuso in quello
+principale dobbiamo usare l'opzione \lstinline|-D| al posto di \lstinline|-d|:
+\begin{lstlisting}
+$ git branch -D foo 
+Deleted branch foo (was c71da4f).
+\end{lstlisting}
+
+\subsubsection{Effettuare un \emph{merge}}
+Per effettuare la fusione, \emph{merge}, di due rami si usa il comando
+\lstinline|git merge <nome_branch>| da dare nel ramo in cui si desidera importare
+il ramo chiamato \lstinline|<nome_branch>|. Se tutto va bene otterremo un output
+simile al seguente (supponiamo, per esempio, che il ramo da importare si chiami
+\lstinline|foo|):
+\begin{lstlisting}
+$ git merge foo 
+Updating da45d11..729129c
+Fast-forward
+ capitolo5.tex |   18 ++++++++++++++++++
+ 1 files changed, 18 insertions(+), 0 deletions(-)
+ create mode 100644 capitolo5.tex
+\end{lstlisting}
+Dopo di ciò possiamo normalmente fare il \emph{commit} con
+\lstinline|git add .| e \lstinline|git commit -am "messaggio di commit"|.
+
+Può verificarsi un problema se uno o più file sono stati modificati nello stesso
+punto in tutti e due i rami che si vogliono fondere, dopo che è stato creato il
+\emph{branch}. Git, infatti, non è in grado di gestire automaticamente questa
+situazione (è uno strumento potente ma non può certo leggere nel nostro pensiero,
+non può sapere perché il file è stato modificato diversamente nei due rami) e ci
+avverte con un messaggio di questo tipo:
+\begin{lstlisting}[language={}]
+$ git merge foo 
+Auto-merging main.tex
+CONFLICT (content): Merge conflict in main.tex
+Automatic merge failed; fix conflicts and then commit the result.
+\end{lstlisting}
+In questo caso il file in cui si sono verificati i conflitti si chiama
+\lstinline|main.tex|. Aprendo con il nostro editor di testo potremo leggere
+a un certo punto qualcosa di questo tipo:
+\begin{lstlisting}[language={},emph={HEAD,foo}]
+<<<<<<< HEAD
+\usepackage{hyperref}
+=======
+\usepackage[bookmarks=false,colorlinks=true]{hyperref}
+>>>>>>> foo
+\end{lstlisting}
+La zona compresa fra \lstinline|<<<<<<< HEAD| e \lstinline|=======| indica il
+contenuto attuale del ramo, mentre ciò che è scritto fra \lstinline|=======| e
+\lstinline|>>>>>>> foo| è ciò che si trova nel corrispondente punto dello stesso
+file \lstinline|main.tex| ma nel ramo \lstinline|foo|. Dopo aver corretto il file
+come desideriamo che risulti, possiamo finalmente salvarlo ed effettuare come al
+solito il \emph{commit}.
+
+\subsubsection{Copiare un singolo \emph{commit} da un \emph{branch} a un altro}
+Mentre sviluppiamo un \emph{branch} potremmo accorgerci che il \emph{commit} appena
+effettuato apporta delle modifiche che possono essere utili anche in un altro
+\emph{branch} (come per esempio la correzione di un errore di ortografia o una
+modifica al preambolo del documento). Non è necessario effettuare il \emph{merge}
+solo per un importare un \emph{commit} o modificare manualmente i file dell'altro
+\emph{branch} perché è possibile effettuare un'operazione detta
+\emph{cherry-picking} (che significa ``raccolta di ciligie''\footnote{Chi ha
+  inventato tutta questa terminologia doveva essere un amante della natura.}) che
+nell'importare nell'altro \emph{branch} il singolo \emph{commit} che
+indicheremo. La sintassi è semplice (ovviamente prima di dare il seguente comando
+bisogna posizionarsi nel \emph{branch} in cui si intende importare il \emph{commit}):
+\lstinline|git cherry-pick <hash_del_commit>|. Inoltre l'oggetto, l'autore (nel
+caso in cui ci siano più collaboratori che partecipano al progetto) e la data e
+orario del \emph{commit} saranno gli stessi di quello importato. Al posto
+dell'intero \emph{hash} del \emph{commit} si possono inserire anche solo i primi
+$7$ caratteri.
+
+Se dovesse verificarsi qualche problema durante il \emph{cherry-picking}, come
+può succedere durante il \emph{merge}, Git ci avverte, ci consiglia di risolvere
+i conflitti, usare il solito \lstinline|git add| come opportuno e poi, per
+effettuare il \emph{commit}, di dare il comando
+\lstinline|git commit -c <hash_del_commit>|, in modo da utilizzare le stesse
+informazioni del \emph{commit} a cui ci riferiamo (autore, data e orario,
+oggetto):
+\begin{lstlisting}[language={},emph=git]
+$ git cherry-pick 97b8c9b
+Automatic cherry-pick failed.  After resolving the conflicts,
+mark the corrected paths with 'git add <paths>' or 'git rm <paths>'
+and commit the result with: 
+
+        git commit -c 97b8c9b
 \end{lstlisting}
 
 \subsection{Configurazioni basilari di Git}
