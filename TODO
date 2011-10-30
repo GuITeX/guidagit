@@ -1,8 +1,11 @@
 * Rivedere tutta la forma
 * Completare introduzione
+* Spiegare come committare solo parte di un file con `git add -p <file>'
+   (e magari anche come ripristinare parte di un file con `git commit -p -- <file>'
 * Scrivere le ultime due sezioni:
    backup
    inotifywait
 * Risolvere le righe di codice spezzate troppo lunghe (cancellarle?)
    non mi piace molto l'indice ma è di default in un documento
    teXnico!
+* Rivedere i TODO all'interno del documeno

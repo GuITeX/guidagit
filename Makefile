@@ -12,7 +12,7 @@ DISTCLEAN_FILE		= $(PRINCIPALE_PDF)
 pdf: $(PRINCIPALE_PDF)
 
 $(PRINCIPALE_PDF): $(PRINCIPALE_TEX)
-	texi2pdf $(PRINCIPALE_TEX)
+	latexmk -pdf $(PRINCIPALE_TEX)
 
 # Per fare pulizia dei file temporanei generati:
 clean:

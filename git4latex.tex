@@ -45,7 +45,7 @@
   showspaces=false,
   showstringspaces=false,
   showtabs=false,
-  emph={touch,mkdir,echo,rm,git},
+  emph={touch,mkdir,echo,rm},
   emphstyle=\color{blue}
 }
 
@@ -267,16 +267,18 @@ precedentemente detto di gestire. Solo con il comando \lstinline|git status|
 Git ci comunica con certezza l'anomalia di un nuovo file non ancora caricato nel
 repository.
 
-Git è un programma molto gentile perché ci dà spesso dei suggerimenti molto utili.
-Infatti se osserviamo attentamente l'output precedente possiamo vedere che Git
-ci sta dicendo che possiamo includere i nuovi file con il comando
+Git ci dà spesso dei suggerimenti molto utili.  Infatti se osserviamo
+attentamente l'output precedente possiamo vedere che Git ci sta dicendo che
+possiamo includere i nuovi file con il comando
 \begin{lstlisting}
-git add <file>...
+git add <file>
 \end{lstlisting}
-Si può scegliere di procedere in due modi:
-aggiungere indiscriminatamente tutti i file della directory al progetto che
-stiamo sviluppando; oppure aggiungere un singolo file. Nel primo caso dovremmo
-ripetere il comando già usato in fase di inizializzazione:
+in cui a \lstinline|<file>| andrà sostituito l'elenco dei file, separati da
+uno spazio, che si vogliono includere nel \emph{commit} successivo. Si può
+scegliere di procedere in due modi: aggiungere indiscriminatamente tutti i file
+della directory al progetto che stiamo sviluppando; oppure aggiungere un singolo
+file. Nel primo caso dovremmo ripetere il comando già usato in fase di
+inizializzazione:
 \begin{lstlisting}
 ~/progetto$ git add .
 \end{lstlisting}
@@ -315,11 +317,135 @@ directory di un file denominato \lstinline|.gitignore|.
 \end{lstlisting}
 
 Mediante questo file, istruiamo Git a proposito di tutti i file che non fanno
-effettivamente parte del progetto, pur essendo presenti nella cartella.
-Da questo momento in poi Git si limiterà a ignorarli, il che ci permette di
+effettivamente parte del progetto, pur essendo presenti nella cartella.  Da
+questo momento in poi Git si limiterà a ignorarli, il che ci permette di
 eseguire prudenzialmente il comando \lstinline|git add .| prima di ogni
-\emph{commit}.
+\emph{commit}. Generalmente Git è usato per gestire solo il codice sorgente di
+un progetto, sia esso un programma o un documento \LaTeX, quindi è buona norma
+aggiungere all'elenco dei file ignorati tutti quei file, ausiliari o di output,
+che vengono generati nella fase di compilazione, del programma o documento, ma
+che non fanno parte del codice sorgente propriamente detto. Nel caso di un
+documento \LaTeX{} saranno i file con estensione, per esempio, \lstinline|.log|,
+\lstinline|.aux|, \lstinline|.out| (per i file ausiliari temporanei) e
+\lstinline|.pdf| (per il file di output).
 
+\subsection{Annullare e cambiare modifiche precedenti}
+\label{sec:annullare-modifiche}
+
+Ci sono vari modi per cambiare le modifiche effettuate in un \emph{repository}
+Git, ma per scegliere quella adatta bisogna sapere che tipo di modifica si
+desidera annullare. In questo paragrafo presenteremo alcune delle situazioni più
+frequenti che si possono incontrare.
+
+\subsubsection{Annullare modifiche non ancora salvate}
+\label{sec:annullare-modifiche-non-salvate}
+
+Se si vogliono annullare tutte le modifiche effettuate a dei file ma non ancora
+registrate in un \emph{commit} si può usare il comando
+\begin{lstlisting}
+$ git reset --hard HEAD
+\end{lstlisting}
+In questo modo l'intera \emph{working directory} viene ripristinata alla stato
+corrispondente all'ultimo \emph{commit} della cronologia, indicato con
+\lstinline|HEAD|.
+
+Se si vogliono riportare allo stato dell'ultimo \emph{commit} registrato solo
+determinati file che sono \emph{modified} ma non ancora \emph{staged}, adottando
+la terminologia vista all'inizio, senza toccare la restante
+\emph{working directory} si può utilizzare il comando
+\begin{lstlisting}
+$ git commit -- <file>
+\end{lstlisting}
+in cui a \lstinline|<file>| va sostituito l'elenco dei file, separati da uno
+spazio, che si vogliono ripristinare. Le opzioni e gli argomenti che il comando
+\lstinline|git commit| può accettare sono numerosi e le operazioni che verranno
+eseguite possono essere diverse a seconda delle istruzioni fornite (ma non è
+scopo della presente guida spiegare nei dettagli il completo funzionamento di
+Git), il doppio trattino \lstinline|--| serve per far capire a Git, senza
+possibilità di ambiguità, che tutto ciò che si trova dopo è l'elenco dei file e
+l'operazione da eseguire è quella qui descritta. Il doppio trattino può essere
+omesso se non ci sono possibili ambiguità, per esempio se il file da passare
+come argomento non ha lo stesso nome di uno dei \emph{branch} (vedi
+paragrafo~\ref{sec:branch}) del \emph{repository}.
+
+Se invece si vogliono solo togliere uno o più file dalla \emph{staging area} ma
+lasciare intatta la \emph{working directory} si può usare il comando
+\begin{lstlisting}
+$ git reset HEAD <file>
+\end{lstlisting}
+Come al solito, a \lstinline|<file>| va sostituito l'elenco dei file di
+interesse, separati da uno spazio. I file tolti dalla \emph{staging area}
+possono poi anche essere ripristinati allo stato del \emph{commit} precedente
+usando il comando \lstinline|git commit -- <file>| illustrato qui sopra.
+
+\subsubsection{Modificare l'ultimo \emph{commit} non inviato in remoto}
+\label{sec:modifica-ultimo-commit-non-remoto}
+
+Come vedremo nel paragrafo~\ref{sec:backup-on-line}, è possibile inviare il
+proprio \emph{repository} Git a un server remoto per conservare una copia di
+backup del progetto oppure per mettere il codice a disposizione di altre
+persone. L'opzione \lstinline|--amend| del comando \lstinline|git commit|
+permette di modificare l'ultimo \emph{commit}, ma \emph{a patto che non sia già
+  stato inviato a un server remoto con} \lstinline|git push|. Questa apparente
+limitazione è dovuta al fatto che quando il server remoto riceve la nuova
+versione del \emph{repository} non si aspetta che la cronologia dei
+\emph{commit} che già conosce venga modificata e questa è una misura di
+sicurezza voluta dagli sviluppatori di Git che assicura che un \emph{repository}
+non possa essere alterato da malintenzionati.
+
+Dunque, se dopo aver salvato un \emph{commit} ci accorgiamo che dobbiamo
+correggerlo (per esempio perché ci siamo dimenticati apportare una modifica o di
+aggiungere un file), possiamo normalmente modificare i file di interesse,
+aggiungerli alla \emph{staging area} con il comando
+\lstinline|git add <file>|\footnote{Se ci si era dimenticati di aggiungere un
+  file nuovo o modificato alla \emph{staging area} prima di effettuare il
+  \emph{commit} precedente, sarà sufficiente eseguire \lstinline|git add <file>|
+  senza dover modificare ulteriormente alcun file.} e poi, invece di effettuare
+un nuovo \emph{commit} con \lstinline|git commit|, eseguire il comando
+\lstinline|git commit --amend| che modificherà l'ultimo \emph{commit} della
+cronologia. A questo punto si aprirà la solita interfaccia che compare al
+momento del salvataggio di un \emph{commit}: se non si desidera modificare il
+messaggio è sufficiente uscire dall'interfaccia.
+
+Facciamo notare che il fatto che, eseguendo \lstinline|git commit --amend|,
+compaia l'interfaccia per la modifica del messaggio ci permette di cambiare il
+messaggio dell'ultimo \emph{commit} (sempre a condizione che non sia ancora
+stato inviato a un server remoto).
+
+\subsubsection{Annullare un \emph{commit}}
+\label{sec:annullare-commit}
+% TODO: spiegare come cercare i nomi delle revisioni nella cronologia
+
+Per annullare le modifiche apportate con uno specifico \emph{commit}, creando un
+nuovo \emph{commit} si può usare il comando
+\begin{lstlisting}
+$ git revert <hash_commit>
+\end{lstlisting}
+in cui a \lstinline|<hash_commit>| va sostituito l'\emph{hash} del \emph{commit}
+che si vuole annullare. Se per esempio la forma abbreviata dell'\emph{hash}
+corrispondente al \emph{commit} che si vuole annullare è \lstinline|d4fcdbd|
+il comando da usare è
+\begin{lstlisting}
+$ git revert d4fcdbd
+\end{lstlisting}
+Dopo aver eseguito il comando si aprirà l'interfaccia per la modifica del
+messaggio del nuovo \emph{commit}. Se il \emph{commit} da annullare è l'ultimo
+al posto dell'\emph{hash} si può usare il riferimento \lstinline|HEAD|:
+\lstinline|git revert HEAD|.
+
+Poiché \lstinline|git revert| crea un nuovo \emph{commit} per annullare le
+modifiche presenti in uno precedente, lasciando quindi intatta la cronologia
+precedente, questo metodo deve essere necessariamente usato per correggere
+\emph{commit} che sono già stati inviati in remoto, per i motivi spiegati nel
+paragrafo~\ref{sec:modifica-ultimo-commit-non-remoto}.
+% TODO: decidere se spiegare come modificare vecchi commit non inviati in remoto
+% con `git rebase':
+% http://book.git-scm.com/4_undoing_in_git_-_reset,_checkout_and_revert.html
+
+
+% TODO: rivedere questa sezione alla luce di quanto scritto nella
+% precedente. Spiegare come ripristinare i file con
+% `git commit <hash_revisione> <file>'.
 \subsection{Consultazione dei log e ripristino di file}
 Ipotizziamo a titolo esemplificativo il seguente scenario:
 abbiamo accidentalmente eliminato un file del nostro
@@ -449,16 +575,9 @@ repository ed esclusivamente di versioni esplicitamente salvate mediante il
 comando \lstinline|commit|. I salvataggi effettuati tra un \emph{commit} e
 l'altro non sono quindi ricostruibili.
 
-Nel caso in cui stiamo modificando un file, per esempio
-\lstinline|topolino|, ma ci rendiamo conto che le modifiche apportate non ci
-soddisfano e vogliamo ripristinarlo alla versione del file salvata nell'ultimo
-\emph{commit}, se il file è \emph{modified} ma non \emph{staged}, usando la
-terminologia vista all'inizio, possiamo usare il comando \lstinline|checkout|:
-\begin{lstlisting}
-git checkout topolino
-\end{lstlisting}
-
 \subsection{Gestione dei \emph{branch}}
+\label{sec:branch}
+
 Con il comando \lstinline|git status| possiamo controllare lo stato del progetto,
 per esempio se ci sono dei file che sono stati modificati ma non ancora salvati
 nel \emph{commit} e così via. Un tipico output di questo comando è:
@@ -539,7 +658,7 @@ usiamo il comando \lstinline|git checkout <nome_branch>|:
 \begin{lstlisting}
 $ git checkout foo
 Switched to branch 'foo'
-$ git branch 
+$ git branch
 * foo
   master
 \end{lstlisting}
@@ -563,10 +682,10 @@ comandi \lstinline|git add| e \lstinline|git commit|), però le modifiche apport
 in questo \emph{branch} non compariranno nel registro di quello principale. Possiamo
 verificarlo controllando i rispettivi log:
 \begin{lstlisting}
-$ git branch 
+$ git branch
 * foo
   master
-$ git log 
+$ git log
 commit c71da4fe9bf764274e67a2326ec1dc3911691928
 Author: Pietro Giuffrida <pietro.giuffri@gmail.com>
 Date:   Sat Oct 9 19:09:56 2010 +0200
@@ -578,9 +697,9 @@ Author: Pietro Giuffrida <pietro.giuffri@gmail.com>
 Date:   Sat Oct 9 19:08:46 2010 +0200
 
     iniziamo il nuovo progetto
-$ git checkout master 
+$ git checkout master
 Switched to branch 'master'
-$ git log 
+$ git log
 commit e17384278acadbfefefebf0ced4e7103005a597c
 Author: Pietro Giuffrida <pietro.giuffri@gmail.com>
 Date:   Sat Oct 9 19:08:46 2010 +0200
@@ -592,7 +711,7 @@ Per cancellare un ramo di cui si è già effettuato il \emph{merge} con il ramo
 principale (vedremo più avanti come si fa) si usa l'opzione \lstinline|-d| del
 comando \lstinline|git branch|:
 \begin{lstlisting}
-$ git branch -d foo 
+$ git branch -d foo
 Deleted branch foo (was c71da4f).
 \end{lstlisting}
 Se proviamo a usare l'opzione \lstinline|-d| con un ramo di cui non è stato
@@ -606,7 +725,7 @@ Come al solito Git ci suggerisce i comandi che ci possono tornare utili: se
 vogliamo ugualmente cancellare il \emph{branch} che non è stato fuso in quello
 principale dobbiamo usare l'opzione \lstinline|-D| al posto di \lstinline|-d|:
 \begin{lstlisting}
-$ git branch -D foo 
+$ git branch -D foo
 Deleted branch foo (was c71da4f).
 \end{lstlisting}
 
@@ -617,7 +736,7 @@ il ramo chiamato \lstinline|<nome_branch>|. Se tutto va bene otterremo un output
 simile al seguente (supponiamo, per esempio, che il ramo da importare si chiami
 \lstinline|foo|):
 \begin{lstlisting}
-$ git merge foo 
+$ git merge foo
 Updating da45d11..729129c
 Fast-forward
  capitolo5.tex |   18 ++++++++++++++++++
@@ -634,7 +753,7 @@ situazione (è uno strumento potente ma non può certo leggere nel nostro pensie
 non può sapere perché il file è stato modificato diversamente nei due rami) e ci
 avverte con un messaggio di questo tipo:
 \begin{lstlisting}[language={}]
-$ git merge foo 
+$ git merge foo
 Auto-merging main.tex
 CONFLICT (content): Merge conflict in main.tex
 Automatic merge failed; fix conflicts and then commit the result.
@@ -681,11 +800,11 @@ effettuare il \emph{commit}, di dare il comando
 \lstinline|git commit -c <hash_del_commit>|, in modo da utilizzare le stesse
 informazioni del \emph{commit} a cui ci riferiamo (autore, data e orario,
 oggetto):
-\begin{lstlisting}[language={},emph=git]
+\begin{lstlisting}[language={},emph={}]
 $ git cherry-pick 97b8c9b
 Automatic cherry-pick failed.  After resolving the conflicts,
 mark the corrected paths with 'git add <paths>' or 'git rm <paths>'
-and commit the result with: 
+and commit the result with:
 
         git commit -c 97b8c9b
 \end{lstlisting}
@@ -731,6 +850,7 @@ git config --global core.editor gedit
 \end{lstlisting}
 
 \subsection{Backup on-line}
+\label{sec:backup-on-line}
 
 \begin{enumerate}
 \item registrarsi su gitorius (richiede ssh key e passphrase!)
