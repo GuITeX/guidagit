@@ -1,4 +1,4 @@
-% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % LICENZA
 %
@@ -17,7 +17,7 @@
 %
 % For info send a mail to pietro.giuffri@gmail.com
 %
-% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \documentclass[a4paper,12pt,oneside]{article}
 \usepackage[utf8]{inputenc}
@@ -232,14 +232,48 @@ in modo da salvare una determinata versione del progetto.
 ~/progetto$ git commit -am "ulteriore sviluppo"
 \end{lstlisting}
 
-Finora abbiamo eseguito il \emph{commit} passando a Git le due opzioni
-\lstinline|-am|. Con l'opzione \lstinline|-m| diciamo a Git di utilizzare il
-testo tra virgolette che segue il comando come nota di versione del \emph{commit}
-che stiamo eseguendo. Con l'opzione \lstinline|-a| chiediamo a Git di mettere
-nella \emph{staging area} tutti i file del progetto prima di eseguire il
-\emph{commit}. Se non specifichiamo un messaggio con l'opzione \lstinline|-m| si
-aprirà l'editor di testo associato di default a Git in cui potremo scrivere il
-messaggio del \emph{commit}. Vedremo più avanti come impostare l'editor.
+\subsubsection{Messaggi dei \emph{commit}}
+\label{sec:messaggi-commit}
+
+In Git, a differenza di altri software VCS, è necessario specificare un
+messaggio di \emph{commit} non vuoto. Finora abbiamo eseguito il \emph{commit}
+passando a Git le due opzioni \lstinline|-am|. Con l'opzione \lstinline|-m|
+diciamo a Git di utilizzare il testo tra virgolette che segue il comando come
+nota di versione del \emph{commit} che stiamo eseguendo. Con l'opzione
+\lstinline|-a| chiediamo a Git di mettere nella \emph{staging area} tutti i file
+del progetto prima di eseguire il \emph{commit}. Se non specifichiamo un
+messaggio con l'opzione \lstinline|-m| (cioè dando semplicemente il comando
+\lstinline|git commit -a| oppure solo \lstinline|git commit| se i file da
+registrare nel \emph{commit} sono già stati messi nella \emph{staging area} con
+\lstinline|git add <file>|) si aprirà l'editor di testo associato di default a
+Git in cui potremo scrivere il messaggio del \emph{commit}. Vedremo nel
+paragrafo~\ref{sec:configurazioni-basilari} come impostare l'editor. Se si
+utilizza un editor di testo per scrivere il messaggio di un \emph{commit} è
+possibile inserire messaggi estesi su più righe. Generalmente si utilizza la
+seguente convenzione:
+\begin{itemize}
+\item nella prima riga del messaggio, che non deve superare i 72 caratteri, si
+  inserisce una breve e riassuntiva descrizione del \emph{commit} che si sta
+  registrando. Il testo del messaggio in questo primo rigo può non essere
+  correttamente formattato, per esempio può essere assente la punteggiatura o un
+  corretto utilizzo dei caratteri maiuscoli;
+\item si lascia la seconda riga vuota e a partire dalla terza si scrive un
+  paragrafo contenente una descrizione più dettagliata delle modifiche
+  apportate. Il testo di questo paragrafo deve utilizzare la punteggiatura
+  opportuna e i caratteri maiuscoli dove necessario. Anche le righe di questo
+  paragrafo non dovrebbero superare i 72 caratteri;
+\item si possono inserire altri paragrafi per descrivere ulteriormente le
+  modifiche lasciando una riga vuota fra un paragrafo e il successivo e seguendo
+  le convenzioni illustrate nel punto precedente.
+\end{itemize}
+
+Nei messaggi il carattere \lstinline|#| viene interpretato come carattere di
+commento e ha lo stesso utilizzo del carattere \lstinline|%| in \LaTeX, cioè
+tutto ciò che in una riga si trova alla destra del carattere \lstinline|#| verrà
+ignorato. Si noti che all'apertura dell'editor di testo per la modifica del
+messaggio sono presenti, alla fine del file, delle righe di commento contenenti
+delle informazioni relative al \emph{commit} che si sta registrando. Queste
+righe possono essere ignorate.
 
 \subsection{Aggiungere altri file al progetto: il file \lstinline|.gitignore|}
 Si presenta ora uno scenario tra i più comuni: dobbiamo aggiungere un ulteriore
@@ -326,8 +360,101 @@ aggiungere all'elenco dei file ignorati tutti quei file, ausiliari o di output,
 che vengono generati nella fase di compilazione, del programma o documento, ma
 che non fanno parte del codice sorgente propriamente detto. Nel caso di un
 documento \LaTeX{} saranno i file con estensione, per esempio, \lstinline|.log|,
-\lstinline|.aux|, \lstinline|.out| (per i file ausiliari temporanei) e
+\lstinline|.aux|, \lstinline|.toc| (per i file ausiliari temporanei) e
 \lstinline|.pdf| (per il file di output).
+
+\subsection{Consultare la cronologia}
+\label{sec:consultare-cronologia}
+
+In Git è possibile, naturalmente, consultare la cronologia dei \emph{commit}
+registrati nel \emph{repository} in uso. Il comando da usare è
+\lstinline|git log|. L'output di questo comando, senza ulteriori opzioni, sarà
+qualcosa di questo tipo
+\begin{lstlisting}
+commit 9e1691276ba70443c56c214a52088814a5f25ec5
+Author: Pietro Giuffrida <pietro.giuffri@gmail.com>
+Date:   Sat Oct 2 19:32:12 2010 +0200
+
+    un po' di pulizia
+
+commit 86ee0a0525dd759bb49308b58cf3e761471a04cd
+Author: Pietro Giuffrida <pietro.giuffri@gmail.com>
+Date:   Sat Oct 2 19:31:24 2010 +0200
+
+    prime due sezioni
+
+commit 43c5858e91a7090b834dd9f09ddfae1061901ee4
+Author: Pietro Giuffrida <pietro.giuffri@gmail.com>
+Date:   Sat Oct 2 18:53:30 2010 +0200
+
+    Ho solo iniziato a lavorare
+\end{lstlisting}
+È possibile muoversi nella cronologia con i tasti freccia. Nella prima riga di
+ogni revisione (che inizia con \lstinline|commit|) è riportato l'\emph{hash}
+esteso corrispondente, nella seconda l'autore (\lstinline|Author|) del
+\emph{commit}, quindi la data di salvataggio (\lstinline|Date|) e il messaggio
+descrittivo.
+
+È possibile mostrare solo l'elenco degli ultimi \lstinline|n| \emph{commit}
+aggiungendo l'opzione \lstinline|-n|. Dunque per mostrare solo l'ultimo
+\emph{commit} possiamo usare il comando \lstinline|git commit -1|. Si può
+consultare la cronologia relativa a uno o più specifici file e non all'intero
+\emph{repository} passando come argomento del comando l'elenco dei file di
+interesse, separati da uno spazio: \lstinline|git log -- <file>|. Se si vuole
+visualizzare solo l'elenco degli ultimi \lstinline|n| \emph{commit} relativi a
+un determinato elenco di file si possono utilizzare contemporaneamente l'opzione
+\lstinline|-n| e l'argomento \lstinline|<file>|. Per esempio il comando
+\lstinline|git log -3 -- main.tex capitolo2.tex| mostrerà gli ultimi tre
+\emph{commit} che hanno modificato i file \lstinline|main.tex| e
+\lstinline|capitolo2.tex|. Il doppio trattino \lstinline|--| serve per far
+capire a Git che tutto ciò che segue è l'elenco dei file.
+
+Come abbiamo visto, in maniera predefinita \lstinline|git log| mostra solo
+alcune informazioni dei \emph{commit}. Per mostrare anche le modifiche apportate
+in ciascun \emph{commit} nel formato \lstinline|diff| si può utilizzare
+l'opzione \lstinline|-p|. Per esempio, l'esecuzione del comando
+\lstinline|git log -1 -p| potrà dare un output di questo tipo:
+\begin{lstlisting}
+commit 5a5f793b0780d2c3352239beca3fc8de432a71b9
+Author: Paolino Paperino <paolino.paperino@example.org>
+Date:   Fri Oct 8 22:32:51 2010 +0200
+
+    rimuovo pacchetto `xcolor'
+
+    Ora che l'ambiente `lstlisting' non e' piu' colorato
+    non e' piu' necessario.
+
+diff --git a/git4latex.tex b/git4latex.tex
+index 74a1474..a84fb27 100644
+--- a/git4latex.tex
++++ b/git4latex.tex
+@@ -26,9 +26,6 @@
+ \usepackage[font=small,format=hang]{caption}
+ \usepackage{graphicx}
+
+-\usepackage[dvipsnames, usenames]{xcolor}
+-\definecolor{GY}{named}{GreenYellow} % SkyBlue
+-
+ \usepackage{listings}
+ \usepackage{fourier}
+\end{lstlisting}
+
+Segnaliamo infine un'altra utile opzione che serve per mostrare come
+informazioni del \emph{commit} solo l'\emph{hash} in formato breve e la prima
+riga del messaggio. Questa opzione si chiama \lstinline|--oneline| ed è utile se
+si vuole trovare rapidamente l'\emph{hash} di un \emph{commit} sfogliando le
+prime righe dei messaggi di tutti i commit. Per esempio, il primo output di
+\lstinline|git log| riportato all'inizio di questo paragrafo, con l'opzione
+\lstinline|--oneline| apparirebbe così:
+\begin{lstlisting}
+$ git log --oneline
+9e16912 un po' di pulizia
+86ee0a0 prime due sezioni
+43c5858 Ho solo iniziato a lavorare
+\end{lstlisting}
+
+Per maggiori informazioni è possibile consultare la documentazione di
+\lstinline|git log| con il comando \lstinline|man git-log|.
 
 \subsection{Annullare e cambiare modifiche precedenti}
 \label{sec:annullare-modifiche}
@@ -414,7 +541,6 @@ stato inviato a un server remoto).
 
 \subsubsection{Annullare un \emph{commit}}
 \label{sec:annullare-commit}
-% TODO: spiegare come cercare i nomi delle revisioni nella cronologia
 
 Per annullare le modifiche apportate con uno specifico \emph{commit}, creando un
 nuovo \emph{commit} si può usare il comando
@@ -422,9 +548,11 @@ nuovo \emph{commit} si può usare il comando
 $ git revert <hash_commit>
 \end{lstlisting}
 in cui a \lstinline|<hash_commit>| va sostituito l'\emph{hash} del \emph{commit}
-che si vuole annullare. Se per esempio la forma abbreviata dell'\emph{hash}
-corrispondente al \emph{commit} che si vuole annullare è \lstinline|d4fcdbd|
-il comando da usare è
+che si vuole annullare (vedi il paragrafo~\ref{sec:consultare-cronologia} per
+sapere come recuperare l'\emph{hash} abbreviato sfogliando la cronologia delle
+modifiche). Se per esempio la forma abbreviata dell'\emph{hash} corrispondente
+al \emph{commit} che si vuole annullare è \lstinline|d4fcdbd| il comando da
+usare è
 \begin{lstlisting}
 $ git revert d4fcdbd
 \end{lstlisting}
@@ -442,138 +570,67 @@ paragrafo~\ref{sec:modifica-ultimo-commit-non-remoto}.
 % con `git rebase':
 % http://book.git-scm.com/4_undoing_in_git_-_reset,_checkout_and_revert.html
 
+\subsection{Ripristinare file}
+\label{sec:ripristinare-file}
 
-% TODO: rivedere questa sezione alla luce di quanto scritto nella
-% precedente. Spiegare come ripristinare i file con
-% `git commit <hash_revisione> <file>'.
-\subsection{Consultazione dei log e ripristino di file}
-Ipotizziamo a titolo esemplificativo il seguente scenario:
-abbiamo accidentalmente eliminato un file del nostro
-progetto, e abbiamo anche eseguito un \emph{commit}.
+In questo paragrafo vedremo come ripristinare file cancellati dal progetto
+oppure riportare file ancora presenti nel \emph{repository} a una versione
+precedente.
+
+Ipotizziamo a titolo esemplificativo il seguente scenario: abbiamo creato un
+file, \lstinline|np_secondary.tex|, l'abbiamo aggiunto al \emph{repository} Git
+con il comando \lstinline|git add np_secondary.tex| e abbiamo eseguito il
+commit. Dopo di ciò abbiamo accidentalmente cancellato il file con il comando
+\lstinline|rm np_secondary.tex| e abbiamo effettuato un altro \emph{commit}
+che ha registrato la cancellazione del file:
 \begin{lstlisting}
 ~/progetto$ echo "pippo" >> np_secondary.tex
-~/progetto$ git add .
+~/progetto$ git add np_secondary.tex
 ~/progetto$ git commit -am "Ho solo iniziato a lavorare"
 ~/progetto$ rm np_secondary.tex
 ~/progetto$ git commit -am "Ma ho gia' perso tutto"
 \end{lstlisting}
-
 Ora chiediamo conto a Git della sua capacità di ripristinare una versione
-precedentemente salvata. La prima cosa da fare è consultare i log dei commit
-precedentemente effettuati, per decidere quale di essi ripristinare. Il comando
-appropriato sarebbe quindi \lstinline|git log|, che contempla anche un'ampia
-serie di interessanti opzioni. Rimandando al manuale per la maggior parte di tali
-opzioni, segnalo solo che è possibile:
-\begin{itemize}
-\item selezionare esclusivamente i log relativi a un dato file, con la
-  sintassi \lstinline|git log nome_file|;
-\item chiedere a Git di stampare solo gli ultimi $n$ log, con la
-  sintassi \lstinline|git log -n|.
-\end{itemize}
-Trattandosi di un file eliminato, non possiamo chiedere a Git di stampare solo i
-log a esso relativi. Dobbiamo quindi cercare tra i log più recenti fino a
-identificare uno stadio del progetto in cui il file è ancora presente.
+precedentemente salvata. La prima cosa da fare è consultare la cronologia dei
+\emph{commit} precedentemente effettuati, per ottenere l'\emph{hash} della
+versione che vogliamo ripristinare. Il comando appropriato quindi, per quanto
+visto nel paragrafo~\ref{sec:consultare-cronologia}, è
+\lstinline|git log -- <file>|. Poiché è sufficiente conoscere l'\emph{hash} in
+forma abbreviata dell'ultima revisione in cui il file era ancora presente nel
+progetto usiamo le opzioni \lstinline|--oneline| e \lstinline|-2| (l'ultima
+revisione in cui comparirà il file \lstinline|np_secondary.tex| è quella in cui
+è stato cancellato, ma a noi interessa quella precedente)
 \begin{lstlisting}
-~/progetto$ git log -2
-commit 380228784f4095efdbce9d1d3408bcbdf01548cb
-Author: Pietro Giuffrida <pietro.giuffri@gmail.com>
-Date:   Sat Oct 2 18:58:44 2010 +0200
-
-    Ma ho gia' perso tutto
-
-commit c21d825df42f55ba127487fd93acf1c13c41b028
-Author: Pietro Giuffrida <pietro.giuffri@gmail.com>
-Date:   Sat Oct 2 18:55:07 2010 +0200
-
-    Ho solo iniziato a lavorare
+~/progetto$ git log -2 --oneline -- np_secondary.tex
+3802287 Ma ho gia' perso tutto
+c21d825 Ho solo iniziato a lavorare
 \end{lstlisting}
-Nel nostro caso, l'eliminazione del file è ben documentata dalle note.
-La lunga stringa che compare dopo \lstinline|commit| è l'\emph{hash} che, come
-anticipato prima, è la stringa che identifica univocamente una particolare
-versione del progetto. Possiamo subito verificare il contenuto del \emph{commit}
-facendo riferimento al corrispettivo \emph{hash} con il comando
-\lstinline[language={}]|git show <hash>|:
+Per ripristinare il file cancellato all'ultima versione in cui ancora era
+presente nel progetto possiamo usare il comando
+\lstinline|git checkout <hash_del_commit> -- <file>| in cui ad
+\lstinline|<hash_del_commit>| dovremo sostituire l'\emph{hash} (eventualmente in
+forma abbreviata) del \emph{commit} a cui vogliamo ripristinare i file elencati
+in \lstinline|<file>|. Quindi nel nostro esempio per ripristinare il file
+\lstinline|np_secondary.tex| alla versione presente nel \emph{commit}
+\lstinline|c21d825| useremo il comando
 \begin{lstlisting}
-~/progetto$ git show c21d825df42f55ba127487fd93acf1c13c41b028
-commit c21d825df42f55ba127487fd93acf1c13c41b028
-Author: Pietro Giuffrida <pietro.giuffri@gmail.com>
-Date:   Sat Oct 2 18:58:29 2010 +0200
-
-    aggiunto file np_secondary.tex
-
-diff --git a/np_secondary.tex b/np_secondary.tex
-new file mode 100644
-index 0000000..bfa5424
---- /dev/null
-+++ b/np_secondary.tex
-@@ -0,0 +1 @@
-+pippo
-\end{lstlisting}
-Il file \lstinline|np_secondary.tex| fa effettivamente parte del commit da noi
-individuato. Esso è identificato da un'ulteriore stringa alfanumerica
-denominata \emph{index}. Git, tramite il comando \lstinline|diff|, ci comunica
-inoltre che esso contiene la stringa \lstinline|pippo|.
-Possiamo quindi procedere a ricrearne una copia facendo riferimento
-all'\emph{index}:
-\begin{lstlisting}
-~/progetto$ git show bfa5424 > file_ripristinato
+~/progetto$ git checkout c21d825 -- np_secondary.tex
 \end{lstlisting}
 
-La procedura, con le complicazioni del caso, dovrebbe essere valida anche per
-circostanze concrete. Vi consiglio comunque di fare delle prove simulando per
-esempio \emph{commit} di più file contenenti varie modifiche, per far pratica
-con gli indici e la sintassi di Git.
-Possiamo ipotizzare in questo caso uno scenario di questo tipo:
-\begin{lstlisting}
-~/progetto$ touch topolino pippo
-~/progetto$ echo qualcosa >> topolino
-~/progetto$ echo qualcosaltro >> pippo
-~/progetto$ git add .
-~/progetto$ git commit -am "creati e modificati topolino e pippo"
-~/progetto$ echo "ancora qualcosa" >> topolino
-~/progetto$ git commit -am "ulteriormente elaborato topolino"
-~/progetto$ git log topolino
-commit 87548d4cd43cda917cf788866abd76f8399b639b
-Author: Pietro Giuffrida <pietro.giuffri@gmail.com>
-Date:   Sat Oct 2 19:27:23 2010 +0200
+Il comando \lstinline|git checkout <hash_del_commit> -- <file>| permette di
+riportare qualsiasi file elencato in \lstinline|<file>| alla versione
+\lstinline|<hash_del_commit>|, anche se non cancellato e ancora presente nel
+progetto, sempre utilizzando la stessa sintassi. Chiaramente, Git permette il
+ripristino esclusivamente dei file aggiunti al \emph{repository} ed
+esclusivamente di versioni esplicitamente salvate mediante il comando
+\lstinline|git commit|. I salvataggi effettuati tra un \emph{commit} e l'altro
+non sono quindi ricostruibili.
 
-    ulteriormente elaborato topolino
-
-commit f7a696e891bb81446f56adc996bc0a20a23ae9b5
-Author: Pietro Giuffrida <pietro.giuffri@gmail.com>
-Date:   Sat Oct 2 19:27:01 2010 +0200
-
-    creati e modificati topolino e pippo
-
-~/progetto$ git show f7a696e891bb81446f56adc996bc0a20a23ae9b5
-commit f7a696e891bb81446f56adc996bc0a20a23ae9b5
-Author: Pietro Giuffrida <pietro.giuffri@gmail.com>
-Date:   Sat Oct 2 19:27:01 2010 +0200
-
-    creati e modificati topolino e pippo
-
-diff --git a/pippo b/pippo
-new file mode 100644
-index 0000000..a09d8a1
---- /dev/null
-+++ b/pippo
-@@ -0,0 +1 @@
-+qualcosa
-diff --git a/topolino b/topolino
-new file mode 100644
-index 0000000..a09d8a1
---- /dev/null
-+++ b/topolino
-@@ -0,0 +1 @@
-+qualcosaltro
-
-~/progetto$ git show a09d8a1 > topolino_ripristinato
-\end{lstlisting}
-
-Chiaramente, Git permette il ripristino esclusivamente dei file aggiunti al
-repository ed esclusivamente di versioni esplicitamente salvate mediante il
-comando \lstinline|commit|. I salvataggi effettuati tra un \emph{commit} e
-l'altro non sono quindi ricostruibili.
+L'uso di \lstinline|git checkout -- <file>| visto nel
+paragrafo~\ref{sec:annullare-modifiche-non-salvate} è un caso particolare di
+quello qui spiegato, in cui si ripristina un file alla versione presente
+nell'ultimo \emph{commit}, nel caso in cui non ne viene indicato esplicitamente
+uno differente.
 
 \subsection{Gestione dei \emph{branch}}
 \label{sec:branch}
@@ -810,6 +867,8 @@ and commit the result with:
 \end{lstlisting}
 
 \subsection{Configurazioni basilari di Git}
+\label{sec:configurazioni-basilari}
+
 Per quanto non strettamente indispensabile per un uso individuale di Git sul
 proprio pc, segnalo alcune configurazioni elementari necessarie per un uso
 ottimale di Git.
@@ -902,13 +961,13 @@ ma è quasi pericoloso se salvi automaticamente ogni tot minuti!!
 \section{Installazione per Windows}
 \label{sec:gitwin}
 
-Installare Git su un sistema operativo Windows è davvero molto
-semplice. Il progetto \textsf{msysGit} ha una delle più semplici
-procedure di installazione.
-
-Bisogna semplicemente scaricare ed installare l'installer
-\textsf{.exe} dalla pagina
-\href{http://code.google.com/p/msysgit}{Google Code}.
+Installare Git su un sistema operativo Windows è davvero molto semplice. Il
+progetto \textsf{msysGit} (pagina del progetto su Google Code:
+\url{http://code.google.com/p/msysgit}) ha una delle più semplici procedure di
+installazione. È sufficiente scaricare l'\emph{installer}
+(\lstinline[language={}]|Full installer for official Git for Windows <numero_versione>|)
+dalla pagina dei download \url{http://code.google.com/p/msysgit/downloads/list}
+ed eseguirlo.
 
 Dopo aver terminato l'installazione, si ha la possibilità di usare Git
 sia tramite interfaccia grafica, sia tramite una shell unix-like
