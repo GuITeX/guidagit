@@ -3,7 +3,7 @@ SHELL			= /bin/sh
 PRINCIPALE		= git4latex
 PRINCIPALE_TEX		= $(PRINCIPALE).tex
 PRINCIPALE_PDF		= $(PRINCIPALE).pdf
-CLEAN_FILE		= *.aux *.log *.toc *~
+CLEAN_FILE		= *.aux *.fdb_latexmk *.log *.out *.toc *~
 DISTCLEAN_FILE		= $(PRINCIPALE_PDF)
 
 ##### Regole
