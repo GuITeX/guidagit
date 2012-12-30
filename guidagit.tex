@@ -19,20 +19,20 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\documentclass[a4paper,12pt,oneside]{article}
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-\usepackage[italian]{babel}
+\documentclass[b5paper,11pt,oneside]{guidatematica}
+\ProvidesFile{guidagit.tex}[2012/12/30 v.0.1 Una guida introduttiva a Git per
+progetti LaTeX]
 
-\usepackage[font=small,format=hang]{caption}
-\usepackage{graphicx}
-
-\usepackage{listings}
-\usepackage{fourier}
-
-\usepackage[bookmarksnumbered,colorlinks]{hyperref}
-\usepackage{breakurl}
-\usepackage{guit}
+\usepackage{hyperref}
+\hypersetup{
+  pdftitle={Una guida introduttiva a Git per progetti \LaTeX},
+  pdfauthor={Pietro Giuffrida, Mosè Giordano},
+  breaklinks=true, % permette di spezzare i link su più righe
+  bookmarksnumbered, % inserisce i numeri delle sezioni nei segnalibri
+  %%% opzioni dei colori di guidatematica.cls
+  colorlinks,linkcolor={blue},
+  citecolor={blue!80!black},urlcolor={blue},
+}
 
 \lstset{basicstyle=\small\ttfamily,
   keywordstyle=\color{blue},
@@ -53,12 +53,16 @@
 \begin{document}
 \title{git4\LaTeX \\
   Una guida introduttiva a Git per progetti \LaTeX}
-\author{Pietro Giuffrida}
+\author{Pietro Giuffrida, Mosè Giordano}
+
+\frontmatter{}
+\GetFileInfo{guidagit.tex}
+\date{\fileversion{} del \filedate}
+
 \maketitle
-\clearpage
-\tableofcontents
-\clearpage
-\section{Scopo della guida}
+
+\cleardoublepage{}
+\chapter{Scopo della guida}
 Git è un \emph{revision control system} (o \emph{version control system}, spesso
 abbreviato in VCS), vale a dire un programma che permette di tener traccia di
 tutte le modifiche e le evoluzione effettuate nel corso della stesura di un
@@ -132,7 +136,7 @@ che l'utente di altri sistemi operativi o abituato all'uso di GUI possa
 sostituirli svolgendo altrimenti le medesime attività. I comandi di Git
 dovrebbero invece restare i medesimi in ogni sistema operativo, per quanto anche
 in questo caso le medesime attività possano essere svolte mediante GUI. Nel
-paragrafo~\ref{sec:gitwin} è spiegato come installare una versione di Git sui
+paragrafo~\ref{cha:gitwin} è spiegato come installare una versione di Git sui
 sistemi operativi Windows.
 
 Non sono un esperto di informatica, ma trovo bello far le cose, per quanto
@@ -158,8 +162,13 @@ eseguendo il comando \lstinline|man git-<comando>| e sostituendo a
 saperne di più su \lstinline|git commit| si dovrà eseguire
 \lstinline|man git-commit|.
 
-\section{Introduzione a Git}
-\label{sec:introduzione-git}
+\newpage
+\tableofcontents
+
+\mainmatter{}
+
+\chapter{Introduzione a Git}
+\label{cha:introduzione-git}
 
 Git permette di tenere traccia delle modifiche apportate a un progetto registrando
 una copia dei file del progetto in un database. Sostanzialmente Git scatta una
@@ -221,12 +230,12 @@ di lavoro ma non ancora aggiunto alla \emph{staging area} allora il file è dett
 \emph{modified}.\footnote{Questo paragrafo è stato tradotto in parte da
   \url{http://progit.org/book/ch1-3.html}.}
 
-\section{Un semplice progetto \LaTeX}
+\chapter{Un semplice progetto \LaTeX}
 Vogliamo sviluppare un documento con \LaTeX, utilizzando Git come VCS.
 Git non funziona in modo particolarmente esotico. Si tratta semplicemente di
 creare una directory, di posizionare in essa i nostri file \lstinline|.tex| e di
 dire a Git di considerare tale directory come un repository.
-\subsection{Creazione e inizializzazione del repository}
+\section{Creazione e inizializzazione del repository}
 \begin{lstlisting}
 ~$ mkdir progetto
 ~$ cd progetto
@@ -262,7 +271,7 @@ file \lstinline|.tex| appena creato.
 
 Per continuare il lavoro sul nostro documento e registrare i suoi cambiamenti
 dobbiamo eseguire le seguenti operazioni (il seguente elenco puntato deve essere
-confrontato con quello presente nel paragrafo~\ref{sec:introduzione-git} a
+confrontato con quello presente nel paragrafo~\ref{cha:introduzione-git} a
 pagina~\pageref{list:lavoro-git}):
 \begin{enumerate}
 \item si modificano i file del codice sorgente presenti nella con il nostro
@@ -290,7 +299,7 @@ memorizzati tutti i cambiamenti presenti nella \emph{staging area} e solamente
 quelli, cioè non verranno considerati i file modificati ma non preparati per la
 nuova revisione.
 
-\subsubsection{Messaggi dei \emph{commit}}
+\subsection{Messaggi dei \emph{commit}}
 \label{sec:messaggi-commit}
 
 In Git, a differenza di altri software VCS, è necessario specificare un
@@ -325,7 +334,7 @@ messaggio sono presenti, alla fine del file, delle righe di commento contenenti
 delle informazioni relative al \emph{commit} che si sta registrando. Queste
 righe possono essere ignorate.
 
-\subsection{Aggiungere e rimuovere file del progetto}
+\section{Aggiungere e rimuovere file del progetto}
 \label{sec:aggiungere-rimuovere-file}
 
 Per controllare lo stato di un \emph{repository} Git esiste il comando
@@ -492,7 +501,7 @@ $ git status
 nothing to commit (working directory clean)
 \end{lstlisting}
 
-\subsubsection{Ignorare file del progetto: \lstinline|.gitignore|}
+\subsection{Ignorare file del progetto: \lstinline|.gitignore|}
 \label{sec:ignorare-file}
 % TODO: rivedere questa sezione
 
@@ -551,7 +560,7 @@ documento \LaTeX{} saranno i file con estensione, per esempio, \lstinline|.log|,
 \lstinline|.aux|, \lstinline|.toc| (per i file ausiliari temporanei) e
 \lstinline|.pdf| (per il file di output).
 
-\subsection{Consultare la cronologia}
+\section{Consultare la cronologia}
 \label{sec:consultare-cronologia}
 
 In Git è possibile, naturalmente, consultare la cronologia dei \emph{commit}
@@ -644,7 +653,7 @@ $ git log --oneline
 Per maggiori informazioni è possibile consultare la documentazione di
 \lstinline|git log| con il comando \lstinline|man git-log|.
 
-\subsection{Annullare e cambiare modifiche precedenti}
+\section{Annullare e cambiare modifiche precedenti}
 \label{sec:annullare-modifiche}
 
 Ci sono vari modi per cambiare le modifiche effettuate in un \emph{repository}
@@ -652,7 +661,7 @@ Git, ma per scegliere quella adatta bisogna sapere che tipo di modifica si
 desidera annullare. In questo paragrafo presenteremo alcune delle situazioni più
 frequenti che si possono incontrare.
 
-\subsubsection{Annullare modifiche non ancora salvate}
+\subsection{Annullare modifiche non ancora salvate}
 \label{sec:annullare-modifiche-non-salvate}
 
 Se si vogliono annullare tutte le modifiche effettuate a dei file ma non ancora
@@ -700,7 +709,7 @@ interesse, separati da uno spazio. I file tolti dalla \emph{staging area}
 possono poi anche essere ripristinati allo stato del \emph{commit} precedente
 usando il comando \lstinline|git commit -- <file>| illustrato qui sopra.
 
-\subsubsection{Modificare l'ultimo \emph{commit} non inviato in remoto}
+\subsection{Modificare l'ultimo \emph{commit} non inviato in remoto}
 \label{sec:modifica-ultimo-commit-non-remoto}
 
 Come vedremo nel paragrafo~\ref{sec:backup-on-line}, è possibile inviare il
@@ -734,7 +743,7 @@ compaia l'interfaccia per la modifica del messaggio ci permette di cambiare il
 messaggio dell'ultimo \emph{commit} (sempre a condizione che non sia ancora
 stato inviato a un server remoto).
 
-\subsubsection{Annullare un \emph{commit}}
+\subsection{Annullare un \emph{commit}}
 \label{sec:annullare-commit}
 
 Per annullare le modifiche apportate con uno specifico \emph{commit}, creando un
@@ -766,7 +775,7 @@ paragrafo~\ref{sec:modifica-ultimo-commit-non-remoto}.
 % vecchi commit non inviati in remoto con `git rebase'. Si veda
 % http://book.git-scm.com/4_undoing_in_git_-_reset,_checkout_and_revert.html
 
-\subsection{Ripristinare file}
+\section{Ripristinare file}
 \label{sec:ripristinare-file}
 
 In questo paragrafo vedremo come ripristinare file cancellati dal progetto
@@ -828,7 +837,7 @@ quello qui spiegato, in cui si ripristina un file alla versione presente
 nell'ultimo \emph{commit}, nel caso in cui non ne viene indicato esplicitamente
 uno differente.
 
-\subsection{Gestione dei \emph{branch}}
+\section{Gestione dei \emph{branch}}
 \label{sec:branch}
 
 Con il comando \lstinline|git status| possiamo controllare lo stato del progetto,
@@ -849,7 +858,7 @@ modifiche che divergono da questa proprio come il ramo di un albero diverge dal
 tronco centrale (e per completare questa analogia botanica la linea di sviluppo
 centrale è chiamata a volte \emph{trunk}, cioè ``tronco'').
 
-\subsubsection{Perché creare un \emph{branch}?}
+\subsection{Perché creare un \emph{branch}?}
 Le risposte a questa domanda possono essere diverse. Una potrebbe essere, per
 esempio perché abbiamo intenzione di scrivere un capitolo per il nostro documento
 \LaTeX{} ma non siamo sicuri che sia veramente necessario: possiamo allora creare
@@ -894,7 +903,7 @@ Decidiamo quindi di fondere i due rami perché le modifiche fatte in
 effettuate in \lstinline|branch| verranno importate nel ramo principale e potremo
 continuare lì il nostro lavoro.
 
-\subsubsection{Creare e cancellare un \emph{branch}}
+\subsection{Creare e cancellare un \emph{branch}}
 Per creare un \emph{branch} dobbiamo usare il comando
 \lstinline|git branch <nome_branch>|. Se il comando va a buon fine non ci sarà
 nessun output, possiamo però controllare l'elenco dei rami esistenti con il comando
@@ -982,7 +991,7 @@ $ git branch -D foo
 Deleted branch foo (was c71da4f).
 \end{lstlisting}
 
-\subsubsection{Effettuare un \emph{merge}}
+\subsection{Effettuare un \emph{merge}}
 Per effettuare la fusione, \emph{merge}, di due rami si usa il comando
 \lstinline|git merge <nome_branch>| da dare nel ramo in cui si desidera importare
 il ramo chiamato \lstinline|<nome_branch>|. Se tutto va bene otterremo un output
@@ -1028,7 +1037,7 @@ file \lstinline|main.tex| ma nel ramo \lstinline|foo|. Dopo aver corretto il fil
 come desideriamo che risulti, possiamo finalmente salvarlo ed effettuare come al
 solito il \emph{commit}.
 
-\subsubsection{Copiare un singolo \emph{commit} da un \emph{branch} a un altro}
+\subsection{Copiare un singolo \emph{commit} da un \emph{branch} a un altro}
 Mentre sviluppiamo un \emph{branch} potremmo accorgerci che il \emph{commit} appena
 effettuato apporta delle modifiche che possono essere utili anche in un altro
 \emph{branch} (come per esempio la correzione di un errore di ortografia o una
@@ -1062,7 +1071,7 @@ and commit the result with:
         git commit -c 97b8c9b
 \end{lstlisting}
 
-\subsection{Configurazioni basilari di Git}
+\section{Configurazioni basilari di Git}
 \label{sec:configurazioni-basilari}
 
 Per quanto non strettamente indispensabile per un uso individuale di Git sul
@@ -1098,13 +1107,13 @@ il comando
 git config --global core.editor gedit
 \end{lstlisting}
 
-\section{Backup}
-\subsection{Backup su periferica esterna (usb)}
+\chapter{Backup}
+\section{Backup su periferica esterna (usb)}
 \begin{lstlisting}
 $ git clone -l file:///home/pietro/elab/git4latex/ /media/usb/gigt/
 \end{lstlisting}
 
-\subsection{Backup on-line}
+\section{Backup on-line}
 \label{sec:backup-on-line}
 
 \begin{enumerate}
@@ -1132,7 +1141,7 @@ $ cd riprogetto
 $ git clone git://gitorious.org/git4latex/git4latex.git
 \end{lstlisting}
 
-\section{commit automatico: inotifywait}
+\chapter{commit automatico: inotifywait}
 
 \begin{lstlisting}
 inotifywait -q -m -e CLOSE_WRITE --format="git commit -m 'autocommit on change' %w" file.txt | sh
@@ -1154,8 +1163,8 @@ done
 \end{lstlisting}
 ma è quasi pericoloso se salvi automaticamente ogni tot minuti!!
 
-\section{Installazione per Windows}
-\label{sec:gitwin}
+\chapter{Installazione per Windows}
+\label{cha:gitwin}
 
 Installare Git su un sistema operativo Windows è davvero molto semplice. Il
 progetto \textsf{msysGit} (pagina del progetto su Google Code:
