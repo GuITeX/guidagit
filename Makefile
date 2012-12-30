@@ -1,9 +1,9 @@
 ##### Variabili
 SHELL			= /bin/sh
-PRINCIPALE		= git4latex
+PRINCIPALE		= guidagit
 PRINCIPALE_TEX		= $(PRINCIPALE).tex
 PRINCIPALE_PDF		= $(PRINCIPALE).pdf
-CLEAN_FILE		= *.aux *.fdb_latexmk *.log *.out *.toc *~
+CLEAN_FILE		= *.aux *.fdb_latexmk *.fls *.log *.out *.toc *~
 DISTCLEAN_FILE		= $(PRINCIPALE_PDF)
 
 ##### Regole
