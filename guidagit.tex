@@ -23,7 +23,8 @@
 \ProvidesFile{guidagit.tex}[2012/12/30 v.0.1 Una guida introduttiva a Git per
 progetti LaTeX]
 
-\usepackage{hyperref}
+\usepackage{quoting,hyperref}
+
 \hypersetup{
   pdftitle={Una guida introduttiva a Git per progetti \LaTeX},
   pdfauthor={Pietro Giuffrida, Mosè Giordano},
@@ -37,7 +38,7 @@ progetti LaTeX]
 \lstset{basicstyle=\small\ttfamily,
   keywordstyle=\color{blue},
   commentstyle=\color{red},
-  stringstyle=\color{green},
+  stringstyle=\color{purple},
   frame=lines,
   breaklines = true, % per mandare a capo le righe troppo lunghe
   breakautoindent = true, % indenta le righe spezzate
@@ -47,11 +48,16 @@ progetti LaTeX]
   showstringspaces=false,
   showtabs=false,
   emph={touch,mkdir,echo,rm},
-  emphstyle=\color{blue}
+  emphstyle=\color{blue},
+  escapechar={£},
 }
 
+% comando per scrivere `GiT' con lo stile di `TeX', da usare nel titolo.  Ho
+% copiato la definizione del comando `\TeX'.
+\newcommand{\GiT}{G\kern-.1667em\lower.5ex\hbox{I}\kern-.125emT\@}
+
 \begin{document}
-\title{git4\LaTeX \\
+\title{\GiT{} 4 \LaTeX{} \\
   Una guida introduttiva a Git per progetti \LaTeX}
 \author{Pietro Giuffrida, Mosè Giordano}
 
@@ -62,59 +68,33 @@ progetti LaTeX]
 \maketitle
 
 \cleardoublepage{}
-\chapter{Scopo della guida}
-Git è un \emph{revision control system} (o \emph{version control system}, spesso
-abbreviato in VCS), vale a dire un programma che permette di tener traccia di
-tutte le modifiche e le evoluzione effettuate nel corso della stesura di un
-codice o di un qualsiasi progetto su supporto digitale. Git è rilasciato sotto
-licenza GPL, ed è disponibile, oltre che nei repository delle varie distribuzioni
-GNU-Linux, all'indirizzo \url{http://git-scm.com/}.
+\chapter{Presentazione della guida}
+\label{cha:presentazione-guida}
 
-\LaTeX{} è un programma di composizione tipografica di alta qualità. \LaTeX{} è
-software libero. Generalmente fa parte dei programmi fondamentali preinstallati in
-ogni distribuzione GNU-Linux, ed è comunque disponibile a partire dall'indirizzo
-\url{http://www.latex-project.org/} per i principali sistemi operativi.
+In questa guida mostreremo come utilizzare Git per tener traccia delle modifiche
+rilevanti e delle versioni elaborate nel corso dell'elaborazione di un documento
+scritto con \LaTeX, un programma di composizione tipografica di alta qualità.
+Qui non si spiegherà il funzionamento di \LaTeX{}, per maggiori informazioni su
+questo programma si possono consultare l'ottima guida di~\cite{pantieri:latex} e
+la documentazione in italiano reperibile a partire dal sito del \guit{}
+(\url{http://www.guitex.org/home/}).
 
-In questo documento desidero mostrare come utilizzare Git per tener traccia
-delle modifiche rilevanti e delle versioni elaborate nel corso dell'elaborazione
-di un documento scritto con \LaTeX. Tramite Git è infatti possibile mantenere un
-backup incrementale del proprio codice sorgente, sia in locale che in remoto,
-senza incorrere in un eccessivo dispendio di energie e senza deconcentrarsi
-eccessivamente dalla stesure del proprio testo. I passaggi descritti
-relativamente all'uso di Git dovrebbero essere validi in linea di principio per
-l'elaborazione di qualsiasi documento (foto, file \lstinline|.doc|, \lstinline|.xls|
-e quant'altro), ma Git dà il meglio di sé con i file di testo puro, poiché permette
-di vedere tutte le modifiche apportate al file di volta in volta. Proprio per questo
-l'uso principale di Git, e dei VCS in generale, è quello di controllare lo sviluppo
-dei software.\footnote{Git, infatti, è stato creato da Linus Torvalds, inventore
-  del kernel Linux, perché aveva bisogno di un buon VCS per gestire lo sviluppo
-  di Linux.} Anche il codice dei documenti \LaTeX{} si scrive su file di testo
-puro e quindi Git è particolarmente adatto a essere utilizzato in accoppiata con
-\LaTeX. Questa guida è proprio strutturata in modo specifico per illustrare la
-loro interazione, almeno a livello base.
+Solo i primi due capitoli sono indispensabili.  Nel
+capitolo~\ref{cha:introduzione-vcs} sono presentati i VCS in generale e vengono
+tratte le basi del funzionamento di Git in particolare.  Nel
+capitolo~\ref{cha:semplice-progetto} sono illustrati i passaggi fondamentali per
+la creazione di un \emph{repository} locale del proprio progetto, per il
+salvataggio progressivo delle versioni, e quindi per svolgere eventuali
+operazioni di ripristino.  Il capitolo~\ref{cha:repository-remoti} è dedicato
+alla gestione di un \emph{repository} remoto, utile per la collaborazione su un
+unico progetto con altre persone, e il capitolo~\ref{cha:gitwin}
+all'installazione di Git su Windows.
 
-Solo i primi due paragrafo sono indispensabili. In essi vengono tratte le basi
-del funzionamento di Git e  mostrati i passaggi fondamentali per la creazione di
-un repository locale del proprio progetto, per il salvataggio progressivo delle
-versioni, e quindi per svolgere eventuali operazioni di ripristino.
-
-I paragrafi successivi sono invece dedicate alla creazione e alla
-sincronizzazione di un repository remoto (che si tratti di un servizio on-line
-o semplicemente di una memoria esterna), e a uno script bash che permette di
-eseguire dei commit automatici a ogni salvataggio dei file.
-
-La guida non si prefigge alcun compito specifico per quanto riguarda \LaTeX, a
-proposito del quale esistono numerose
-guide.\footnote{Si veda a questo proposito, oltre alla documentazione reperibile
-  sul proprio computer mediante il comando \lstinline|texdoc nomepacchetto|, la
-  documentazione in italiano reperibile a partire dal sito del \guit\
-  (\url{http://www.guitex.org/home/}),
-  oltre all'ottima guida di L. Pantieri e T. Gordini disponibile sul sito
-  \url{http://www.lorenzopantieri.net/LaTeX.html}.}
-
-La guida non contempla l'uso di alcuna interfaccia grafica (GUI). Tutti i
-comandi e i passaggi illustrati sono eseguiti tramite una shell Unix. Spesso
-indicheremo i comandi da eseguire nel seguente modo:
+La guida non contempla l'uso di alcuna interfaccia grafica (GUI).  Tutti i
+comandi e i passaggi illustrati sono eseguiti tramite una shell Unix.  Chi non
+dovesse avere familiarità con la linea di comando può leggere la guida
+di~\cite{giacomelli:console}.  Spesso indicheremo i comandi da eseguire nel
+seguente modo:
 \begin{lstlisting}
 ~/progetto$ git log -4 -p -- main.tex
 \end{lstlisting}
@@ -136,9 +116,7 @@ che i comandi tipici della shell Unix sono evidenziati e commentati, in modo
 che l'utente di altri sistemi operativi o abituato all'uso di GUI possa
 sostituirli svolgendo altrimenti le medesime attività. I comandi di Git
 dovrebbero invece restare i medesimi in ogni sistema operativo, per quanto anche
-in questo caso le medesime attività possano essere svolte mediante GUI. Nel
-paragrafo~\ref{cha:gitwin} è spiegato come installare una versione di Git sui
-sistemi operativi Windows.
+in questo caso le medesime attività possano essere svolte mediante GUI.
 
 Non sono un esperto di informatica, ma trovo bello far le cose, per quanto
 possibile, con le mie mani, sapere cosa fa la macchina e avere l'illusione che
@@ -167,34 +145,204 @@ più su \lstinline|git commit| si dovrà eseguire \lstinline|man git-commit|.
 
 \mainmatter{}
 
-\chapter{Introduzione a Git}
-\label{cha:introduzione-git}
+\chapter{Introduzione ai VCS}
+\label{cha:introduzione-vcs}
 
-Git permette di tenere traccia delle modifiche apportate a un progetto registrando
-una copia dei file del progetto in un database. Sostanzialmente Git scatta una
-foto dei file presenti nella cartella nel momento in cui si effettua il
-\emph{commit}.
+\section{Cos'è un VCS}
+\label{sec:cose-vcs}
 
-Per controllare continuamente l'integrità dei dati Git utilizza un sistema, detto
-\emph{checksum}, che associa a ogni stato di un progetto una sequenza di bit che
-la identifica. Nella fattispecie Git utilizza l'algoritmo SHA-1 che restituisce
-una stringa esadecimale (detta \emph{hash}) composta da $40$ caratteri
-alfanumerici (numeri da \lstinline|0| a \lstinline|9| e lettere da \lstinline|a|
-a \lstinline|f|) che può apparire così:
+Un \emph{version control system}, abbreviato in VCS, è un programma che permette
+di tener traccia di tutte le modifiche e le evoluzione effettuate nel corso
+della stesura di un codice o di un qualsiasi progetto su supporto digitale.
+
+Un software VCS permette di mantenere una copia del proprio codice sorgente, sia
+in locale sia in remoto, senza incorrere in un eccessivo dispendio di energie e
+senza deconcentrarsi eccessivamente dalla stesure del proprio testo.  In linea
+di principio un VCS permette di tenere sotto controllo qualsiasi documento,
+siano essi foto, documenti realizzati con programma di videoscrittura, fogli di
+calcolo, ecc\dots ma un VCS dà il meglio di sé con i file di testo semplice, non
+formattato, poiché permette di vedere tutte le modifiche apportate di volta in
+volta al file.  Proprio per questo l'uso principale dei VCS è quello di
+controllare lo sviluppo dei software.  Anche il codice dei documenti \LaTeX{}
+si scrive su file di testo semplice e quindi un software VCS è particolarmente
+adatto a essere utilizzato in accoppiata con \LaTeX.
+
+L'insieme dei file e cartelle facenti parte di un progetto controllato da un
+VCS, comprendente tutta la cronologia delle modifiche, si chiama
+\emph{repository}.  L'operazione di registrazione una modifica di uno o più file
+all'interno \emph{repository} si chiama \emph{commit}.
+
+I VCS si dividono in due grandi classi: \emph{sistemi centralizzati} e
+\emph{sistemi distribuiti}.  I VCS più vecchi sono di tipo centralizzato
+(\emph{centralized version control system}, CVCS), cioè il \emph{repository}
+principale si trova su un server remoto centrale a cui tutti gli utenti che
+vogliono utilizzarlo devono fare riferimento.  Con il passare del tempo ci si è
+resi conto che questo meccanismo pone pesanti limiti, perché ogni operazione
+legata al VCS (controllare la cronologia, registrare una modifica, ecc\dots)
+deve necessariamente essere fatta in un momento in cui si dispone di una
+connessione alla rete in cui si trova il server centrale.  Inoltre questo
+comporta dei tempi relativamente lunghi per alcune operazioni semplici e
+frequenti a causa al fatto che è necessario inviare attraverso la rete la
+richiesta di una certa operazione al server, il quale elabora la richiesta e
+invia al richiedente la risposta nuovamente attraverso la rete.  Quando negli
+anni passati le connessioni a Internet non raggiungevano le velocità attuali era
+spesso tedioso aspettare tanto tempo per ottenere l'output di queste operazioni.
+Dunque in un CVCS si è completamente dipendenti dal server centrale che contiene
+il repository del progetto, con l'ulteriore conseguenza che se il server remoto
+viene spento dal suo gestore o compromesso da malintenzionati tutto il lavoro
+può essere perduto.  Per questi e altri motivi si sono diffusi in seguito i
+sistemi distribuiti (\emph{distributed version control system}, DVCS), nei quali
+ogni utente del progetto ha una copia dell'intero repository sul proprio sistema
+e, se lo si desidera, è possibile inviare una copia del proprio repository su un
+server remoto per metterlo in condivisione con altre persone.  Un DVCS può
+quindi riprodurre il flusso di lavoro di un CVCS ma senza avere i suoi aspetti
+negativi legati alle limitazioni di dover lavorare necessariamente con l'unico
+server centrale.
+
+Fra i più famosi CVCS ricordiamo CVS e Subversion (abbreviato in SVN), i DVCS
+più noti invece sono Bazaar (bzr), Git e Mercurial (hg).
+
+% Se tutto ciò non è sufficientemente convincente per usare un VCS si può vedere
+% http://tug.org/pracjourn/2007-3/henningsen/henningsen.pdf e
+% http://www.charlietanksley.net/philtex/using-a-version-control-system/
+\section{Perché usare un VCS}
+\label{sec:perche-usare-vcs}
+
+\begin{quoting}
+  Supponi che stai lavorando per tutta la notte su un documento importante, come
+  la tesi di laurea o un articolo.  Il giorno dopo ti svegli e ti chiedi come
+  mai una scimmia abbia usato la tua tastiera per scrivere parole casuali che
+  non formano un discorso di senso compiuto.  A questo punto un VCS ti
+  permetterà di ritornare all'ultima versione corretta del tuo documento.
+\end{quoting}
+Questo esempio, tratto da un commento dell'utente \texttt{h0b0} sul sito TeX
+Stack
+Exchange,\footnote{\url{http://tex.stackexchange.com/questions/1118\#comment1442\_1118}.}
+spiega abbastanza bene perché sia utile un VCS.  Naturalmente i VCS non sono gli
+unici software con funzioni simili.  Anche i programmi di videoscrittura come
+Libreoffice Writer o Microsoft Word hanno delle funzioni per registrare le
+modifiche ai documenti, ma i VCS forniscono un controllo maggiore su quali
+modifiche devono effettivamente essere registrate.  I VCS offrono anche la
+possibilità di aggiungere ai \emph{commit} un messaggio descrittivo, in modo da
+poter rivedere successivamente la ragione dei cambiamenti apportati in passato.
+A differenza delle cronologia in Writer o Word, un VCS non è legato a uno
+specifico editor di testo \LaTeX{}, anche se alcuni editor possono fornire una
+migliore integrazione con i VCS rispetto ad altri.
+
+I VCS possono essere usati per tenere una copia di backup dei propri documenti
+\LaTeX.  Il primo rozzo metodo che probabilmente molti hanno provato è quello di
+creare copie del documento principale con nomi complicati e misteriosi del tipo
+\texttt{documento5.tex}, \texttt{Copia di documento.tex},
+\texttt{documento\_20090524.tex}, \texttt{documento-OK\_ieri.tex} e così via.
+Quando la cartella di lavoro inizia ad affollarsi con decine di documenti simili
+si capisce che districarsi in questa foresta di file è tutto meno che elegante e
+utile.  I software di backup oppure di file hosting online hanno esattamente
+questo stesso scopo, ma questi programmi generalmente creano una nuova copia dei
+file ogni volta che viene salvata una modifica nell'editor di testo, anche se la
+modifica consiste nell'aggiunta di un punto o nella cancellazione di uno spazio
+superfluo.  Come già detto, i VCS forniscono un controllo migliore su cosa deve
+e cosa non deve essere visionato e i messaggi associati alle modifiche
+registrate nel VCS rendono la consultazione della cronologia molto più
+significativa rispetto al solo elenco di date di modifiche.
+
+I DVCS permettono generalmente di impostare più di un \emph{repository} remoto
+su cui copiare il proprio \emph{repository} locale, creando quindi numerose
+copie differenti di backup.  In realtà, sebbene possa essere utile, è spesso
+scomodo avere più di uno o due \emph{repository} remoti in quanto tutte le
+operazioni di sincronizzazione vanno ripetute per ciascun \emph{repository}.
+
+I VCS rendono semplice la condivisione di file su più computer.  Chi lavora su
+un documento dal computer fisso di casa, sul proprio laptop e sul computer del
+lavoro potrà salvare il \emph{repository} su una penna USB o su un server in
+remoto e lavorare su un unico progetto senza correre il rischio di fare
+confusione fra differenti copie dei documenti.
+
+Tutte le revisioni di un \emph{repository} in un VCS sono identificate con una
+stringa numerica o alfanumerica, che permette di ritrovarle successivamente.  È
+possibile anche aggiungere un'etichetta (\emph{tag}) con un nome significativo a
+una determinata versione del \emph{repository} per identificare una specifica
+copia.  Le etichette permettono di ritrovare quella particolare versione del
+documento più facilmente rispetto all'uso della stringa identificativa standard.
+Se per esempio si dà al proprio documento un numero di versione come quelli che
+si assegnano ai software (cosa frequente per i pacchetti e le classi di \LaTeX{}
+oppure per i manuali), l'etichetta potrebbe essere il numero di versione.  Si
+potrebbe anche etichettare la versione di un articolo che è stato inviato a una
+rivista.  Quando il revisore dell'articolo invia i commenti sull'articolo, che
+nel frattempo è stato modificato, grazie alle etichette sarà facile ripescare la
+copia dell'articolo a cui lui fa
+riferimento;\footnote{Applicazione suggerita da \texttt{Andrew Stacey} su TeX
+  Stack Exchange: \url{http://tex.stackexchange.com/a/1124}.}
+lo stesso si potrebbe fare per identificare la copia di un documento inviata a
+un proprio amico.
+
+Infine con il meccanismo del \emph{branching} è possibile mantenere delle
+modifiche sperimentali parallelamente alle modifiche ``sicure''.  In un
+documento \LaTeX{} potrebbe trattarsi di una sezione che non si è sicuri si
+voglia aggiungere al documento finale.  Invece nel caso di un pacchetto o di una
+classe \LaTeX{} il \emph{branching} permette di fare esperimenti \TeX{}nici
+senza aver paura di perdere la versione stabile del file sulla quale si potrà
+continuare a lavorare.  Un altro possibile utilizzo dei branch è quello di
+creare una copia del documento in cui andare a salvare solo alcune delle
+modifiche compiute nella copia principale (\emph{cherry-picking}).  Questo può
+essere utile per i laureandi che vogliono avere una copia personale della
+propria tesi differente da quella da consegnare al proprio relatore, per
+assecondare, per esempio, le sue bizzarre richieste riguardanti i margini e
+l'interlinea del
+documento.\footnote{Idea suggerita da \texttt{Anon E. Mouse} su Stack Overflow:
+  \url{http://stackoverflow.com/a/6190412}.}
+
+Un VCS richiede un certo, seppur minimo, lavoro da parte dell'utente, ma
+l'utente è ripagato dall'avere il controllo totale di quello che viene
+registrato, la possibilità di rivedere una cronologia commentata che mostra
+anche le differenze fra ciascuna versione, la capacità di ripristinare in ogni
+momento il progetto a una delle versioni precedenti se necessario, l'opportunità
+di creare dei \emph{branch} per sperimentare sui propri file senza alcun timore
+di perdere il lavoro precedente.  Probabilmente un software di file hosting
+andrebbe ugualmente bene per file semplici e l'operazione di salvataggio delle
+modifiche dei file è automatica, ma un VCS offre un controllo non ancora
+raggiunto da quei programmi e spesso il desiderio di avere l'ultima parola sul
+risultato finale è il motivo per il quale un utente passa dai classici software
+di videoscrittura a \LaTeX{}.
+
+\section{Git: the stupid content tracker}
+\label{sec:git}
+
+Questa guida descrive in particolare uno dei più diffusi DVCS in circolazione,
+sicuramente quello con la comunità più attiva: Git.  Git è software libero
+essendo rilasciato sotto licenza GPL ed è disponibile, oltre che nei
+\emph{repository} delle varie distribuzioni GNU-Linux, all'indirizzo
+\url{http://git-scm.com/}.  Git è stato creato da Linus Torvalds, inventore del
+kernel Linux, perché aveva bisogno di un buon VCS per gestire lo sviluppo di
+Linux.
+
+Git permette di tenere traccia delle modifiche apportate a un progetto
+registrando una copia dei file del progetto in un database.  Sostanzialmente Git
+scatta una foto dei file presenti nella cartella nel momento in cui si effettua
+il \emph{commit}.
+
+Per controllare continuamente l'integrità dei dati Git utilizza un sistema,
+detto \emph{checksum}, che associa a ogni stato di un progetto una sequenza di
+bit che la identifica.  Nella fattispecie Git utilizza l'algoritmo SHA-$1$ che
+restituisce una stringa esadecimale (detta \emph{hash}) composta da $40$
+caratteri alfanumerici (numeri da \lstinline|0| a \lstinline|9| e lettere da
+\lstinline|a| a \lstinline|f|) che può apparire così:
 \begin{lstlisting}
 43c5858e91a7090b834dd9f09ddfae1061901ee4
 \end{lstlisting}
-In questo modo è impossibile modificare un file del progetto senza che Git se
-ne renda conto. Per fare riferimento a una particolare versione del progetto
-si indica il corrispondente \emph{hash} o, a volte, solo i primi $7$ caratteri.
+In questo modo è impossibile modificare un file del progetto senza che Git se ne
+renda conto.  Per fare riferimento a una particolare versione del progetto si
+indica il corrispondente \emph{hash} oppure da una forma abbreviata dell'hash
+costituita da un certo numero dei caratteri iniziali, per esempio i primi sette
+oppure otto.
 
+% Si può rifare questa figura anche con TikZ
 \begin{figure}
   \centering
   \includegraphics{18333fig0106-tn}
   \caption{Working directory, staging area e git directory. Immagine presa da:
     \url{http://progit.org/book/ch1-3.html}.}
 \end{figure}
-Prima di iniziare a metterci al lavoro c'è un'ultima cosa da sapere su Git. I
+Prima di iniziare a metterci al lavoro c'è un'ultima cosa da sapere su Git.  I
 file possono trovarsi in tre stati chiamati, in inglese, \emph{committed},
 \emph{modified} e \emph{staged}. \emph{Commited} significa che il file è stato
 salvato nel proprio database locale; \emph{modified} indica che il file è stato
@@ -230,12 +378,17 @@ di lavoro ma non ancora aggiunto alla \emph{staging area} allora il file è dett
 \emph{modified}.\footnote{Questo paragrafo è stato tradotto in parte da
   \url{http://git-scm.com/book/ch1-3.html}.}
 
-\chapter{Un semplice progetto \LaTeX}
-Vogliamo sviluppare un documento con \LaTeX, utilizzando Git come VCS.
-Git non funziona in modo particolarmente esotico. Si tratta semplicemente di
-creare una directory, di posizionare in essa i nostri file \lstinline|.tex| e di
-dire a Git di considerare tale directory come un repository.
-\section{Creazione e inizializzazione del repository}
+\chapter{Un semplice progetto \LaTeX} % TODO: cambiare titolo
+\label{cha:semplice-progetto}
+
+Vogliamo sviluppare un documento con \LaTeX, utilizzando Git come VCS.  Git non
+funziona in modo particolarmente esotico. Si tratta semplicemente di creare una
+directory, di posizionare in essa i nostri file \lstinline|.tex| e di dire a Git
+di considerare tale directory come un \emph{repository}.
+
+\section{Creazione e inizializzazione del \emph{repository}}
+\label{sec:iniz-repo}
+
 \begin{lstlisting}
 ~$ mkdir progetto
 ~$ cd progetto
@@ -254,9 +407,9 @@ I passaggi successivi, eseguiti sempre dati dall'interno della directory, sono
 quelli specifici di Git:
 \begin{itemize}
 \item con \lstinline|git init| creiamo una cartella nascosta chiamata
-  \lstinline|.git/| che contiene il nostro repository Git. Questo comando va
-  dato solo al momento della creazione di un nuovo \emph{repository} e poi non
-  sarà più necessario riutilizzarlo;
+  \lstinline|.git/| che contiene il nostro \emph{repository} Git.  Questo
+  comando va dato solo al momento della creazione di un nuovo \emph{repository}
+  e poi non sarà più necessario riutilizzarlo;
 \item \lstinline|git add .| aggiunge l'argomento (in questo caso
   `\lstinline|.|', che è un'abbreviazione del percorso della cartella in cui
   siamo posizionati) alla \emph{staging area} del \emph{repository} appena
@@ -272,7 +425,7 @@ file \lstinline|.tex| appena creato.
 
 Per continuare il lavoro sul nostro documento e registrare i suoi cambiamenti
 dobbiamo eseguire le seguenti operazioni (il seguente elenco puntato deve essere
-confrontato con quello presente nel paragrafo~\ref{cha:introduzione-git} a
+confrontato con quello presente nel paragrafo~\ref{sec:git} a
 pagina~\pageref{list:lavoro-git}):
 \begin{enumerate}
 \item si modificano i file del codice sorgente presenti nella con il nostro
@@ -312,7 +465,7 @@ utilizza un editor di testo per scrivere il messaggio di un \emph{commit} è
 possibile inserire messaggi estesi su più righe. Generalmente si utilizza la
 seguente convenzione:
 \begin{itemize}
-\item nella prima riga del messaggio, che non deve superare i 72 caratteri, si
+\item nella prima riga del messaggio, che non deve superare i 50 caratteri, si
   inserisce una breve e riassuntiva descrizione del \emph{commit} che si sta
   registrando. Il testo del messaggio in questo primo rigo può non essere
   correttamente formattato, per esempio può essere assente la punteggiatura o un
@@ -527,8 +680,8 @@ Per quanto possa sembrare eccessivo, io preferisco usare il secondo comando. Mi
 accade con estrema frequenza di dover aggiungere dei file a un progetto, e
 spesso sono fin troppo distratto da quel che sto scrivendo per occuparmi di quel
 Git si aspetta da me l'aggiunta indiscriminata di ogni file nella directory al
-repository presenta però delle controindicazioni. La più ovvia per chi lavora
-con \LaTeX{} è la seguente: nel corso dell'elaborazione di un testo
+\emph{repository} presenta però delle controindicazioni. La più ovvia per chi
+lavora con \LaTeX{} è la seguente: nel corso dell'elaborazione di un testo
 inevitabilmente si procederà alla generazione del documento in pdf a partire dai
 sorgenti; \LaTeX{} provvederà quindi alla generazioni di una serie di file
 ausiliari (\lstinline|.toc|, \lstinline|.out|, \dots), nonché di un pdf più o
@@ -680,9 +833,8 @@ Se si vogliono riportare allo stato dell'ultimo \emph{commit} registrato solo
 determinati file che sono \emph{modified} ma non ancora \emph{staged}, adottando
 la terminologia vista all'inizio, senza toccare la restante
 \emph{working directory} si può utilizzare il comando
-% TODO: utilizzare ambiente `sintassi' e poi la macro `\meta' per `<file>'
 \begin{lstlisting}
-$ git checkout -- <file>
+$ git checkout -- £\meta{file}£
 \end{lstlisting}
 in cui a \meta{file} va sostituito l'elenco dei file, separati da uno spazio,
 che si vogliono ripristinare. Le opzioni e gli argomenti che il comando
@@ -705,9 +857,8 @@ paragrafo~\ref{sec:ripristinare-file}.
 
 Se invece si vogliono solo togliere uno o più file dalla \emph{staging area} ma
 lasciare intatta la \emph{working directory} si può usare il comando
-% TODO: utilizzare ambiente `sintassi' e poi la macro `\meta' per `<file>'
 \begin{lstlisting}
-$ git reset HEAD <file>
+$ git reset HEAD £\meta{file}£
 \end{lstlisting}
 Come al solito, a \meta{file} va sostituito l'elenco dei file di interesse,
 separati da uno spazio.  I file tolti dalla \emph{staging area} possono poi
@@ -717,7 +868,7 @@ comando \lstinline|git checkout --| \meta{file} illustrato qui sopra.
 \subsection{Modificare l'ultimo \emph{commit} non inviato in remoto}
 \label{sec:modifica-ultimo-commit-non-remoto}
 
-Come vedremo nel paragrafo~\ref{sec:backup-on-line}, è possibile inviare il
+Come vedremo nel paragrafo~\ref{sec:repository-on-line}, è possibile inviare il
 proprio \emph{repository} Git a un server remoto per conservare una copia di
 backup del progetto oppure per mettere il codice a disposizione di altre
 persone. L'opzione \lstinline|--amend| del comando \lstinline|git commit|
@@ -753,10 +904,8 @@ stato inviato a un server remoto).
 
 Per annullare le modifiche apportate con uno specifico \emph{commit}, creando un
 nuovo \emph{commit} si può usare il comando
-% TODO: utilizzare ambiente `sintassi' e poi la macro `\meta' per
-% `<hash commit>'
 \begin{lstlisting}
-$ git revert <hash commit>
+$ git revert £\meta{hash commit}£
 \end{lstlisting}
 in cui a \meta{hash commit} va sostituito l'\emph{hash} del \emph{commit} che si
 vuole annullare (vedi il paragrafo~\ref{sec:consultare-cronologia} per sapere
@@ -866,6 +1015,8 @@ tronco centrale (e per completare questa analogia botanica la linea di sviluppo
 centrale è chiamata a volte \emph{trunk}, cioè ``tronco'').
 
 \subsection{Perché creare un \emph{branch}?}
+\label{sec:perche-branch}
+
 Le risposte a questa domanda possono essere diverse. Una potrebbe essere, per
 esempio perché abbiamo intenzione di scrivere un capitolo per il nostro documento
 \LaTeX{} ma non siamo sicuri che sia veramente necessario: possiamo allora creare
@@ -911,6 +1062,8 @@ effettuate in \lstinline|branch| verranno importate nel ramo principale e potrem
 continuare lì il nostro lavoro.
 
 \subsection{Creare e cancellare un \emph{branch}}
+\label{sec:creare-cancellare-branch}
+
 Per creare un \emph{branch} dobbiamo usare il comando \lstinline|git branch|
 \meta{nome branch}.  Se il comando va a buon fine non ci sarà nessun output,
 possiamo però controllare l'elenco dei rami esistenti con il comando
@@ -1000,6 +1153,8 @@ Deleted branch foo (was c71da4f).
 \end{lstlisting}
 
 \subsection{Effettuare un \emph{merge}}
+\label{sec:merge}
+
 Per effettuare la fusione, \emph{merge}, di due rami si usa il comando
 \lstinline|git merge| \meta{nome branch} da dare nel ramo in cui si desidera
 importare il ramo chiamato \meta{nome branch}.  Se tutto va bene otterremo un
@@ -1046,22 +1201,25 @@ come desideriamo che risulti, possiamo finalmente salvarlo ed effettuare come al
 solito il \emph{commit}.
 
 \subsection{Copiare un singolo \emph{commit} da un \emph{branch} a un altro}
-Mentre sviluppiamo un \emph{branch} potremmo accorgerci che il \emph{commit} appena
-effettuato apporta delle modifiche che possono essere utili anche in un altro
-\emph{branch} (come per esempio la correzione di un errore di ortografia o una
-modifica al preambolo del documento). Non è necessario effettuare il \emph{merge}
-solo per un importare un \emph{commit} o modificare manualmente i file dell'altro
-\emph{branch} perché è possibile effettuare un'operazione detta
-\emph{cherry-picking} (che significa ``raccolta di ciligie''\footnote{Chi ha
-  inventato tutta questa terminologia doveva essere un amante della natura.}) che
-nell'importare nell'altro \emph{branch} il singolo \emph{commit} che
+\label{sec:copiare-un-commit}
+
+Mentre sviluppiamo un \emph{branch} potremmo accorgerci che il \emph{commit}
+appena effettuato apporta delle modifiche che possono essere utili anche in un
+altro \emph{branch} (come per esempio la correzione di un errore di ortografia o
+una modifica al preambolo del documento). Non è necessario effettuare il
+\emph{merge} solo per un importare un \emph{commit} o modificare manualmente i
+file dell'altro \emph{branch} perché è possibile effettuare un'operazione detta
+\emph{cherry-picking} (che significa ``raccolta di
+ciligie''\footnote{Chi ha inventato tutta questa terminologia doveva essere un
+  amante della natura.})
+che nell'importare nell'altro \emph{branch} il singolo \emph{commit} che
 indicheremo. La sintassi è semplice (prima di dare il seguente comando bisogna
 posizionarsi nel \emph{branch} in cui si intende importare il \emph{commit}):
 \lstinline|git cherry-pick| \meta{hash del commit}.  Inoltre l'oggetto, l'autore
 (nel caso in cui ci siano più collaboratori che partecipano al progetto) e la
 data e orario del \emph{commit} saranno gli stessi di quello importato. Al posto
 dell'intero \emph{hash} del \emph{commit} si può utilizzare la forma abbreviata
-di composta dai primi sette caratteri.
+composta dai primi sette caratteri.
 
 Se dovesse verificarsi qualche problema durante il \emph{cherry-picking}, come
 può succedere durante il \emph{merge}, Git ci avverte, ci consiglia di risolvere
@@ -1092,7 +1250,7 @@ e verranno generalmente salvate nel file di configurazione
 \lstinline|$(prefix)/etc/gitconfig|. Con l'opzione \lstinline|--global| le impostazioni
 saranno valide solo per il proprio utente e verranno salvate nel file
 \lstinline|~/.gitconfig|. Infine non usando alcuna opzione le configurazioni
-avranno valore solo per il repository in cui vengono impostate.
+avranno valore solo per il \emph{repository} in cui vengono impostate.
 
 In primo luogo occorre passare a Git qualche informazione circa l'utente:
 \begin{lstlisting}
@@ -1114,14 +1272,11 @@ il comando
 git config --global core.editor gedit
 \end{lstlisting}
 
-\chapter{Backup}
-\section{Backup su periferica esterna (usb)}
-\begin{lstlisting}
-$ git clone -l file:///home/pietro/elab/git4latex/ /media/usb/gigt/
-\end{lstlisting}
+\chapter{Repository remoti}
+\label{cha:repository-remoti}
 
-\section{Backup on-line}
-\label{sec:backup-on-line}
+\section{Repository on-line}
+\label{sec:repository-on-line}
 
 \begin{enumerate}
 \item registrarsi su gitorius (richiede ssh key e passphrase!)
@@ -1141,35 +1296,24 @@ A fine giornata di lavoro:
 $ git push origin master
 \end{lstlisting}
 
-Se volete ricreare il repository in locale:
+Se volete ricreare il \emph{repository} in locale:
 \begin{lstlisting}
 $ mkdir riprogetto
 $ cd riprogetto
 $ git clone git://gitorious.org/git4latex/git4latex.git
 \end{lstlisting}
 
-\chapter{commit automatico: inotifywait}
+\section{Repository su periferica esterna (USB)}
+\label{sec:repository-usb}
 
+% TODO: vedi http://orgmode.org/worg/org-tutorials/org-vcs.html#sec-5-1
+% suggerisce delle idee interessanti
 \begin{lstlisting}
-inotifywait -q -m -e CLOSE_WRITE --format="git commit -m 'autocommit on change' %w" file.txt | sh
+$ git clone -l file:///home/pietro/elab/git4latex/ /media/usb/gigt/
 \end{lstlisting}
 
-\begin{lstlisting}
-#!/bin/bash
-#
-# gitwait - watch file and git commit all changes as they happen
-#
-
-while true; do
-
-    inotifywait -qq -e CLOSE_WRITE ~/.calendar/calendar
-
-    cd ~/.calendar; git commit -a -m 'autocommit on change'
-
-done
-\end{lstlisting}
-ma è quasi pericoloso se salvi automaticamente ogni tot minuti!!
-
+% TODO: descrivere per bene in questo capitolo come installare git anche sugli
+% altri sistemi operativi
 \chapter{Installazione per Windows}
 \label{cha:gitwin}
 
@@ -1183,6 +1327,8 @@ Dopo aver terminato l'installazione, si ha la possibilità di usare Git
 sia tramite interfaccia grafica, sia tramite una shell Unix-like
 emulata o integrata nel più noto Prompt dei Comandi di Windows.
 
+\backmatter{}
+\bibliography{bibliografia}
 \end{document}
 
 % Local Variables:
