@@ -232,18 +232,19 @@ migliore integrazione con i VCS rispetto ad altri.
 I VCS possono essere usati per tenere una copia di backup dei propri documenti
 \LaTeX.  Il primo rozzo metodo che probabilmente molti hanno provato è quello di
 creare copie del documento principale con nomi complicati e misteriosi del tipo
-\texttt{documento5.tex}, \texttt{Copia di documento.tex},
-\texttt{documento\_20090524.tex}, \texttt{documento-OK\_ieri.tex} e così via.
-Quando la cartella di lavoro inizia ad affollarsi con decine di documenti simili
-si capisce che districarsi in questa foresta di file è tutto meno che elegante e
-utile.  I software di backup oppure di file hosting online hanno esattamente
-questo stesso scopo, ma questi programmi generalmente creano una nuova copia dei
-file ogni volta che viene salvata una modifica nell'editor di testo, anche se la
-modifica consiste nell'aggiunta di un punto o nella cancellazione di uno spazio
-superfluo.  Come già detto, i VCS forniscono un controllo migliore su cosa deve
-e cosa non deve essere visionato e i messaggi associati alle modifiche
-registrate nel VCS rendono la consultazione della cronologia molto più
-significativa rispetto al solo elenco di date di modifiche.
+\filestyle{documento5.tex}, \filestyle{Copia di documento.tex},
+\filestyle{documento\_20090524.tex}, \filestyle{documento-OK\_ieri.tex} e così
+via.  Quando la cartella di lavoro inizia ad affollarsi con decine di documenti
+simili si capisce che districarsi in questa foresta di file è tutto meno che
+elegante o utile.  I software di backup oppure di file hosting online hanno
+esattamente questo stesso scopo, ma questi programmi generalmente creano una
+nuova versione dei file ogni volta che viene salvata una modifica nell'editor di
+testo, anche se la modifica consiste nell'aggiunta di un punto o nella
+cancellazione di uno spazio superfluo.  Come già detto, i VCS forniscono un
+controllo migliore su cosa deve e cosa non deve essere visionato e i messaggi
+associati alle modifiche registrate nel VCS rendono la consultazione della
+cronologia molto più significativa rispetto al solo elenco di date e orari di
+modifiche.
 
 I DVCS permettono generalmente di impostare più di un \emph{repository} remoto
 su cui copiare il proprio \emph{repository} locale, creando quindi numerose
@@ -291,15 +292,15 @@ l'interlinea del
 documento.\footnote{Idea suggerita da \texttt{Lorem Ipsum} su Stack Overflow:
   \url{http://stackoverflow.com/a/6190412}.}
 
-Un VCS richiede un certo, seppur minimo, lavoro da parte dell'utente, ma
-l'utente è ripagato dall'avere il controllo totale di quello che viene
-registrato, la possibilità di rivedere una cronologia commentata che mostra
-anche le differenze fra ciascuna versione, la capacità di ripristinare in ogni
-momento il progetto a una delle versioni precedenti se necessario, l'opportunità
-di creare dei \emph{branch} per sperimentare sui propri file senza alcun timore
-di perdere il lavoro precedente.  Probabilmente un software di file hosting
-andrebbe ugualmente bene per file semplici e l'operazione di salvataggio delle
-modifiche dei file è automatica, ma un VCS offre un controllo non ancora
+Riepilogando, un VCS richiede un certo, seppur minimo, lavoro da parte
+dell'utente, ma l'utente è ripagato dall'avere il controllo totale di quello che
+viene registrato, la possibilità di rivedere una cronologia commentata che
+mostra anche le differenze fra ciascuna versione, la capacità di ripristinare in
+ogni momento il progetto a una delle versioni precedenti se necessario,
+l'opportunità di creare dei \emph{branch} per sperimentare sui propri file senza
+alcun timore di perdere il lavoro precedente.  Probabilmente un software di file
+hosting andrebbe ugualmente bene per file semplici e l'operazione di salvataggio
+delle modifiche dei file è automatica, ma un VCS offre un controllo non ancora
 raggiunto da quei programmi e spesso il desiderio di avere l'ultima parola sul
 risultato finale è il motivo per il quale un utente passa dai classici software
 di videoscrittura a \LaTeX{}.
@@ -1336,4 +1337,5 @@ emulata o integrata nel più noto Prompt dei Comandi di Windows.
 % Local Variables:
 % TeX-master: t
 % fill-column: 80
+% time-stamp-pattern: "23/\\\\ProvidesFile{.*}\\[%:y/%02m/%02d v"
 % End:
