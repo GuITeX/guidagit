@@ -20,9 +20,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \documentclass[b5paper,11pt,oneside]{guidatematica}
-\ProvidesFile{guidagit.tex}[2012/12/30 v.0.1 Una guida introduttiva a Git per
+\ProvidesFile{guidagit.tex}[2013/05/11 v.0.2 Una guida introduttiva a Git per
 progetti LaTeX]
 
+\usepackage[os=win]{menukeys}
 \usepackage{quoting,hyperref}
 
 \hypersetup{
@@ -82,8 +83,8 @@ la documentazione in italiano reperibile a partire dal sito del \guit{}
 Solo i primi due capitoli sono indispensabili.  Nel
 capitolo~\ref{cha:introduzione-vcs} sono presentati i VCS in generale e vengono
 tratte le basi del funzionamento di Git in particolare.  Nel
-capitolo~\ref{cha:semplice-progetto} sono illustrati i passaggi fondamentali per
-la creazione di un \emph{repository} locale del proprio progetto, per il
+capitolo~\ref{cha:git-latex} sono illustrati i passaggi fondamentali per la
+creazione di un \emph{repository} locale del proprio progetto, per il
 salvataggio progressivo delle versioni, e quindi per svolgere eventuali
 operazioni di ripristino.  Il capitolo~\ref{cha:repository-remoti} è dedicato
 alla gestione di un \emph{repository} remoto, utile per la collaborazione su un
@@ -91,24 +92,23 @@ unico progetto con altre persone, e il capitolo~\ref{cha:gitwin}
 all'installazione di Git su Windows.
 
 La guida non contempla l'uso di alcuna interfaccia grafica (GUI).  Tutti i
-comandi e i passaggi illustrati sono eseguiti tramite una shell Unix.  Chi non
+comandi e i passaggi illustrati sono eseguiti tramite terminale.  Chi non
 dovesse avere familiarità con la linea di comando può leggere la guida
 di~\cite{giacomelli:console}.  Spesso indicheremo i comandi da eseguire nel
 seguente modo:
 \begin{lstlisting}
 ~/progetto$ git log -4 -p -- main.tex
-\end{lstlisting}
-Il carattere \lstinline|$| rappresenta il \emph{prompt} del terminale, cioè
+\end{lstlisting} %$
+Il carattere \texttt{\$} rappresenta il \emph{prompt} del terminale, cioè
 l'invito a inserire un nuovo comando. Ciò che si trova alla sinistra del
 \emph{prompt} è il percorso della cartella in cui il comando viene eseguito. In
 genere questo percorso è puramente esemplificativo e può essere ignorato. Tutto
 ciò che si trova alla destra del \emph{prompt} è il comando vero e proprio che
 dovrà essere eseguito dall'utente. Dunque, nell'esempio precedente il comando va
-eseguito copiando, o riscrivendo, in un terminale
-\lstinline|git log -4 -p -- main.tex| e premendo il tasto Invio. Fra parentesi
-ad angolo \meta{\dots} sono riportate le parti di un comando che non devono
-essere ricopiate così come sono ma andranno sostituite dall'utente, come
-spiegato nella guida di volta in volta.
+eseguito copiando, o riscrivendo, in un terminale \texttt{git log -4 -p --
+  main.tex} e premendo il tasto Invio. Fra parentesi ad angolo \meta{\dots} sono
+riportate le parti di un comando che non devono essere ricopiate così come sono
+ma andranno sostituite dall'utente, come spiegato nella guida di volta in volta.
 
 Non ho esperienza né di Git né di \LaTeX{} su sistemi operativi non
 Unix-like. Un minimo di compatibilità con altri sistemi è garantita dal fatto
@@ -138,7 +138,7 @@ Per maggiori informazioni sui vari comandi Git illustrati, loro opzioni e
 argomenti è possibile consultare la documentazione presene sul proprio computer
 eseguendo il comando \texttt{man git-}\meta{comando} e sostituendo a
 \meta{comando} il comando Git che si vuole approfondire.  Così, per saperne di
-più su \lstinline|git commit| si dovrà eseguire \lstinline|man git-commit|.
+più su \texttt{git commit} si dovrà eseguire \texttt{man git-commit}.
 
 \newpage
 \tableofcontents
@@ -148,7 +148,7 @@ più su \lstinline|git commit| si dovrà eseguire \lstinline|man git-commit|.
 \chapter{Introduzione ai VCS}
 \label{cha:introduzione-vcs}
 
-\section{Cos'è un VCS}
+\section{Cos'è un VCS?}
 \label{sec:cose-vcs}
 
 Un \emph{version control system}, abbreviato in VCS, è un programma che permette
@@ -169,8 +169,8 @@ adatto a essere utilizzato in accoppiata con \LaTeX.
 
 L'insieme dei file e cartelle facenti parte di un progetto controllato da un
 VCS, comprendente tutta la cronologia delle modifiche, si chiama
-\emph{repository}.  L'operazione di registrazione una modifica di uno o più file
-all'interno \emph{repository} si chiama \emph{commit}.
+\emph{repository}.  L'operazione di registrazione di una modifica di uno o più
+file all'interno \emph{repository} si chiama \emph{commit}.
 
 I VCS si dividono in due grandi classi: \emph{sistemi centralizzati} e
 \emph{sistemi distribuiti}.  I VCS più vecchi sono di tipo centralizzato
@@ -188,16 +188,16 @@ invia al richiedente la risposta nuovamente attraverso la rete.  Quando negli
 anni passati le connessioni a Internet non raggiungevano le velocità attuali era
 spesso tedioso aspettare tanto tempo per ottenere l'output di queste operazioni.
 Dunque in un CVCS si è completamente dipendenti dal server centrale che contiene
-il repository del progetto, con l'ulteriore conseguenza che se il server remoto
-viene spento dal suo gestore o compromesso da malintenzionati tutto il lavoro
-può essere perduto.  Per questi e altri motivi si sono diffusi in seguito i
-sistemi distribuiti (\emph{distributed version control system}, DVCS), nei quali
-ogni utente del progetto ha una copia dell'intero repository sul proprio sistema
-e, se lo si desidera, è possibile inviare una copia del proprio repository su un
-server remoto per metterlo in condivisione con altre persone.  Un DVCS può
-quindi riprodurre il flusso di lavoro di un CVCS ma senza avere i suoi aspetti
-negativi legati alle limitazioni di dover lavorare necessariamente con l'unico
-server centrale.
+il \emph{repository} del progetto, con l'ulteriore conseguenza che se il server
+remoto viene spento dal suo gestore o compromesso da malintenzionati tutto il
+lavoro può essere perduto.  Per questi e altri motivi si sono diffusi in seguito
+i sistemi distribuiti (\emph{distributed version control system}, DVCS), nei
+quali ogni utente del progetto ha una copia dell'intero \emph{repository} sul
+proprio sistema e, se lo si desidera, è possibile inviare una copia del proprio
+\emph{repository} su un server remoto per metterlo in condivisione con altre
+persone.  Un DVCS può quindi riprodurre il flusso di lavoro di un CVCS ma senza
+avere i suoi aspetti negativi legati alle limitazioni di dover lavorare
+necessariamente con l'unico server centrale.
 
 Fra i più famosi CVCS ricordiamo CVS e Subversion (abbreviato in SVN), i DVCS
 più noti invece sono Bazaar (bzr), Git e Mercurial (hg).
@@ -205,7 +205,7 @@ più noti invece sono Bazaar (bzr), Git e Mercurial (hg).
 % Se tutto ciò non è sufficientemente convincente per usare un VCS si può vedere
 % http://tug.org/pracjourn/2007-3/henningsen/henningsen.pdf e
 % http://www.charlietanksley.net/philtex/using-a-version-control-system/
-\section{Perché usare un VCS}
+\section{Perché usare un VCS?}
 \label{sec:perche-usare-vcs}
 
 \begin{quoting}
@@ -288,7 +288,7 @@ essere utile per i laureandi che vogliono avere una copia personale della
 propria tesi differente da quella da consegnare al proprio relatore, per
 assecondare, per esempio, le sue bizzarre richieste riguardanti i margini e
 l'interlinea del
-documento.\footnote{Idea suggerita da \texttt{Anon E. Mouse} su Stack Overflow:
+documento.\footnote{Idea suggerita da \texttt{Lorem Ipsum} su Stack Overflow:
   \url{http://stackoverflow.com/a/6190412}.}
 
 Un VCS richiede un certo, seppur minimo, lavoro da parte dell'utente, ma
@@ -307,6 +307,11 @@ di videoscrittura a \LaTeX{}.
 \section{Git: the stupid content tracker}
 \label{sec:git}
 
+{\em\footnotesize Questo paragrafo è stato in parte tradotto da
+  \url{http://git-scm.com/book/ch1-3.html}.}
+\vspace{0.5\baselineskip}
+
+\noindent
 Questa guida descrive in particolare uno dei più diffusi DVCS in circolazione,
 sicuramente quello con la comunità più attiva: Git.  Git è software libero
 essendo rilasciato sotto licenza GPL ed è disponibile, oltre che nei
@@ -324,8 +329,8 @@ Per controllare continuamente l'integrità dei dati Git utilizza un sistema,
 detto \emph{checksum}, che associa a ogni stato di un progetto una sequenza di
 bit che la identifica.  Nella fattispecie Git utilizza l'algoritmo SHA-$1$ che
 restituisce una stringa esadecimale (detta \emph{hash}) composta da $40$
-caratteri alfanumerici (numeri da \lstinline|0| a \lstinline|9| e lettere da
-\lstinline|a| a \lstinline|f|) che può apparire così:
+caratteri alfanumerici (numeri da \texttt{0} a \texttt{9} e lettere da
+\texttt{a} a \texttt{f}) che può apparire così:
 \begin{lstlisting}
 43c5858e91a7090b834dd9f09ddfae1061901ee4
 \end{lstlisting}
@@ -375,15 +380,14 @@ Se una particolare versione di un file si trova nella cartella git è considerat
 \emph{committed}. Se è stato modificato e aggiunto alla \emph{staging area} esso
 è detto \emph{staged}. Se è stato modificato da quando è stata aperta la cartella
 di lavoro ma non ancora aggiunto alla \emph{staging area} allora il file è detto
-\emph{modified}.\footnote{Questo paragrafo è stato tradotto in parte da
-  \url{http://git-scm.com/book/ch1-3.html}.}
+\emph{modified}.
 
-\chapter{Un semplice progetto \LaTeX} % TODO: cambiare titolo
-\label{cha:semplice-progetto}
+\chapter{Git e \LaTeX}
+\label{cha:git-latex}
 
 Vogliamo sviluppare un documento con \LaTeX, utilizzando Git come VCS.  Git non
 funziona in modo particolarmente esotico. Si tratta semplicemente di creare una
-directory, di posizionare in essa i nostri file \lstinline|.tex| e di dire a Git
+directory, di posizionare in essa i nostri file \filestyle{.tex} e di dire a Git
 di considerare tale directory come un \emph{repository}.
 
 \section{Creazione e inizializzazione del \emph{repository}}
@@ -397,31 +401,28 @@ di considerare tale directory come un \emph{repository}.
 ~/progetto$ git add .
 ~/progetto$ git commit -am "Inizializzazione del nuovo progetto"
 \end{lstlisting}
-Vediamo con calma i singoli passaggi. I primi tre comandi servono
-rispettivamente per creare la directory (\lstinline|mkdir|
-\meta{nome directory}), per spostarsi al suo interno (\lstinline|cd|
-\meta{nome directory}) e per creare un file vuoto chiamato
-\lstinline|np_main.tex| (\lstinline|touch| \meta{nome file}).
+Vediamo con calma i singoli passaggi.  I primi tre comandi servono
+rispettivamente per creare la directory (\texttt{mkdir} \meta{nome directory}),
+per spostarsi al suo interno (\texttt{cd} \meta{nome directory}) e per creare un
+file vuoto chiamato \filestyle{np\_main.tex} (\texttt{touch} \meta{nome file}).
 
-I passaggi successivi, eseguiti sempre dati dall'interno della directory, sono
-quelli specifici di Git:
+I passaggi successivi, eseguiti sempre dati dall'interno della cartella in cui
+si troverà il progetto, sono quelli specifici di Git:
 \begin{itemize}
-\item con \lstinline|git init| creiamo una cartella nascosta chiamata
-  \lstinline|.git/| che contiene il nostro \emph{repository} Git.  Questo
-  comando va dato solo al momento della creazione di un nuovo \emph{repository}
-  e poi non sarà più necessario riutilizzarlo;
-\item \lstinline|git add .| aggiunge l'argomento (in questo caso
-  `\lstinline|.|', che è un'abbreviazione del percorso della cartella in cui
-  siamo posizionati) alla \emph{staging area} del \emph{repository} appena
-  creato;
-\item con col comando \lstinline|commit -am "nota di versione"| effettuiamo il
-  commit che, come detto, salva una copia dei file contenuti nella \emph{staging
-    area} all'interno del database. Nel registro delle operazioni effettuate a
-  questa operazione risulterà associato il messaggio \lstinline|"nota di versione"|.
+\item con \texttt{git init} si crea un nuovo \emph{repository} vuoto, cioè
+  essenzialmente la cartella nascosta chiamata \filestyle{.git/} che conterrà
+  l'intero database.  Questo comando va dato solo al momento della creazione di
+  un nuovo \emph{repository} e poi non sarà più necessario riutilizzarlo;
+\item \texttt{git add .} aggiunge l'argomento (in questo caso `\filestyle{.}',
+  che è un'abbreviazione del percorso della cartella in cui siamo posizionati)
+  alla \emph{staging area} del \emph{repository} appena creato;
+\item col comando \texttt{commit -am "nota di versione"} effettuiamo il commit
+  che, come detto, salva una copia dei file contenuti nella \emph{staging area}
+  all'interno del database.  Nella cronologia delle modifiche, a questa
+  operazione risulterà associato il messaggio \texttt{"nota di versione"}.
 \end{itemize}
-
 Così facendo saremo già pronti a lavorare con il nostro editor di fiducia sul
-file \lstinline|.tex| appena creato.
+file \filestyle{.tex} appena creato.
 
 Per continuare il lavoro sul nostro documento e registrare i suoi cambiamenti
 dobbiamo eseguire le seguenti operazioni (il seguente elenco puntato deve essere
@@ -432,20 +433,20 @@ pagina~\pageref{list:lavoro-git}):
   editor di testo di fiducia, oppure se ne aggiungono di nuovi (per esempio
   possono essere aggiunte nuove figure);
 \item si aggiungono i file che vogliamo registrare nel successivo \emph{commit}
-  alla \emph{staging area} con il comando \lstinline|git add| \meta{file}, dove
-  al posto di \meta{file} va sostituito l'elenco, separato da uno spazio, dei
-  file di interesse. Per maggiori informazioni sull'aggiunta di file a un
-  progetto Git vedi il paragrafo~\ref{sec:aggiungere-rimuovere-file};
-\item si effettua un \emph{commit} con il comando \lstinline|git commit|. A
-  questo punto si aprirà l'editor di testo predefinito di Git per l'inserimento
-  del messaggio del \emph{commit}. Vedi il
+  alla \emph{staging area} con il comando \texttt{git add} \meta{file}, dove al
+  posto di \meta{file} va sostituito l'elenco, separato da uno spazio, dei file
+  di interesse. Per maggiori informazioni sull'aggiunta di file a un progetto
+  Git vedi il paragrafo~\ref{sec:aggiungere-rimuovere-file};
+\item si effettua un \emph{commit} con il comando \texttt{git commit}.  A questo
+  punto si aprirà l'editor di testo predefinito di Git per l'inserimento del
+  messaggio del \emph{commit}.  Vedi il
   paragrafo~\ref{sec:configurazioni-basilari} per sapere come configurare
   l'editor predefinito di Git e il paragrafo~\ref{sec:messaggi-commit} per
   maggiori informazioni sui messaggi dei \emph{commit}.
 \end{enumerate}
 I punti 2 e 3 possono essere eseguiti insieme se si vogliono aggiungere alla
 \emph{staging area} tutti i file che risultano \emph{modified} nella
-\emph{working directory} utilizzando il comando \lstinline|git commit -a|.
+\emph{working directory} utilizzando il comando \texttt{git commit -a}.
 
 Prima di eseguire un \emph{commit} si possono modificare più file, se ne possono
 aggiungere di nuovi o se ne possono cancellare altri. Nel \emph{commit} verranno
@@ -457,13 +458,13 @@ nuova revisione.
 \label{sec:messaggi-commit}
 
 In Git, a differenza di altri software VCS, è necessario specificare un
-messaggio di \emph{commit} non vuoto. Se quando registriamo un nuovo
-\emph{commit} con il comando \lstinline|git commit| non specifichiamo un
-messaggio con l'opzione \lstinline|-m| si aprirà l'editor di testo associato di
-default a Git in cui potremo scrivere il messaggio del \emph{commit}. Se si
-utilizza un editor di testo per scrivere il messaggio di un \emph{commit} è
-possibile inserire messaggi estesi su più righe. Generalmente si utilizza la
-seguente convenzione:
+messaggio di \emph{commit} non vuoto.  Se quando registriamo un nuovo
+\emph{commit} con il comando \texttt{git commit} non specifichiamo un messaggio
+con l'opzione \texttt{-m} si aprirà l'editor di testo associato di default a Git
+in cui potremo scrivere il messaggio del \emph{commit}.  Se si utilizza un
+editor di testo per scrivere il messaggio di un \emph{commit} è possibile
+inserire messaggi estesi su più righe.  Generalmente si utilizza la seguente
+convenzione:
 \begin{itemize}
 \item nella prima riga del messaggio, che non deve superare i 50 caratteri, si
   inserisce una breve e riassuntiva descrizione del \emph{commit} che si sta
@@ -481,21 +482,21 @@ seguente convenzione:
 \end{itemize}
 
 Nei messaggi il carattere \lstinline|#| viene interpretato come carattere di
-commento e ha lo stesso utilizzo del carattere \lstinline|%| in \LaTeX, cioè
-tutto ciò che in una riga si trova alla destra del carattere \lstinline|#| verrà
-ignorato. Si noti che all'apertura dell'editor di testo per la modifica del
-messaggio sono presenti, alla fine del file, delle righe di commento contenenti
-delle informazioni relative al \emph{commit} che si sta registrando. Queste
-righe possono essere ignorate.
+commento e ha lo stesso utilizzo del carattere \lstinline[language=TeX]|%| in
+\LaTeX, cioè tutto ciò che in una riga si trova alla destra del carattere
+\lstinline|#| verrà ignorato. Si noti che all'apertura dell'editor di testo per
+la modifica del messaggio sono presenti, alla fine del file, delle righe di
+commento contenenti delle informazioni relative al \emph{commit} che si sta
+registrando. Queste righe possono essere ignorate.
 
 \section{Aggiungere e rimuovere file del progetto}
 \label{sec:aggiungere-rimuovere-file}
 
 Per controllare lo stato di un \emph{repository} Git esiste il comando
-\lstinline|git status|. Questo comando ci permette di monitorare costantemente
-la situazione di tutti i file e fornisce spesso dei suggerimenti utili (in
-lingua inglese) sulle operazioni che possono essere eseguite sui file. Se dopo
-aver effettuato un \emph{commit} si sono modificati dei file, l'output di questo
+\texttt{git status}.  Questo comando ci permette di monitorare costantemente la
+situazione di tutti i file e fornisce spesso dei suggerimenti utili (in lingua
+inglese) sulle operazioni che possono essere eseguite sui file.  Se dopo aver
+effettuato un \emph{commit} si sono modificati dei file, l'output di questo
 comando sarà qualcosa di simile a ciò che segue
 \begin{lstlisting}
 # On branch master
@@ -511,10 +512,9 @@ no changes added to commit (use "git add" and/or "git commit -a")
 In questo esempio nella \emph{working directory} sono presenti due file, tutti e
 due \emph{modified} ma non \emph{staged}, come ben spiegato da Git. Nell'ultima
 riga dell'output Git ci suggerisce anche come aggiungere i file alla
-\emph{staging area}, cioè usando i già visti \lstinline|git add| \meta{file}
-oppure \lstinline|git commit -a|. Se aggiungiamo il file
-\lstinline|git4latex.tex| alla \emph{staging area} l'output di
-\lstinline|git status| diventerà
+\emph{staging area}, cioè usando i già visti \texttt{git add} \meta{file} oppure
+\texttt{git commit -a}.  Se aggiungiamo il file \filestyle{git4latex.tex} alla
+\emph{staging area} l'output di \texttt{git status} diventerà
 \begin{lstlisting}
 $ git add git4latex.tex
 $ git status
@@ -531,14 +531,13 @@ $ git status
 #	modified:   TODO
 #
 \end{lstlisting}
-Adesso \lstinline|git4latex.tex| compare nell'elenco dei file che faranno parte
-del prossimo \emph{commit}. Ci viene anche suggerito come rimuovere un file
-dalla \emph{staging area}, usando \lstinline|git reset HEAD| \meta{file}, ma
-riprenderemo questo discorso nel
-paragrafo~\ref{sec:annullare-modifiche-non-salvate}. Non è necessario che tutti
-i file siano spostati nella \emph{staging area} prima di effettuare un nuovo
-\emph{commit}, possiamo spostare solo quelli che vogliamo registrare nella
-revisione successiva.
+Adesso \texttt{git4latex.tex} compare nell'elenco dei file che faranno parte del
+prossimo \emph{commit}.  Ci viene anche suggerito come rimuovere un file dalla
+\emph{staging area}, usando \texttt{git reset HEAD} \meta{file}, ma riprenderemo
+questo discorso nel paragrafo~\ref{sec:annullare-modifiche-non-salvate}.  Non è
+necessario che tutti i file siano spostati nella \emph{staging area} prima di
+effettuare un nuovo \emph{commit}, possiamo spostare solo quelli che vogliamo
+registrare nella revisione successiva.
 
 Se dopo aver spostato un file nella \emph{staging area} lo modifichiamo
 nuovamente, questo apparirà sia nell'elenco dei file che faranno parte del nuovo
@@ -561,22 +560,21 @@ nuovamente, questo apparirà sia nell'elenco dei file che faranno parte del nuov
 Succede questo perché Git non ricorda semplicemente l'elenco dei file che sono
 pronti per entrare nella nuova revisione, ma memorizza nella \emph{staging area}
 una copia del file così com'era al momento dell'esecuzione del comando
-\lstinline|git add| \meta{file}. Prima di effettuare il \emph{commit} quindi è
+\texttt{git add} \meta{file}.  Prima di effettuare il \emph{commit} quindi è
 bene controllare che il file sia solo fra quelli \emph{to be committed} e non
 anche fra i file \emph{not staged for commit}, per evitare di inserire nel
-\emph{commit} un file alla versione sbagliata. Un metodo semplice per rimediare
-a questo pericolo è quello di usare \lstinline|git commit -a|, ma questo è
+\emph{commit} un file alla versione sbagliata.  Un metodo semplice per rimediare
+a questo pericolo è quello di usare \texttt{git commit -a}, ma questo è
 possibile solo se si vogliono aggiungere al \emph{commit} tutti i file che
 risultano \emph{modified}.
 
-Il comando \lstinline|git add| permette di aggiungere al \emph{repository}
+Il comando \texttt{git add} permette di aggiungere al \emph{repository}
 qualsiasi file presente nella \emph{working directory}, anche quelli non ancora
-conosciuti da
-Git.\footnote{In effetti subito dopo aver creato il \emph{repository} con
-  \lstinline|git init|, Git non conosceva nessun file, noi glieli abbiamo
-  presentati con \lstinline|git add| \meta{file}.}
-Per esempio, se abbiamo creato un file per la bibliografia, chiamato
-\lstinline|bibliografia.bib|, del nostro documento la situazione sarà la
+conosciuti da Git.\footnote{In effetti subito dopo aver creato il
+  \emph{repository} con \texttt{git init}, Git non conosceva nessun file, noi
+  glieli abbiamo presentati con \texttt{git add} \meta{file}.}  Per esempio, se
+abbiamo creato un file per la bibliografia, chiamato
+\filestyle{bibliografia.bib}, del nostro documento la situazione sarà la
 seguente
 \begin{lstlisting}
 $ git status
@@ -586,12 +584,12 @@ $ git status
 #
 #	bibliografia.bib
 nothing added to commit but untracked files present (use "git add" to track)
-\end{lstlisting}
+\end{lstlisting} %$
 I file \emph{untracked} sono quelli non ancora seguiti da Git poiché non ancora
 conosciuti. Come avrete probabilmente già capito, e come suggerito anche
 dall'output del comando, per rendere noto a Git il file dovremo usare
-\lstinline|git add bibliografia.bib|. Se avessimo provato a effettuare
-direttamente un \emph{commit} con \lstinline|git commit -a| avremmo ottenuto la
+\texttt{git add bibliografia.bib}.  Se avessimo provato a effettuare
+direttamente un \emph{commit} con \texttt{git commit -a} avremmo ottenuto la
 seguente risposta
 \begin{lstlisting}
 $ git commit -am "aggiungo bibliografia"
@@ -601,34 +599,32 @@ $ git commit -am "aggiungo bibliografia"
 #
 #       bibliografia.bib
 nothing added to commit but untracked files present (use "git add" to track)
-\end{lstlisting}
+\end{lstlisting} %$
 Git si sarebbe accorto della presenza del nuovo file, ma non lo avrebbe aggiunto
 automaticamente al progetto. D'altra parte, se avesse rilevato delle modifiche
 ai file precedentemente aggiunti al progetto, non si sarebbe nemmeno curato di
 comunicarci che il nuovo file non è ancora stato aggiunto al progetto. Si
 sarebbe infatti limitato a salvare le modifiche ai file che gli abbiamo
-precedentemente detto di gestire. Solo con il comando \lstinline|git status|
+precedentemente detto di gestire. Solo con il comando \texttt{git status}
 possiamo controllare con certezza lo stato di tutti i file del
 \emph{repository}.
 
 Oltre ad aggiungere file a un \emph{repository} è possibile, naturalmente, anche
-rimuoverli. La sintassi è la seguente:
-\lstinline[emph={}]|git rm| \meta{file}, in cui a \meta{file} va
-sostituito, come al solito, l'elenco dei file che si vogliono cancellare. Questo
-comando elimina il file dalla \emph{working directory} e aggiunge la
-cancellazione del file alla \emph{staging area}, ma non crea un nuovo
-\emph{commit} che dovrà quindi essere eseguito esplicitamente, senza però aver
-bisogno di fare altro. Poiché la cancellazione è memorizzata nella
+rimuoverli.  La sintassi è la seguente: \texttt{git rm} \meta{file}, in cui a
+\meta{file} va sostituito, come al solito, l'elenco dei file che si vogliono
+cancellare.  Questo comando elimina il file dalla \emph{working directory} e
+aggiunge la cancellazione del file alla \emph{staging area}, ma non crea un
+nuovo \emph{commit} che dovrà quindi essere eseguito esplicitamente, senza però
+aver bisogno di fare altro.  Poiché la cancellazione è memorizzata nella
 \emph{staging area}, per rimuovere l'eliminazione accidentale di un file, prima
-di effettuare un \emph{commit}, eseguita con
-\lstinline[emph={}]|git rm| \meta{file}, possiamo usare
-\lstinline|git reset HEAD| \meta{file}. Adesso la modifica è presente solo nella
-\emph{working directory} (cioè il file è assente dalla cartella di lavoro), per
-ripristinarlo useremo \lstinline|git checkout --| \meta{file}. Non c'è bisogno di
-ricordare a memoria tutte le operazioni per il ripristino del
-file,\footnote{Queste operazioni dovrebbero   risultare più chiare dopo avere
-  letto il paragrafo~\ref{sec:annullare-modifiche-non-salvate}.} queste infatti
-sono suggerite dall'output di \lstinline|git status|.
+di effettuare un \emph{commit}, eseguita con \texttt{git rm} \meta{file},
+possiamo usare \texttt{git reset HEAD} \meta{file}.  Adesso la modifica è
+presente solo nella \emph{working directory} (cioè il file è assente dalla
+cartella di lavoro), per ripristinarlo useremo \texttt{git checkout --}
+\meta{file}.  Non c'è bisogno di ricordare a memoria tutte le operazioni per il
+ripristino del file,\footnote{Queste operazioni dovrebbero risultare più chiare
+  dopo avere letto il paragrafo~\ref{sec:annullare-modifiche-non-salvate}.}
+queste infatti sono suggerite dall'output di \texttt{git status}.
 \begin{lstlisting}
 $ git rm bibliografia.bib
 rm 'bibliografia.bib'
@@ -658,12 +654,12 @@ nothing to commit (working directory clean)
 \end{lstlisting}
 
 \subsection{Ignorare file del progetto:
-  \texorpdfstring{\lstinline|.gitignore|}{.gitignore}}
+  \texorpdfstring{\filestyle{.gitignore}}{.gitignore}}
 \label{sec:ignorare-file}
 % TODO: rivedere questa sezione
 
 Come ormai sappiamo bene, per aggiungere dei file alla \emph{staging area}
-dobbiamo usare il comando \lstinline|git add| \meta{file}, in cui a \meta{file}
+dobbiamo usare il comando \texttt{git add} \meta{file}, in cui a \meta{file}
 andrà sostituito l'elenco dei file, separati da uno spazio, che si vogliono
 includere nel \emph{commit} successivo. Si può scegliere di procedere in due
 modi: aggiungere indiscriminatamente tutti i file della cartella corrente al
@@ -684,12 +680,12 @@ Git si aspetta da me l'aggiunta indiscriminata di ogni file nella directory al
 lavora con \LaTeX{} è la seguente: nel corso dell'elaborazione di un testo
 inevitabilmente si procederà alla generazione del documento in pdf a partire dai
 sorgenti; \LaTeX{} provvederà quindi alla generazioni di una serie di file
-ausiliari (\lstinline|.toc|, \lstinline|.out|, \dots), nonché di un pdf più o
-meno inutile. Se eseguissimo il comando \lstinline|git add .| subito dopo una
+ausiliari (\filestyle{.toc}, \filestyle{.out}, \dots), nonché di un \textsc{pdf}
+più o meno inutile. Se eseguissimo il comando \texttt{git add .} subito dopo una
 compilazione, evidentemente Git aggiungerebbe alla \emph{staging area} anche i
-vari file di lavoro, dal pdf, ai file di log. Per ovviare a questo
-inconveniente, e continuare pigramente a eseguire \lstinline|git add .|, è utile
-creare nella nostra directory di un file denominato \lstinline|.gitignore|.
+vari file di lavoro, dal pdf, ai file di log.  Per ovviare a questo
+inconveniente, e continuare pigramente a eseguire \texttt{git add .}, è utile
+creare nella nostra directory di un file denominato \filestyle{.gitignore}.
 \begin{lstlisting}
 $ echo "*.log" >> .gitignore
 $ echo "*.pdf" >> .gitignore
@@ -706,23 +702,31 @@ $ git commit -am "Aggiunto il file .gitignore"
 Mediante questo file, istruiamo Git a proposito di tutti i file che non fanno
 effettivamente parte del progetto, pur essendo presenti nella cartella.  Da
 questo momento in poi Git si limiterà a ignorarli, il che ci permette di
-eseguire prudenzialmente il comando \lstinline|git add .| prima di ogni
+eseguire prudenzialmente il comando \texttt{git add .} prima di ogni
 \emph{commit}. Generalmente Git è usato per gestire solo il codice sorgente di
 un progetto, sia esso un programma o un documento \LaTeX, quindi è buona norma
 aggiungere all'elenco dei file ignorati tutti quei file, ausiliari o di output,
 che vengono generati nella fase di compilazione, del programma o documento, ma
 che non fanno parte del codice sorgente propriamente detto. Nel caso di un
-documento \LaTeX{} saranno i file con estensione, per esempio, \lstinline|.log|,
-\lstinline|.aux|, \lstinline|.toc| (per i file ausiliari temporanei) e
-\lstinline|.pdf| (per il file di output).
+documento \LaTeX{} saranno i file con estensione, per esempio, \filestyle{.log},
+\filestyle{.aux}, \filestyle{.toc} (per i file ausiliari temporanei) e
+\filestyle{.pdf} (per il file di output).  L'aggiunta del \textsc{pdf} finale
+comporterebbe un inutile duplicato nella cronologia dato che è già presente
+l'intero codice sorgente e inoltre appesantisce notevolmente l'intero
+\emph{repository}.  Se si vuole distribuire il \textsc{pdf} è preferibile
+caricarlo su un apposito sito di \emph{file hosting}.\footnote{Alcuni siti, come
+  \url{https://bitbucket.org} e \url{http://sourceforge.net}, che offrono la
+  possibilità di ospitare \emph{repository} git remoti permettono inoltre di
+  caricare dei file esterni al \emph{repository} proprio come un classico sito
+  di \emph{file hosting}.}
 
 \section{Consultare la cronologia}
 \label{sec:consultare-cronologia}
 
 In Git è possibile, naturalmente, consultare la cronologia dei \emph{commit}
-registrati nel \emph{repository} in uso. Il comando da usare è
-\lstinline|git log|. L'output di questo comando, senza ulteriori opzioni, sarà
-qualcosa di questo tipo
+registrati nel \emph{repository} in uso.  Il comando da usare è \texttt{git
+  log}.  L'output di questo comando, senza ulteriori opzioni, sarà qualcosa di
+questo tipo
 \begin{lstlisting}
 commit 9e1691276ba70443c56c214a52088814a5f25ec5
 Author: Pietro Giuffrida <pietro.giuffri@gmail.com>
@@ -743,30 +747,31 @@ Date:   Sat Oct 2 18:53:30 2010 +0200
     Ho solo iniziato a lavorare
 \end{lstlisting}
 È possibile muoversi nella cronologia con i tasti freccia. Nella prima riga di
-ogni revisione (che inizia con \lstinline|commit|) è riportato l'\emph{hash}
-esteso corrispondente, nella seconda l'autore (\lstinline|Author|) del
-\emph{commit}, quindi la data di salvataggio (\lstinline|Date|) e il messaggio
-descrittivo.
+ogni revisione (che inizia con \texttt{commit}) è riportato l'\emph{hash} esteso
+corrispondente, nella seconda l'autore (\texttt{Author}) del \emph{commit},
+quindi la data di salvataggio (\texttt{Date}) e il messaggio descrittivo.
 
-È possibile mostrare solo l'elenco degli ultimi \lstinline|n| \emph{commit}
-aggiungendo l'opzione \lstinline|-n|. Dunque per mostrare solo l'ultimo
-\emph{commit} possiamo usare il comando \lstinline|git commit -1|. Si può
-consultare la cronologia relativa a uno o più specifici file e non all'intero
+È possibile mostrare solo l'elenco degli ultimi $n$ \emph{commit} aggiungendo
+l'opzione \texttt{-}\meta{n}. Dunque per mostrare solo l'ultimo \emph{commit}
+possiamo usare il comando \texttt{git commit -1}.  Si può consultare la
+cronologia relativa a uno o più specifici file e non all'intero
 \emph{repository} passando come argomento del comando l'elenco dei file di
-interesse, separati da uno spazio: \lstinline|git log --| \meta{file}. Se si vuole
-visualizzare solo l'elenco degli ultimi \lstinline|n| \emph{commit} relativi a
-un determinato elenco di file si possono utilizzare contemporaneamente l'opzione
-\lstinline|-n| e l'argomento \meta{file}. Per esempio il comando
-\lstinline|git log -3 -- main.tex capitolo2.tex| mostrerà gli ultimi tre
-\emph{commit} che hanno modificato i file \lstinline|main.tex| e
-\lstinline|capitolo2.tex|. Il doppio trattino \lstinline|--| serve per far
-capire a Git che tutto ciò che segue è l'elenco dei file.
+interesse, separati da uno spazio: \texttt{git log --} \meta{file}.  Se si vuole
+visualizzare solo l'elenco degli ultimi \texttt{n} \emph{commit} relativi a un
+determinato elenco di file si possono utilizzare contemporaneamente l'opzione
+\texttt{-}\meta{n} e l'argomento \meta{file}.  Per esempio il comando
+\texttt{git log -3 -- main.tex capitolo2.tex} mostrerà gli ultimi tre
+\emph{commit} che hanno modificato i file \filestyle{main.tex} e
+\filestyle{capitolo2.tex}.  Il doppio trattino \texttt{--} serve per far capire
+a Git che tutto ciò che segue è l'elenco dei file.  In generale non è
+obbligatorio utilizzarlo ma diventa necessario per evitare ambiguità nel caso in
+cui ci siano rami o etichette con lo stesso nome del file.
 
-Come abbiamo visto, in maniera predefinita \lstinline|git log| mostra solo
-alcune informazioni dei \emph{commit}. Per mostrare anche le modifiche apportate
-in ciascun \emph{commit} nel formato \lstinline|diff| si può utilizzare
-l'opzione \lstinline|-p|. Per esempio, l'esecuzione del comando
-\lstinline|git log -1 -p| potrà dare un output di questo tipo:
+Come abbiamo visto, in maniera predefinita \texttt{git log} mostra solo alcune
+informazioni dei \emph{commit}. Per mostrare anche le modifiche apportate in
+ciascun \emph{commit} nel formato \texttt{diff} si può utilizzare l'opzione
+\texttt{-p}.  Per esempio, l'esecuzione del comando \texttt{git log -1 -p} potrà
+dare un output di questo tipo:
 \begin{lstlisting}
 commit 5a5f793b0780d2c3352239beca3fc8de432a71b9
 Author: Paolino Paperino <paolino.paperino@example.org>
@@ -794,20 +799,20 @@ index 74a1474..a84fb27 100644
 
 Segnaliamo infine un'altra utile opzione che serve per mostrare come
 informazioni del \emph{commit} solo l'\emph{hash} in formato breve e la prima
-riga del messaggio. Questa opzione si chiama \lstinline|--oneline| ed è utile se
+riga del messaggio.  Questa opzione si chiama \texttt{--oneline} ed è utile se
 si vuole trovare rapidamente l'\emph{hash} di un \emph{commit} sfogliando le
-prime righe dei messaggi di tutti i commit. Per esempio, il primo output di
-\lstinline|git log| riportato all'inizio di questo paragrafo, con l'opzione
-\lstinline|--oneline| apparirebbe così:
+prime righe dei messaggi di tutti i commit.  Per esempio, il primo output di
+\texttt{git log} riportato all'inizio di questo paragrafo, con l'opzione
+\texttt{--oneline} apparirebbe così:
 \begin{lstlisting}
 $ git log --oneline
 9e16912 un po' di pulizia
 86ee0a0 prime due sezioni
 43c5858 Ho solo iniziato a lavorare
-\end{lstlisting}
+\end{lstlisting} %$
 
 Per maggiori informazioni è possibile consultare la documentazione di
-\lstinline|git log| con il comando \lstinline|man git-log|.
+\texttt{git log} con il comando \texttt{man git-log}.
 
 \section{Annullare e cambiare modifiche precedenti}
 \label{sec:annullare-modifiche}
@@ -824,10 +829,10 @@ Se si vogliono annullare tutte le modifiche effettuate a dei file ma non ancora
 registrate in un \emph{commit} si può usare il comando
 \begin{lstlisting}
 $ git reset --hard HEAD
-\end{lstlisting}
+\end{lstlisting} %$
 In questo modo l'intera \emph{working directory} viene ripristinata alla stato
 corrispondente all'ultimo \emph{commit} della cronologia, indicato con
-\lstinline|HEAD|.
+\texttt{HEAD}.
 
 Se si vogliono riportare allo stato dell'ultimo \emph{commit} registrato solo
 determinati file che sono \emph{modified} ma non ancora \emph{staged}, adottando
@@ -835,69 +840,60 @@ la terminologia vista all'inizio, senza toccare la restante
 \emph{working directory} si può utilizzare il comando
 \begin{lstlisting}
 $ git checkout -- £\meta{file}£
-\end{lstlisting}
+\end{lstlisting} %$
 in cui a \meta{file} va sostituito l'elenco dei file, separati da uno spazio,
 che si vogliono ripristinare. Le opzioni e gli argomenti che il comando
-\lstinline|git commit| può accettare sono numerosi e le operazioni che verranno
+\texttt{git commit} può accettare sono numerosi e le operazioni che verranno
 eseguite possono essere diverse a seconda delle istruzioni fornite (ma non è
 scopo della presente guida spiegare nei dettagli il completo funzionamento di
-Git), il doppio trattino \lstinline|--| serve per far capire a Git, senza
+Git), il doppio trattino \texttt{--} serve per far capire a Git, senza
 possibilità di ambiguità, che tutto ciò che si trova dopo è l'elenco dei file e
 l'operazione da eseguire è quella qui descritta. Il doppio trattino può essere
 omesso se non ci sono possibili ambiguità, per esempio se il file da passare
 come argomento non ha lo stesso nome di uno dei \emph{branch} (vedi
-paragrafo~\ref{sec:branch}) del \emph{repository}. Il comando
-\lstinline|git checkout --| \meta{file} può anche essere usato per ripristinare
-file accidentalmente cancellati prima effettuare un nuovo \emph{commit}. In
-questo caso l'uso del doppio trattino è necessario dal momento che il file
-cancellato non si trova nella \emph{working directory} e Git non capirebbe che
-\meta{file} è con certezza un elenco di file cancellati. Altri modi per
-ripristinare file cancellati saranno visti nel
-paragrafo~\ref{sec:ripristinare-file}.
+paragrafo~\ref{sec:branch}) del \emph{repository}. Il comando \texttt{git
+  checkout --} \meta{file} può anche essere usato per ripristinare file
+accidentalmente cancellati prima effettuare un nuovo \emph{commit}. In questo
+caso l'uso del doppio trattino è necessario dal momento che il file cancellato
+non si trova nella \emph{working directory} e Git non capirebbe che \meta{file}
+è con certezza un elenco di file cancellati. Altri modi per ripristinare file
+cancellati saranno visti nel paragrafo~\ref{sec:ripristinare-file}.
 
 Se invece si vogliono solo togliere uno o più file dalla \emph{staging area} ma
 lasciare intatta la \emph{working directory} si può usare il comando
 \begin{lstlisting}
 $ git reset HEAD £\meta{file}£
-\end{lstlisting}
+\end{lstlisting} %$
 Come al solito, a \meta{file} va sostituito l'elenco dei file di interesse,
 separati da uno spazio.  I file tolti dalla \emph{staging area} possono poi
 anche essere ripristinati allo stato del \emph{commit} precedente usando il
-comando \lstinline|git checkout --| \meta{file} illustrato qui sopra.
+comando \texttt{git checkout --} \meta{file} illustrato qui sopra.
 
 \subsection{Modificare l'ultimo \emph{commit} non inviato in remoto}
 \label{sec:modifica-ultimo-commit-non-remoto}
 
-Come vedremo nel paragrafo~\ref{sec:repository-on-line}, è possibile inviare il
-proprio \emph{repository} Git a un server remoto per conservare una copia di
-backup del progetto oppure per mettere il codice a disposizione di altre
-persone. L'opzione \lstinline|--amend| del comando \lstinline|git commit|
-permette di modificare l'ultimo \emph{commit}, ma \emph{a patto che non sia già
-  stato inviato a un server remoto con} \lstinline|git push|.  Questa apparente
-limitazione è dovuta al fatto che quando il server remoto riceve la nuova
-versione del \emph{repository} non si aspetta che la cronologia dei
-\emph{commit} che già conosce venga modificata e questa è una misura di
-sicurezza voluta dagli sviluppatori di Git che assicura che un \emph{repository}
-non possa essere alterato da malintenzionati.
+L'opzione \texttt{--amend} del comando \texttt{git commit} permette di
+modificare l'ultimo \emph{commit}.  Se dopo aver salvato un \emph{commit} ci
+accorgiamo che dobbiamo correggerlo (per esempio perché ci siamo dimenticati
+apportare una modifica o di aggiungere un file), possiamo normalmente modificare
+i file di interesse, aggiungerli alla \emph{staging area} con il comando
+\texttt{git add} \meta{file}\footnote{Se ci si era dimenticati di aggiungere un
+  file nuovo o modificato alla \emph{staging area} prima di effettuare il
+  \emph{commit} precedente, sarà sufficiente eseguire \texttt{git add}
+  \meta{file} senza dover modificare ulteriormente alcun file.}  e poi, invece
+di effettuare un nuovo \emph{commit} con \texttt{git commit}, eseguire il
+comando \texttt{git commit --amend} che modificherà l'ultimo \emph{commit} della
+cronologia.  A questo punto si aprirà la solita interfaccia che compare al
+momento del salvataggio di un \emph{commit}: è possibile modificare il
+messaggio, altrimenti è sufficiente uscire direttamente dall'interfaccia.
 
-Dunque, se dopo aver salvato un \emph{commit} ci accorgiamo che dobbiamo
-correggerlo (per esempio perché ci siamo dimenticati apportare una modifica o di
-aggiungere un file), possiamo normalmente modificare i file di interesse,
-aggiungerli alla \emph{staging area} con il comando \lstinline|git add|
-\meta{file}\footnote{Se ci si era dimenticati di aggiungere un file nuovo o
-  modificato alla \emph{staging area} prima di effettuare il \emph{commit}
-  precedente, sarà sufficiente eseguire \lstinline|git add| \meta{file} senza
-  dover modificare ulteriormente alcun file.}
-e poi, invece di effettuare un nuovo \emph{commit} con \lstinline|git commit|,
-eseguire il comando \lstinline|git commit --amend| che modificherà l'ultimo
-\emph{commit} della cronologia. A questo punto si aprirà la solita interfaccia
-che compare al momento del salvataggio di un \emph{commit}: se non si desidera
-modificare il messaggio è sufficiente uscire dall'interfaccia.
-
-Facciamo notare che il fatto che, eseguendo \lstinline|git commit --amend|,
-compaia l'interfaccia per la modifica del messaggio ci permette di cambiare il
-messaggio dell'ultimo \emph{commit} (sempre a condizione che non sia ancora
-stato inviato a un server remoto).
+Se bene sia in realtà possibile, è altamente sconsigliato modificare un
+\emph{commit} già inviato in remoto con \texttt{git push} (vedi il
+paragrafo~\ref{sec:repository-on-line}) se il \emph{repository} è condiviso con
+altre persone, poiché i loro \emph{repository} non potranno più continuare a
+essere sincronizzati con il \emph{repository} centrale.  Quindi, se si condivide
+il progetto con altri utenti è preferibile riscrivere la cronologia con
+\texttt{git commit --amend} solo per \emph{commit} non ancora inviati in remoto.
 
 \subsection{Annullare un \emph{commit}}
 \label{sec:annullare-commit}
@@ -906,26 +902,19 @@ Per annullare le modifiche apportate con uno specifico \emph{commit}, creando un
 nuovo \emph{commit} si può usare il comando
 \begin{lstlisting}
 $ git revert £\meta{hash commit}£
-\end{lstlisting}
+\end{lstlisting} %$
 in cui a \meta{hash commit} va sostituito l'\emph{hash} del \emph{commit} che si
 vuole annullare (vedi il paragrafo~\ref{sec:consultare-cronologia} per sapere
 come recuperare l'\emph{hash} abbreviato sfogliando la cronologia delle
 modifiche).  Se per esempio la forma abbreviata dell'\emph{hash} corrispondente
-al \emph{commit} che si vuole annullare è \lstinline|d4fcdbd| il comando da
-usare è
+al \emph{commit} che si vuole annullare è \texttt{d4fcdbd} il comando da usare è
 \begin{lstlisting}
 $ git revert d4fcdbd
-\end{lstlisting}
+\end{lstlisting} %$
 Dopo aver eseguito il comando si aprirà l'interfaccia per la modifica del
 messaggio del nuovo \emph{commit}. Se il \emph{commit} da annullare è l'ultimo
-al posto dell'\emph{hash} si può usare il riferimento \lstinline|HEAD|:
-\lstinline|git revert HEAD|.
-
-Poiché \lstinline|git revert| crea un nuovo \emph{commit} per annullare le
-modifiche presenti in uno precedente, lasciando quindi intatta la cronologia
-precedente, questo metodo deve essere necessariamente usato per correggere
-\emph{commit} che sono già stati inviati in remoto, per i motivi spiegati nel
-paragrafo~\ref{sec:modifica-ultimo-commit-non-remoto}.
+al posto dell'\emph{hash} si può usare il riferimento \texttt{HEAD}: \texttt{git
+  revert HEAD}.
 % Nella guida non ne parlo perché non so neanche io bene come funzioni, comunque
 % segnalo a chi legge questo commento che dovrebbe essere possibile modificare
 % vecchi commit non inviati in remoto con `git rebase'. Si veda
@@ -939,80 +928,85 @@ oppure riportare file ancora presenti nel \emph{repository} a una versione
 precedente.
 
 Ipotizziamo a titolo esemplificativo il seguente scenario: abbiamo creato un
-file, \lstinline|np_secondary.tex|, l'abbiamo aggiunto al \emph{repository} Git
-con il comando \lstinline|git add np_secondary.tex| e abbiamo eseguito il
-commit. Dopo di ciò abbiamo accidentalmente cancellato il file con il comando
-\lstinline|rm np_secondary.tex| e abbiamo effettuato un altro \emph{commit}
-che ha registrato la cancellazione del file:
+file, \filestyle{np\_secondary.tex}, l'abbiamo aggiunto al \emph{repository} Git
+con il comando \texttt{git add np\_secondary.tex} e abbiamo eseguito il commit.
+Dopo di ciò abbiamo accidentalmente cancellato il file con il comando \texttt{rm
+  np\_secondary.tex} e abbiamo effettuato un altro \emph{commit} che ha
+registrato la cancellazione del file:
 \begin{lstlisting}
 $ echo "pippo" >> np_secondary.tex
 $ git add np_secondary.tex
 $ git commit -am "Ho solo iniziato a lavorare"
 $ rm np_secondary.tex
 $ git commit -am "Ma ho gia' perso tutto"
-\end{lstlisting}
+\end{lstlisting} %$
 Ora chiediamo conto a Git della sua capacità di ripristinare una versione
 precedentemente salvata. La prima cosa da fare è consultare la cronologia dei
 \emph{commit} precedentemente effettuati, per ottenere l'\emph{hash} della
 versione che vogliamo ripristinare. Il comando appropriato quindi, per quanto
-visto nel paragrafo~\ref{sec:consultare-cronologia}, è \lstinline|git log --|
+visto nel paragrafo~\ref{sec:consultare-cronologia}, è \texttt{git log --}
 \meta{file}.  Poiché è sufficiente conoscere l'\emph{hash} in forma abbreviata
 dell'ultima revisione in cui il file era ancora presente nel progetto usiamo le
-opzioni \lstinline|--oneline| e \lstinline|-2| (l'ultima revisione in cui
-comparirà il file \lstinline|np_secondary.tex| è quella in cui è stato
-cancellato, ma a noi interessa quella precedente)
+opzioni \texttt{--oneline} e \texttt{-2} (l'ultima revisione in cui comparirà il
+file \filestyle{np\_secondary.tex} è quella in cui è stato cancellato, ma a noi
+interessa quella precedente)
 \begin{lstlisting}
 $ git log -2 --oneline -- np_secondary.tex
 3802287 Ma ho gia' perso tutto
 c21d825 Ho solo iniziato a lavorare
-\end{lstlisting}
+\end{lstlisting} %$
 Per ripristinare il file cancellato all'ultima versione in cui ancora era
-presente nel progetto possiamo usare il comando \lstinline|git checkout|
-\meta{hash del commit} \lstinline|--| \meta{file} in cui ad
-\meta{hash del commit} dovremo sostituire l'\emph{hash} (eventualmente in forma
-abbreviata) del \emph{commit} a cui vogliamo ripristinare i file elencati in
-\meta{file}.  Quindi nel nostro esempio per ripristinare il file
-\lstinline|np_secondary.tex| alla versione presente nel \emph{commit}
-\lstinline|c21d825| useremo il comando
+presente nel progetto possiamo usare il comando \texttt{git checkout} \meta{hash
+  del commit} \texttt{--} \meta{file} in cui ad \meta{hash del commit} dovremo
+sostituire l'\emph{hash} (eventualmente in forma abbreviata) del \emph{commit} a
+cui vogliamo ripristinare i file elencati in \meta{file}.  Quindi nel nostro
+esempio per ripristinare il file \filestyle{np\_secondary.tex} alla versione
+presente nel \emph{commit} \texttt{c21d825} useremo il comando
 \begin{lstlisting}
 $ git checkout c21d825 -- np_secondary.tex
-\end{lstlisting}
+\end{lstlisting} %$
 
-Il comando \lstinline|git checkout| \meta{hash del commit} \lstinline|--|
-\meta{file} permette di riportare qualsiasi file elencato in \meta{file} alla
-versione \meta{hash del commit}, anche se non cancellato e ancora presente nel
-progetto, sempre utilizzando la stessa sintassi.  Chiaramente, Git permette il
-ripristino esclusivamente dei file aggiunti al \emph{repository} ed
-esclusivamente di versioni esplicitamente salvate mediante il comando
-\lstinline|git commit|.  I salvataggi effettuati tra un \emph{commit} e l'altro
-non sono quindi ricostruibili.
+Il comando \texttt{git checkout} \meta{hash del commit} \texttt{--} \meta{file}
+permette di riportare qualsiasi file elencato in \meta{file} alla versione
+\meta{hash del commit}, anche se non cancellato e ancora presente nel progetto,
+sempre utilizzando la stessa sintassi.  Chiaramente, Git permette il ripristino
+esclusivamente dei file aggiunti al \emph{repository} ed esclusivamente di
+versioni esplicitamente salvate mediante il comando \texttt{git commit}.  I
+salvataggi effettuati tra un \emph{commit} e l'altro non sono quindi
+ricostruibili.
 
-L'uso di \lstinline|git checkout --| \meta{file} visto nel
+L'uso di \texttt{git checkout --} \meta{file} visto nel
 paragrafo~\ref{sec:annullare-modifiche-non-salvate} è un caso particolare di
 quello qui spiegato, in cui si ripristina un file alla versione presente
 nell'ultimo \emph{commit}, nel caso in cui non ne viene indicato esplicitamente
 uno differente.
 
+È inoltre possibile visionare nel terminale una precedente versione di un file
+con la sintassi
+\begin{lstlisting}
+$ git show £\meta{hash del commit} \meta{file}£ 
+\end{lstlisting}
+
 \section{Gestione dei \emph{branch}}
 \label{sec:branch}
 
-Con il comando \lstinline|git status| possiamo controllare lo stato del progetto,
+Con il comando \texttt{git status} possiamo controllare lo stato del progetto,
 per esempio se ci sono dei file che sono stati modificati ma non ancora salvati
 nel \emph{commit} e così via. Un tipico output di questo comando è:
 \begin{lstlisting}
 $ git status
 # On branch master
 nothing to commit (working directory clean)
-\end{lstlisting}
-All'ultimo rigo leggiamo \lstinline|nothing to commit (working directory clean)|,
-cioè non sono presenti file modificati (a parte eventualmente quelli ignorati con
-il file \lstinline|.gitignore|) dopo l'ultimo \emph{commit}. Ma cosa significa
-\lstinline|On branch master|? \emph{Branch} in inglese significa ``ramo'' e
-Git ci dà la possibilità di creare una linea di sviluppo per il nostro progetto
-parallela a quella iniziale (chiamata \emph{master} in Git) ma con delle
-modifiche che divergono da questa proprio come il ramo di un albero diverge dal
-tronco centrale (e per completare questa analogia botanica la linea di sviluppo
-centrale è chiamata a volte \emph{trunk}, cioè ``tronco'').
+\end{lstlisting} %$
+L'ultima riga del messaggio significa che non sono presenti file modificati (a
+parte eventualmente quelli ignorati con il file \filestyle{.gitignore}) dopo
+l'ultimo \emph{commit}.  Ma cosa significa \texttt{On branch master}?
+\emph{Branch} in inglese significa ``ramo'' e Git ci dà la possibilità di creare
+una linea di sviluppo per il nostro progetto parallela a quella iniziale
+(chiamata \emph{master} in Git) ma con delle modifiche che divergono da questa
+proprio come il ramo di un albero diverge dal tronco centrale (e per completare
+questa analogia botanica la linea di sviluppo centrale è a volte chiamata
+proprio \emph{trunk}, cioè ``tronco'').
 
 \subsection{Perché creare un \emph{branch}?}
 \label{sec:perche-branch}
@@ -1031,52 +1025,62 @@ indesiderato dell'albero.
 
 Un altro caso in cui può essere utile creare un \emph{branch} è quello in cui si
 lavori a più mani su un documento: mentre voi scrivete il vostro documento un
-vostro amico vi chiede di collaborarvi (e anch'egli userà Git per tenere traccia
-delle sue modifiche). Lui si creerà un suo ramo di sviluppo in modo che voi
-potrete continuare a redigere il vostro documento senza che le sue modifiche
-vadano a confliggere con le vostre. Alla fine il vostro amico vi farà vedere il
-risultato delle sue modifiche: se le apprezzate potete effettuare il \emph{merge}
-del suo ramo nel vostro, altrimenti potete dirgli che le sue modifiche non vi
-piacciono e il suo \emph{branch} sarà cancellato.\footnote{Il vostro (forse ormai
-  ex) amico potrebbe anche decidere di continuare a sviluppare il suo
-  \emph{branch} in maniera completamente indipendente da voi: questa situazione,
-  nel mondo della programmazione, è detta \emph{fork}.}
+vostro amico vi chiede di collaborarvi e anch'egli userà Git per tenere traccia
+delle sue modifiche.  Lui creerà un suo ramo di sviluppo in modo che voi potrete
+continuare a redigere il vostro documento senza che le sue modifiche vadano a
+confliggere con le vostre.  Alla fine il vostro amico vi farà vedere il
+risultato delle sue modifiche: se le apprezzate potete effettuare il
+\emph{merge} del suo ramo nel vostro, altrimenti potete dirgli che le sue
+modifiche non vi piacciono e il suo \emph{branch} sarà cancellato.
 
-Un semplice grafico dello sviluppo di un progetto in cui è stato effettuato un
-\emph{branching} potrebbe avere questo aspetto:
-\begin{lstlisting}
-      E---F---G branch
-     /         \
-A---B---C---D---H master
-\end{lstlisting}
-Nel ramo \lstinline|master| abbiamo effettuato le modifiche indicate con
-\lstinline|A| e \lstinline|B|. A questo punto creiamo il ramo
-\lstinline|branch|. D'ora in poi le modifiche effettuate su un ramo avranno
-valore solo su quello: così continuiamo a lavorare normalmente sul ramo
-\lstinline|master| apportando le modifiche indicate con \lstinline|C| e
-\lstinline|D|, mentre in \lstinline|branch| avremo effettuato le modifiche
-\lstinline|E|, \lstinline|F| e \lstinline|G| che apparterranno solo a questo ramo.
-Decidiamo quindi di fondere i due rami perché le modifiche fatte in
-\lstinline|branch| ci soddisfano: con la modifica \lstinline|H| tutte le modifiche
-effettuate in \lstinline|branch| verranno importate nel ramo principale e potremo
+\begin{figure}
+  \centering
+  \begin{tikzpicture}
+    \node (A) at (0,0) {\texttt{A}};
+    \node (B) at (2,0) {\texttt{B}};
+    \node (C) at (4,0) {\texttt{C}};
+    \node (D) at (6,0) {\texttt{D}};
+    \node (H) at (8,0) {\texttt{H}};
+    \node (E) at (3,1.5) {\texttt{E}};
+    \node (F) at (5,1.5) {\texttt{F}};
+    \node (G) at (7,1.5) {\texttt{G}};
+    \draw (A) -- (B) -- (C) -- (D) -- (H) node[right=10] {\texttt{master}} --
+          (G) node[right=10] {\texttt{branch}} -- (F) -- (E) -- (B);
+  \end{tikzpicture}
+  \caption{Flusso delle modifiche effettuato nel ramo principale \texttt{master}
+    e nel ramo secondario \texttt{branch}.  Il ramo \texttt{branch} viene fuso
+    nel ramo \texttt{master} con il \emph{commit} \texttt{H}.}
+  \label{fig:schema-branch}
+\end{figure}
+Nella figura~\ref{fig:schema-branch} è rappresentato un semplice grafico dello
+sviluppo di un progetto in cui è stato effettuato un \emph{branching}.  Nel ramo
+\texttt{master} abbiamo effettuato le modifiche indicate con \texttt{A} e
+\texttt{B}.  A questo punto creiamo il ramo \texttt{branch}.  D'ora in poi le
+modifiche effettuate su un ramo avranno valore solo su quello: continuiamo a
+lavorare normalmente su \texttt{master} apportando le modifiche indicate con
+\texttt{C} e \texttt{D}, mentre in \texttt{branch} avremo effettuato le
+modifiche \texttt{E}, \texttt{F} e \texttt{G} che apparterranno solo a questo
+ramo.  Decidiamo quindi di fondere i due rami perché le modifiche fatte in
+\texttt{branch} ci soddisfano: con la modifica \texttt{H} tutte le modifiche
+effettuate in \texttt{branch} verranno importate nel ramo principale e potremo
 continuare lì il nostro lavoro.
 
 \subsection{Creare e cancellare un \emph{branch}}
 \label{sec:creare-cancellare-branch}
 
-Per creare un \emph{branch} dobbiamo usare il comando \lstinline|git branch|
+Per creare un \emph{branch} dobbiamo usare il comando \texttt{git branch}
 \meta{nome branch}.  Se il comando va a buon fine non ci sarà nessun output,
-possiamo però controllare l'elenco dei rami esistenti con il comando
-\lstinline|git branch| senza alcun ulteriore argomento:
+possiamo però controllare l'elenco dei rami esistenti con il comando \texttt{git
+  branch} senza alcun ulteriore argomento:
 \begin{lstlisting}
 $ git branch foo
 $ git branch
   foo
 * master
 \end{lstlisting}
-L'asterisco vicino a \lstinline|master| sta a indicare che al momento ci
-troviamo nel \emph{branch} \lstinline|master|.  Per spostarci in un altro
-\emph{branch} usiamo il comando \lstinline|git checkout| \meta{nome branch}:
+L'asterisco vicino a \texttt{master} sta a indicare che al momento ci troviamo
+nel \emph{branch} \texttt{master}.  Per spostarci in un altro \emph{branch}
+usiamo il comando \texttt{git checkout} \meta{nome branch}:
 \begin{lstlisting}
 $ git checkout foo
 Switched to branch 'foo'
@@ -1086,24 +1090,24 @@ $ git branch
 \end{lstlisting}
 Che significa che ci siamo spostati in un altro \emph{branch}?  Abbiamo cambiato
 cartella?  No, siamo sempre nella stessa cartella (possiamo controllarlo con il
-comand \lstinline|pwd|), ma è stato Git che ha modificato la nostra cartella di
+comand \texttt{pwd}), ma è stato Git che ha modificato la nostra cartella di
 lavoro, la \emph{working directory}, andando a prendere dal suo database
 l'ultimo \emph{snapshot}, l'ultima ``fotografia'', del \emph{branch} che gli
-abbiamo richiesto.  In alternativa a \lstinline|git checkout|
-\meta{nome branch}, per creare un nuovo ramo si può usare il comando
-\lstinline|git checkout -b| \meta{nome branch} che in più effettua direttamente
-il \emph{checkout} del nuovo \emph{branch}:
+abbiamo richiesto.  In alternativa a \texttt{git checkout} \meta{nome branch},
+per creare un nuovo ramo si può usare il comando \texttt{git checkout -b}
+\meta{nome branch} che in più effettua direttamente il \emph{checkout} del nuovo
+\emph{branch}:
 \begin{lstlisting}
 $ git checkout -b foo
 Switched to a new branch 'foo'
-\end{lstlisting}
+\end{lstlisting} %$
 
 Un \emph{branch} appena creato e non modificato è uguale al ramo da cui è stato
-creato, contiene i suoi stessi file e la stessa cronologia. Lo sviluppo del progetto
-può continuare in maniera identica a quella vista prima (cioè si usano i soliti
-comandi \lstinline|git add| e \lstinline|git commit|), però le modifiche apportate
-in questo \emph{branch} non compariranno nel registro di quello principale. Possiamo
-verificarlo controllando i rispettivi log:
+creato, contiene i suoi stessi file e la stessa cronologia.  Lo sviluppo del
+progetto può continuare in maniera identica a quella vista prima (cioè si usano
+i soliti comandi \texttt{git add} e \texttt{git commit}), però le modifiche
+apportate in questo \emph{branch} non compariranno nel registro di quello
+principale.  Possiamo verificarlo controllando i rispettivi log:
 \begin{lstlisting}
 $ git branch
 * foo
@@ -1131,22 +1135,22 @@ Date:   Sat Oct 9 19:08:46 2010 +0200
 \end{lstlisting}
 
 Per cancellare un ramo di cui si è già effettuato il \emph{merge} con il ramo
-principale (vedremo più avanti come si fa) si usa l'opzione \lstinline|-d| del
-comando \lstinline|git branch|:
+principale (vedremo più avanti come si fa) si usa l'opzione \texttt{-d} del
+comando \texttt{git branch}:
 \begin{lstlisting}
 $ git branch -d foo
 Deleted branch foo (was c71da4f).
-\end{lstlisting}
-Se proviamo a usare l'opzione \lstinline|-d| con un ramo di cui non è stato
+\end{lstlisting} %$
+Se proviamo a usare l'opzione \texttt{-d} con un ramo di cui non è stato
 ancora effettuato il \emph{merge} Git ci avverte:
 \begin{lstlisting}
 $ git branch -d foo
 error: The branch foo' is not fully merged.
 If you are sure you want to delete it, run 'git branch -D foo'.
-\end{lstlisting}
+\end{lstlisting} %$
 Come al solito Git ci suggerisce i comandi che ci possono tornare utili: se
 vogliamo ugualmente cancellare il \emph{branch} che non è stato fuso in quello
-principale dobbiamo usare l'opzione \lstinline|-D| al posto di \lstinline|-d|:
+principale dobbiamo usare l'opzione \texttt{-D} al posto di \texttt{-d}:
 \begin{lstlisting}
 $ git branch -D foo
 Deleted branch foo (was c71da4f).
@@ -1155,11 +1159,11 @@ Deleted branch foo (was c71da4f).
 \subsection{Effettuare un \emph{merge}}
 \label{sec:merge}
 
-Per effettuare la fusione, \emph{merge}, di due rami si usa il comando
-\lstinline|git merge| \meta{nome branch} da dare nel ramo in cui si desidera
-importare il ramo chiamato \meta{nome branch}.  Se tutto va bene otterremo un
-output simile al seguente (supponiamo, per esempio, che il ramo da importare si
-chiami \lstinline|foo|):
+Per effettuare la fusione, \emph{merge}, di due rami si deve utilizzare il
+comando \texttt{git merge} \meta{nome branch}, da dare nel ramo in cui si
+desidera importare il ramo chiamato \meta{nome branch}.  Se tutto va bene
+otterremo un output simile al seguente (supponiamo, per esempio, che il ramo da
+importare si chiami \texttt{foo}):
 \begin{lstlisting}
 $ git merge foo
 Updating da45d11..729129c
@@ -1167,9 +1171,9 @@ Fast-forward
  capitolo5.tex |   18 ++++++++++++++++++
  1 files changed, 18 insertions(+), 0 deletions(-)
  create mode 100644 capitolo5.tex
-\end{lstlisting}
+\end{lstlisting} %$
 Dopo di ciò possiamo normalmente fare il \emph{commit} con
-\lstinline|git add .| e \lstinline|git commit -am "messaggio di commit"|.
+\texttt{git add .} e \texttt{git commit -am "messaggio di commit"}.
 
 Può verificarsi un problema se uno o più file sono stati modificati nello stesso
 punto in tutti e due i rami che si vogliono fondere, dopo che è stato creato il
@@ -1183,22 +1187,23 @@ Auto-merging main.tex
 CONFLICT (content): Merge conflict in main.tex
 Automatic merge failed; fix conflicts and then commit the result.
 \end{lstlisting}
-In questo caso il file in cui si sono verificati i conflitti si chiama
-\lstinline|main.tex|. Aprendo con il nostro editor di testo potremo leggere
-a un certo punto qualcosa di questo tipo:
+Nel presente esempio il file in cui si sono verificati i conflitti si chiama
+\filestyle{main.tex}.  Aprendo con il nostro editor di testo troveremo nel punto
+in cui si è verificato il conflitto qualcosa di questo tipo:
 \begin{lstlisting}[language={},emph={HEAD,foo}]
 <<<<<<< HEAD
 \usepackage{hyperref}
 =======
 \usepackage[bookmarks=false,colorlinks=true]{hyperref}
 >>>>>>> foo
-\end{lstlisting}
+\end{lstlisting} %$
 La zona compresa fra \lstinline|<<<<<<< HEAD| e \lstinline|=======| indica il
-contenuto attuale del ramo, mentre ciò che è scritto fra \lstinline|=======| e
-\lstinline|>>>>>>> foo| è ciò che si trova nel corrispondente punto dello stesso
-file \lstinline|main.tex| ma nel ramo \lstinline|foo|. Dopo aver corretto il file
-come desideriamo che risulti, possiamo finalmente salvarlo ed effettuare come al
-solito il \emph{commit}.
+contenuto del file presente nel ramo corrente, mentre ciò che è scritto fra
+\lstinline|=======| e \lstinline|>>>>>>> foo| è ciò che si trova nel
+corrispondente punto dello stesso file \filestyle{main.tex} ma nel ramo
+\texttt{foo} che stiamo provando a fondere in \texttt{master}.  Dopo aver
+corretto il file come desideriamo che risulti, possiamo finalmente salvarlo ed
+effettuare come al solito il \emph{commit}.
 
 \subsection{Copiare un singolo \emph{commit} da un \emph{branch} a un altro}
 \label{sec:copiare-un-commit}
@@ -1209,22 +1214,20 @@ altro \emph{branch} (come per esempio la correzione di un errore di ortografia o
 una modifica al preambolo del documento). Non è necessario effettuare il
 \emph{merge} solo per un importare un \emph{commit} o modificare manualmente i
 file dell'altro \emph{branch} perché è possibile effettuare un'operazione detta
-\emph{cherry-picking} (che significa ``raccolta di
-ciligie''\footnote{Chi ha inventato tutta questa terminologia doveva essere un
-  amante della natura.})
-che nell'importare nell'altro \emph{branch} il singolo \emph{commit} che
-indicheremo. La sintassi è semplice (prima di dare il seguente comando bisogna
-posizionarsi nel \emph{branch} in cui si intende importare il \emph{commit}):
-\lstinline|git cherry-pick| \meta{hash del commit}.  Inoltre l'oggetto, l'autore
-(nel caso in cui ci siano più collaboratori che partecipano al progetto) e la
-data e orario del \emph{commit} saranno gli stessi di quello importato. Al posto
-dell'intero \emph{hash} del \emph{commit} si può utilizzare la forma abbreviata
-composta dai primi sette caratteri.
+\emph{cherry-picking} (che significa ``raccolta di ciliege'') che nell'importare
+nell'altro \emph{branch} il singolo \emph{commit} che indicheremo. La sintassi è
+semplice (prima di dare il seguente comando bisogna posizionarsi nel
+\emph{branch} in cui si intende importare il \emph{commit}): \texttt{git
+  cherry-pick} \meta{hash del commit}.  Inoltre l'oggetto, l'autore (nel caso in
+cui ci siano più collaboratori che partecipano al progetto) e la data e orario
+del \emph{commit} saranno gli stessi di quello importato. Al posto dell'intero
+\emph{hash} del \emph{commit} si può utilizzare la forma abbreviata composta dai
+primi sette caratteri.
 
 Se dovesse verificarsi qualche problema durante il \emph{cherry-picking}, come
 può succedere durante il \emph{merge}, Git ci avverte, ci consiglia di risolvere
-i conflitti, usare il solito \lstinline|git add| come opportuno e poi, per
-effettuare il \emph{commit}, di dare il comando \lstinline|git commit -c|
+i conflitti, usare il solito \texttt{git add} come opportuno e poi, per
+effettuare il \emph{commit}, di dare il comando \texttt{git commit -c}
 \meta{hash del commit}, in modo da utilizzare le stesse informazioni del
 \emph{commit} a cui ci riferiamo (autore, data e orario, oggetto):
 \begin{lstlisting}[language={},emph={}]
@@ -1243,14 +1246,13 @@ Per quanto non strettamente indispensabile per un uso individuale di Git sul
 proprio pc, segnalo alcune configurazioni elementari necessarie per un uso
 ottimale di Git.
 
-Le impostazioni di Git possono essere impostate con il comando
-\lstinline|config| di Git. Usando l'opzione \lstinline|--system| le configurazioni
-così impostate saranno valide per tutti gli utenti che hanno accesso al sistema
-e verranno generalmente salvate nel file di configurazione
-\lstinline|$(prefix)/etc/gitconfig|. Con l'opzione \lstinline|--global| le impostazioni
-saranno valide solo per il proprio utente e verranno salvate nel file
-\lstinline|~/.gitconfig|. Infine non usando alcuna opzione le configurazioni
-avranno valore solo per il \emph{repository} in cui vengono impostate.
+Le impostazioni di Git possono essere impostate con il comando \texttt{config}
+di Git.  Usando l'opzione \texttt{--system} le configurazioni così impostate
+saranno valide per tutti gli utenti che hanno accesso al sistema.  Con l'opzione
+\texttt{--global} le impostazioni saranno valide solo per il proprio utente e
+verranno salvate nel file \filestyle{\textasciitilde/.gitconfig}.  Infine non
+usando alcuna opzione le configurazioni avranno valore solo per il
+\emph{repository} in cui vengono impostate.
 
 In primo luogo occorre passare a Git qualche informazione circa l'utente:
 \begin{lstlisting}
@@ -1266,23 +1268,23 @@ git config --global color.interactive auto
 git config --global color.status auto
 \end{lstlisting}
 Possiamo poi impostare l'editor di testo predefinito da associre a Git con
-l'opzione \lstinline|core.editor|. Se per esempio vogliamo usare Gedit daremo
-il comando
+l'opzione \texttt{core.editor}.  Se per esempio vogliamo usare Gedit daremo il
+comando
 \begin{lstlisting}
 git config --global core.editor gedit
 \end{lstlisting}
 
-\chapter{Repository remoti}
+\chapter{\emph{Repository} remoti}
 \label{cha:repository-remoti}
 
-\section{Repository on-line}
+\section{\emph{Repository} on-line}
 \label{sec:repository-on-line}
 
 \begin{enumerate}
 \item registrarsi su gitorius (richiede ssh key e passphrase!)
-\item \lstinline|git remote add origin git@gitorious.org:git4latex/git4latex.git|
+\item \texttt{git remote add origin git@gitorious.org:git4latex/git4latex.git}
   (che chiederà la passphrase!)
-\item \lstinline|git push origin master|
+\item \texttt{git push origin master}
   per sincronizzare il tutto di volta in volta a fine giornata
 \end{enumerate}
 
