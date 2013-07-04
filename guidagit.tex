@@ -20,7 +20,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \documentclass[b5paper,11pt,oneside]{guidatematica}
-\ProvidesFile{guidagit.tex}[2013/05/11 v.0.2 Una guida introduttiva a Git per
+\ProvidesFile{guidagit.tex}[2013/07/04 v.0.2 Una guida introduttiva a Git per
 progetti LaTeX]
 
 \usepackage[os=win]{menukeys}
@@ -673,20 +673,21 @@ Nel secondo caso aggiungiamo un singolo file:
 \begin{lstlisting}
 $ git add np_secondary.tex
 \end{lstlisting}
-Per quanto possa sembrare eccessivo, io preferisco usare il secondo comando. Mi
+Per quanto possa sembrare eccessivo, io preferisco usare il secondo comando.  Mi
 accade con estrema frequenza di dover aggiungere dei file a un progetto, e
 spesso sono fin troppo distratto da quel che sto scrivendo per occuparmi di quel
-Git si aspetta da me l'aggiunta indiscriminata di ogni file nella directory al
-\emph{repository} presenta però delle controindicazioni. La più ovvia per chi
-lavora con \LaTeX{} è la seguente: nel corso dell'elaborazione di un testo
-inevitabilmente si procederà alla generazione del documento in pdf a partire dai
-sorgenti; \LaTeX{} provvederà quindi alla generazioni di una serie di file
-ausiliari (\filestyle{.toc}, \filestyle{.out}, \dots), nonché di un \textsc{pdf}
-più o meno inutile. Se eseguissimo il comando \texttt{git add .} subito dopo una
-compilazione, evidentemente Git aggiungerebbe alla \emph{staging area} anche i
-vari file di lavoro, dal pdf, ai file di log.  Per ovviare a questo
-inconveniente, e continuare pigramente a eseguire \texttt{git add .}, è utile
-creare nella nostra directory di un file denominato \filestyle{.gitignore}.
+che Git si aspetta da me.  L'aggiunta indiscriminata di ogni file nella
+directory al \emph{repository} presenta però delle controindicazioni.  La più
+ovvia per chi lavora con \LaTeX{} è la seguente: nel corso dell'elaborazione di
+un testo inevitabilmente si procederà alla generazione del documento in pdf a
+partire dai sorgenti; \LaTeX{} provvederà quindi alla generazioni di una serie
+di file ausiliari (\filestyle{.toc}, \filestyle{.out}, \dots), nonché di un
+\textsc{pdf} più o meno inutile. Se eseguissimo il comando \texttt{git add .}
+subito dopo una compilazione, evidentemente Git aggiungerebbe alla \emph{staging
+  area} anche i vari file di lavoro, dal pdf, ai file di log.  Per ovviare a
+questo inconveniente, e continuare pigramente a eseguire \texttt{git add .}, è
+utile creare nella nostra directory di un file denominato
+\filestyle{.gitignore}.
 \begin{lstlisting}
 $ echo "*.log" >> .gitignore
 $ echo "*.pdf" >> .gitignore
@@ -1094,9 +1095,9 @@ cartella?  No, siamo sempre nella stessa cartella (possiamo controllarlo con il
 comand \texttt{pwd}), ma è stato Git che ha modificato la nostra cartella di
 lavoro, la \emph{working directory}, andando a prendere dal suo database
 l'ultimo \emph{snapshot}, l'ultima ``fotografia'', del \emph{branch} che gli
-abbiamo richiesto.  In alternativa a \texttt{git checkout} \meta{nome branch},
-per creare un nuovo ramo si può usare il comando \texttt{git checkout -b}
-\meta{nome branch} che in più effettua direttamente il \emph{checkout} del nuovo
+abbiamo richiesto.  In alternativa a \texttt{git branch} \meta{nome branch}, per
+creare un nuovo ramo si può usare il comando \texttt{git checkout -b} \meta{nome
+  branch} che in più effettua direttamente il \emph{checkout} del nuovo
 \emph{branch}:
 \begin{lstlisting}
 $ git checkout -b foo
@@ -1215,8 +1216,8 @@ altro \emph{branch} (come per esempio la correzione di un errore di ortografia o
 una modifica al preambolo del documento). Non è necessario effettuare il
 \emph{merge} solo per un importare un \emph{commit} o modificare manualmente i
 file dell'altro \emph{branch} perché è possibile effettuare un'operazione detta
-\emph{cherry-picking} (che significa ``raccolta di ciliege'') che nell'importare
-nell'altro \emph{branch} il singolo \emph{commit} che indicheremo. La sintassi è
+\emph{cherry-picking} (che significa ``raccolta di ciliege''): essa permette di
+importare singoli \emph{commit} da un \emph{branch} a un altro. La sintassi è
 semplice (prima di dare il seguente comando bisogna posizionarsi nel
 \emph{branch} in cui si intende importare il \emph{commit}): \texttt{git
   cherry-pick} \meta{hash del commit}.  Inoltre l'oggetto, l'autore (nel caso in
