@@ -20,7 +20,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \documentclass[b5paper,11pt,oneside]{guidatematica}
-\ProvidesFile{guidagit.tex}[2013/07/04 v.0.2 Una guida introduttiva a Git per
+\ProvidesFile{guidagit.tex}[2013/07/06 v.0.2 Una guida introduttiva a Git per
 progetti LaTeX]
 
 \usepackage[os=win]{menukeys}
@@ -105,7 +105,7 @@ l'invito a inserire un nuovo comando. Ciò che si trova alla sinistra del
 genere questo percorso è puramente esemplificativo e può essere ignorato. Tutto
 ciò che si trova alla destra del \emph{prompt} è il comando vero e proprio che
 dovrà essere eseguito dall'utente. Dunque, nell'esempio precedente il comando va
-eseguito copiando, o riscrivendo, in un terminale \texttt{git log -4 -p --
+eseguito copiando, o riscrivendo, in un terminale \texttt{git log -4 -p -{}-
   main.tex} e premendo il tasto Invio. Fra parentesi ad angolo \meta{\dots} sono
 riportate le parti di un comando che non devono essere ricopiate così come sono
 ma andranno sostituite dall'utente, come spiegato nella guida di volta in volta.
@@ -215,7 +215,7 @@ più noti invece sono Bazaar (bzr), Git e Mercurial (hg).
   non formano un discorso di senso compiuto.  A questo punto un VCS ti
   permetterà di ritornare all'ultima versione corretta del tuo documento.
 \end{quoting}
-Questo esempio, tratto da un commento dell'utente \texttt{h0b0} sul sito TeX
+Questo esempio, tratto da un commento dell'utente \textsf{h0b0} sul sito TeX
 Stack
 Exchange,\footnote{\url{http://tex.stackexchange.com/questions/1118\#comment1442\_1118}.}
 spiega abbastanza bene perché sia utile un VCS.  Naturalmente i VCS non sono gli
@@ -271,7 +271,7 @@ potrebbe anche etichettare la versione di un articolo che è stato inviato a una
 rivista.  Quando il revisore dell'articolo invia i commenti sull'articolo, che
 nel frattempo è stato modificato, grazie alle etichette sarà facile ripescare la
 copia dell'articolo a cui lui fa
-riferimento;\footnote{Applicazione suggerita da \texttt{Andrew Stacey} su TeX
+riferimento;\footnote{Applicazione suggerita da \textsf{Andrew Stacey} su TeX
   Stack Exchange: \url{http://tex.stackexchange.com/a/1124}.}
 lo stesso si potrebbe fare per identificare la copia di un documento inviata a
 un proprio amico.
@@ -289,7 +289,7 @@ essere utile per i laureandi che vogliono avere una copia personale della
 propria tesi differente da quella da consegnare al proprio relatore, per
 assecondare, per esempio, le sue bizzarre richieste riguardanti i margini e
 l'interlinea del
-documento.\footnote{Idea suggerita da \texttt{Lorem Ipsum} su Stack Overflow:
+documento.\footnote{Idea suggerita da \textsf{Lorem Ipsum} su Stack Overflow:
   \url{http://stackoverflow.com/a/6190412}.}
 
 Riepilogando, un VCS richiede un certo, seppur minimo, lavoro da parte
@@ -621,7 +621,7 @@ aver bisogno di fare altro.  Poiché la cancellazione è memorizzata nella
 di effettuare un \emph{commit}, eseguita con \texttt{git rm} \meta{file},
 possiamo usare \texttt{git reset HEAD} \meta{file}.  Adesso la modifica è
 presente solo nella \emph{working directory} (cioè il file è assente dalla
-cartella di lavoro), per ripristinarlo useremo \texttt{git checkout --}
+cartella di lavoro), per ripristinarlo useremo \texttt{git checkout -{}-}
 \meta{file}.  Non c'è bisogno di ricordare a memoria tutte le operazioni per il
 ripristino del file,\footnote{Queste operazioni dovrebbero risultare più chiare
   dopo avere letto il paragrafo~\ref{sec:annullare-modifiche-non-salvate}.}
@@ -758,14 +758,14 @@ l'opzione \texttt{-}\meta{n}. Dunque per mostrare solo l'ultimo \emph{commit}
 possiamo usare il comando \texttt{git commit -1}.  Si può consultare la
 cronologia relativa a uno o più specifici file e non all'intero
 \emph{repository} passando come argomento del comando l'elenco dei file di
-interesse, separati da uno spazio: \texttt{git log --} \meta{file}.  Se si vuole
-visualizzare solo l'elenco degli ultimi \texttt{n} \emph{commit} relativi a un
-determinato elenco di file si possono utilizzare contemporaneamente l'opzione
-\texttt{-}\meta{n} e l'argomento \meta{file}.  Per esempio il comando
-\texttt{git log -3 -- main.tex capitolo2.tex} mostrerà gli ultimi tre
+interesse, separati da uno spazio: \texttt{git log -{}-} \meta{file}.  Se si
+vuole visualizzare solo l'elenco degli ultimi \texttt{n} \emph{commit} relativi
+a un determinato elenco di file si possono utilizzare contemporaneamente
+l'opzione \texttt{-}\meta{n} e l'argomento \meta{file}.  Per esempio il comando
+\texttt{git log -3 -{}- main.tex capitolo2.tex} mostrerà gli ultimi tre
 \emph{commit} che hanno modificato i file \filestyle{main.tex} e
-\filestyle{capitolo2.tex}.  Il doppio trattino \texttt{--} serve per far capire
-a Git che tutto ciò che segue è l'elenco dei file.  In generale non è
+\filestyle{capitolo2.tex}.  Il doppio trattino \texttt{-{}-} serve per far
+capire a Git che tutto ciò che segue è l'elenco dei file.  In generale non è
 obbligatorio utilizzarlo ma diventa necessario per evitare ambiguità nel caso in
 cui ci siano rami o etichette con lo stesso nome del file.
 
@@ -801,11 +801,11 @@ index 74a1474..a84fb27 100644
 
 Segnaliamo infine un'altra utile opzione che serve per mostrare come
 informazioni del \emph{commit} solo l'\emph{hash} in formato breve e la prima
-riga del messaggio.  Questa opzione si chiama \texttt{--oneline} ed è utile se
+riga del messaggio.  Questa opzione si chiama \texttt{-{}-oneline} ed è utile se
 si vuole trovare rapidamente l'\emph{hash} di un \emph{commit} sfogliando le
 prime righe dei messaggi di tutti i commit.  Per esempio, il primo output di
 \texttt{git log} riportato all'inizio di questo paragrafo, con l'opzione
-\texttt{--oneline} apparirebbe così:
+\texttt{-{}-oneline} apparirebbe così:
 \begin{lstlisting}
 $ git log --oneline
 9e16912 un po' di pulizia
@@ -848,13 +848,13 @@ che si vogliono ripristinare. Le opzioni e gli argomenti che il comando
 \texttt{git commit} può accettare sono numerosi e le operazioni che verranno
 eseguite possono essere diverse a seconda delle istruzioni fornite (ma non è
 scopo della presente guida spiegare nei dettagli il completo funzionamento di
-Git), il doppio trattino \texttt{--} serve per far capire a Git, senza
+Git), il doppio trattino \texttt{-{}-} serve per far capire a Git, senza
 possibilità di ambiguità, che tutto ciò che si trova dopo è l'elenco dei file e
 l'operazione da eseguire è quella qui descritta. Il doppio trattino può essere
 omesso se non ci sono possibili ambiguità, per esempio se il file da passare
 come argomento non ha lo stesso nome di uno dei \emph{branch} (vedi
 paragrafo~\ref{sec:branch}) del \emph{repository}. Il comando \texttt{git
-  checkout --} \meta{file} può anche essere usato per ripristinare file
+  checkout -{}-} \meta{file} può anche essere usato per ripristinare file
 accidentalmente cancellati prima effettuare un nuovo \emph{commit}. In questo
 caso l'uso del doppio trattino è necessario dal momento che il file cancellato
 non si trova nella \emph{working directory} e Git non capirebbe che \meta{file}
@@ -869,12 +869,12 @@ $ git reset HEAD £\meta{file}£
 Come al solito, a \meta{file} va sostituito l'elenco dei file di interesse,
 separati da uno spazio.  I file tolti dalla \emph{staging area} possono poi
 anche essere ripristinati allo stato del \emph{commit} precedente usando il
-comando \texttt{git checkout --} \meta{file} illustrato qui sopra.
+comando \texttt{git checkout -{}-} \meta{file} illustrato qui sopra.
 
 \subsection{Modificare l'ultimo \emph{commit} non inviato in remoto}
 \label{sec:modifica-ultimo-commit-non-remoto}
 
-L'opzione \texttt{--amend} del comando \texttt{git commit} permette di
+L'opzione \texttt{-{}-amend} del comando \texttt{git commit} permette di
 modificare l'ultimo \emph{commit}.  Se dopo aver salvato un \emph{commit} ci
 accorgiamo che dobbiamo correggerlo (per esempio perché ci siamo dimenticati
 apportare una modifica o di aggiungere un file), possiamo normalmente modificare
@@ -884,8 +884,8 @@ i file di interesse, aggiungerli alla \emph{staging area} con il comando
   \emph{commit} precedente, sarà sufficiente eseguire \texttt{git add}
   \meta{file} senza dover modificare ulteriormente alcun file.}  e poi, invece
 di effettuare un nuovo \emph{commit} con \texttt{git commit}, eseguire il
-comando \texttt{git commit --amend} che modificherà l'ultimo \emph{commit} della
-cronologia.  A questo punto si aprirà la solita interfaccia che compare al
+comando \texttt{git commit -{}-amend} che modificherà l'ultimo \emph{commit}
+della cronologia.  A questo punto si aprirà la solita interfaccia che compare al
 momento del salvataggio di un \emph{commit}: è possibile modificare il
 messaggio, altrimenti è sufficiente uscire direttamente dall'interfaccia.
 
@@ -895,7 +895,8 @@ paragrafo~\ref{sec:repository-on-line}) se il \emph{repository} è condiviso con
 altre persone, poiché i loro \emph{repository} non potranno più continuare a
 essere sincronizzati con il \emph{repository} centrale.  Quindi, se si condivide
 il progetto con altri utenti è preferibile riscrivere la cronologia con
-\texttt{git commit --amend} solo per \emph{commit} non ancora inviati in remoto.
+\texttt{git commit -{}-amend} solo per \emph{commit} non ancora inviati in
+remoto.
 
 \subsection{Annullare un \emph{commit}}
 \label{sec:annullare-commit}
@@ -946,10 +947,10 @@ Ora chiediamo conto a Git della sua capacità di ripristinare una versione
 precedentemente salvata. La prima cosa da fare è consultare la cronologia dei
 \emph{commit} precedentemente effettuati, per ottenere l'\emph{hash} della
 versione che vogliamo ripristinare. Il comando appropriato quindi, per quanto
-visto nel paragrafo~\ref{sec:consultare-cronologia}, è \texttt{git log --}
+visto nel paragrafo~\ref{sec:consultare-cronologia}, è \texttt{git log -{}-}
 \meta{file}.  Poiché è sufficiente conoscere l'\emph{hash} in forma abbreviata
 dell'ultima revisione in cui il file era ancora presente nel progetto usiamo le
-opzioni \texttt{--oneline} e \texttt{-2} (l'ultima revisione in cui comparirà il
+opzioni \texttt{-{}-oneline} e \texttt{-2} (l'ultima revisione in cui comparirà il
 file \filestyle{np\_secondary.tex} è quella in cui è stato cancellato, ma a noi
 interessa quella precedente)
 \begin{lstlisting}
@@ -959,7 +960,7 @@ c21d825 Ho solo iniziato a lavorare
 \end{lstlisting} %$
 Per ripristinare il file cancellato all'ultima versione in cui ancora era
 presente nel progetto possiamo usare il comando \texttt{git checkout} \meta{hash
-  del commit} \texttt{--} \meta{file} in cui ad \meta{hash del commit} dovremo
+  del commit} \texttt{-{}-} \meta{file} in cui ad \meta{hash del commit} dovremo
 sostituire l'\emph{hash} (eventualmente in forma abbreviata) del \emph{commit} a
 cui vogliamo ripristinare i file elencati in \meta{file}.  Quindi nel nostro
 esempio per ripristinare il file \filestyle{np\_secondary.tex} alla versione
@@ -968,16 +969,16 @@ presente nel \emph{commit} \texttt{c21d825} useremo il comando
 $ git checkout c21d825 -- np_secondary.tex
 \end{lstlisting} %$
 
-Il comando \texttt{git checkout} \meta{hash del commit} \texttt{--} \meta{file}
-permette di riportare qualsiasi file elencato in \meta{file} alla versione
-\meta{hash del commit}, anche se non cancellato e ancora presente nel progetto,
-sempre utilizzando la stessa sintassi.  Chiaramente, Git permette il ripristino
-esclusivamente dei file aggiunti al \emph{repository} ed esclusivamente di
-versioni esplicitamente salvate mediante il comando \texttt{git commit}.  I
-salvataggi effettuati tra un \emph{commit} e l'altro non sono quindi
-ricostruibili.
+Il comando \texttt{git checkout} \meta{hash del commit} \texttt{-{}-}
+\meta{file} permette di riportare qualsiasi file elencato in \meta{file} alla
+versione \meta{hash del commit}, anche se non cancellato e ancora presente nel
+progetto, sempre utilizzando la stessa sintassi.  Chiaramente, Git permette il
+ripristino esclusivamente dei file aggiunti al \emph{repository} ed
+esclusivamente di versioni esplicitamente salvate mediante il comando
+\texttt{git commit}.  I salvataggi effettuati tra un \emph{commit} e l'altro non
+sono quindi ricostruibili.
 
-L'uso di \texttt{git checkout --} \meta{file} visto nel
+L'uso di \texttt{git checkout -{}-} \meta{file} visto nel
 paragrafo~\ref{sec:annullare-modifiche-non-salvate} è un caso particolare di
 quello qui spiegato, in cui si ripristina un file alla versione presente
 nell'ultimo \emph{commit}, nel caso in cui non ne viene indicato esplicitamente
@@ -1249,9 +1250,9 @@ proprio pc, segnalo alcune configurazioni elementari necessarie per un uso
 ottimale di Git.
 
 Le impostazioni di Git possono essere impostate con il comando \texttt{config}
-di Git.  Usando l'opzione \texttt{--system} le configurazioni così impostate
+di Git.  Usando l'opzione \texttt{-{}-system} le configurazioni così impostate
 saranno valide per tutti gli utenti che hanno accesso al sistema.  Con l'opzione
-\texttt{--global} le impostazioni saranno valide solo per il proprio utente e
+\texttt{-{}-global} le impostazioni saranno valide solo per il proprio utente e
 verranno salvate nel file \filestyle{\textasciitilde/.gitconfig}.  Infine non
 usando alcuna opzione le configurazioni avranno valore solo per il
 \emph{repository} in cui vengono impostate.
