@@ -1332,6 +1332,114 @@ Dopo aver terminato l'installazione, si ha la possibilità di usare Git
 sia tramite interfaccia grafica, sia tramite una shell Unix-like
 emulata o integrata nel più noto Prompt dei Comandi di Windows.
 
+\chapter{Riepilogo dei comandi più comuni}
+\label{cha:riepilogo-comandi}
+
+In questo capitolo ricapitoliamo tutti i principali comandi incontrati nella
+presente guida, descrivendo i loro utilizzi e alcune opzioni.  I dettagli non
+saranno qui ripetuti.
+
+\begin{plaindescription}
+\item[\texttt{git init}] crea un nuovo \emph{repository} vuoto nella cartella
+  attuale;
+\item[\texttt{git status}] mostra lo stato del ramo attualmente usato, in
+  particolare le modifiche aggiunte alla \emph{staging area} (\emph{changes to
+    be committed}), i file modificati ma non aggiunti alla \emph{staging area}
+  (\emph{changes not staged for commit}) e i file nuovi non ignorati
+  (\emph{untracked files});
+\item[\texttt{git add} \meta{file}] aggiunge tutte le modifiche apportate a
+  \meta{file}, un file singolo o un elenco di file separati da spazi, alla
+  \emph{staging area};
+\item[\texttt{git commit}] crea un nuovo \emph{commit}.  Verranno registrate
+  solo le modifiche esplicitamente aggiunte alla \emph{staging area}.  Eventuali
+  modifiche non presenti nella \emph{staging area} saranno ignorate, anche se
+  eseguite su file già presenti nel \emph{repository}.  Opzioni da ricordare:
+  \begin{description}
+  \item[\normalfont \texttt{git commit -{}-amend}] modifica l'ultimo
+    \emph{commit}del ramo attuale, non ne crea uno nuovo;
+  \item[\normalfont \texttt{git commit -a}] aggiunge alla \emph{staging area}
+    tutte le modifiche apportate ai file già presenti nel \emph{repository} e
+    aggiunge anche tutti i file non ancora presenti e non ignorati, infine crea
+    un nuovo \emph{commit};
+  \item[\normalfont \texttt{git commit -m``}\meta{oggetto}\texttt{''}] crea un
+    nuovo \emph{commit} usando \meta{oggetto} come testo descrittivo, senza
+    aprire un editor di testo per inserirlo.
+  \end{description}
+  Le opzioni possono essere usate insieme, per esempio: \texttt{git commit
+    -am``}\meta{oggetto}\texttt{''};
+\item[\texttt{git rm} \meta{file}] rimuove \meta{file}, un file singolo o un
+  elenco di file separati da spazi, dal \emph{repository} e inoltre lo cancella
+  effettivamente dalla cartella attuale;
+\item[\texttt{git log}] mostra la cronologia, del ramo attuale in maniera
+  predefinita.  Se il primo argomento è il nome di un ramo (\texttt{git log}
+  \meta{ramo}), mostra la cronologia di quel ramo; se gli ultimi argomenti sono
+  dei file presenti nel \emph{repository} (\texttt{git log} \meta{file}) mostra
+  la cronologia solo di quei file.  Si può visualizzare la cronologia di alcuni
+  file in un ramo specifico con \texttt{git log} \meta{ramo} \meta{file}.
+  Opzioni utili:
+  \begin{description}
+  \item[\normalfont \texttt{git log -}\meta{n}] mostra la cronologia degli
+    ultimi \meta{n} \emph{commit};
+  \item[\normalfont \texttt{git log --oneline}] la descrizione dei \emph{commit}
+    compare su una sola riga ed è composta dall'\emph{hash} abbreviato e dalla
+    sola prima riga del messaggio descrittivo;
+  \item[\normalfont \texttt{git log -p}] mostra non solo il messaggio che
+    descrive il \emph{commit} ma anche il \texttt{diff} delle modifiche.
+  \end{description}
+\item[\texttt{git reset} \meta{commit}] riporta lo stato del ramo attuale al
+  \meta{commit} specificato.  Se non specificato, \meta{commit} assume come
+  valore predefinito \texttt{HEAD}, che corrisponde all'ultimo \emph{commit}
+  eseguito nel ramo.  In particolare, \texttt{git reset -{}-hard HEAD} può
+  essere usato per rimuovere dalla \emph{staging area} tutte le modifiche
+  presenti, senza però cambiare i file.  \texttt{git reset -{}-hard HEAD}
+  \meta{file} rimuove solo \meta{file} dalla \emph{staging area};
+\item[\texttt{git revert} \meta{commit}] crea un nuovo \emph{commit} che annulla
+  le modifiche apportate in \meta{commit};
+\item[\texttt{git show} \meta{commit} \meta{file}] mostra nel terminale il
+  contenuto di \meta{file} nella revisione corrispondente a \meta{commit};
+\item[\texttt{git checkout}] svolge alcune operazioni tecnicamente analoghe ma
+  che è bene differenziare:
+  \begin{description}
+  \item[\normalfont \texttt{git checkout} \meta{commit} \texttt{-{}-}
+    \meta{file}] riporta il contenuto di \meta{file}, un file singolo o un
+    elenco di file separati da spazi, alla situazione corrispondente a
+    \meta{commit}.  In particolare, \texttt{git checkout} \meta{commit}
+    \texttt{-{}- .} riporta tutti i file della cartella attuale a \meta{commit}.
+    Quando il \emph{commit} non è specificato, assume come valore predefinito
+    \texttt{HEAD}, quindi \texttt{git checkout -{}-} \meta{file} permette di
+    annullare tutte le modifiche apportate a \meta{file} dopo l'ultimo
+    \emph{commit} e non ancora aggiunte alla \emph{staging area};
+  \item[\normalfont \texttt{git checkout} \meta{ramo}] visita il ramo chiamato
+    \meta{ramo}.  Il ramo deve essere già stato creato, per creare un nuovo ramo
+    prima di visitarlo si può usare l'opzione \texttt{-b}: \texttt{git checkout
+      -b} \meta{ramo}.  Per far partire il nuovo ramo da una revisione
+    precedente all'ultima bisogna aggiungere come ulteriore argomento il
+    \emph{commit} corrispondente: \texttt{git checkout -b} \meta{ramo}
+    \meta{commit}.
+  \end{description}
+\item[\texttt{git branch} \meta{ramo}] crea un nuovo ramo chiamato \meta{ramo},
+  ma senza visitarlo, usare \texttt{git checkout} \meta{ramo} per fare questo.
+  Alcune opzioni utili:
+  \begin{description}
+  \item[\normalfont \texttt{git branch -d} \meta{ramo}] cancella il ramo
+    chiamato \meta{ramo} se è già stato fuso con un altro ramo;
+  \item[\normalfont \texttt{git branch -D} \meta{ramo}] cancella il ramo
+    chiamato \meta{ramo} anche se non è stato fuso con un altro ramo;
+  \end{description}
+\item[\texttt{git merge} \meta{ramo}] fonde \meta{ramo} nel ramo attuale;
+\item[\texttt{git cherry-pick} \meta{commit}] crea nel ramo corrente un
+  \emph{commit} uguale a \meta{commit}, eseguito in un altro ramo;
+\item[\texttt{git push} \meta{remoto} \meta{ramo}] invia al \emph{repository}
+  \meta{remoto} il ramo chiamato \meta{ramo}.  Se non si specifica \meta{ramo}
+  verranno inviati tutti i rami che hanno \meta{remoto} come \emph{repository}
+  remoto predefinito; se non si specifica \meta{remoto} il ramo verrà inviato
+  nel \emph{repository} remoto predefinito per il ramo attuale;
+\item[\texttt{git pull} \meta{remoto} \meta{ramo}] aggiorna il ramo chiamato
+  \meta{ramo} usando \emph{repository} \meta{remoto}.  Se non si specificano gli
+  argomenti, i comportamenti predefiniti sono gli stessi descritti sopra per
+  \texttt{git push}.
+\end{plaindescription}
+
 \backmatter{}
 \bibliography{bibliografia}
 \end{document}
