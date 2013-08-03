@@ -20,7 +20,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \documentclass[b5paper,11pt,oneside]{guidatematica}
-\ProvidesFile{guidagit.tex}[2013/07/06 v.0.2 Una guida introduttiva a Git per
+\ProvidesFile{guidagit.tex}[2013/08/04 v.0.2 Una guida introduttiva a Git per
 progetti LaTeX]
 
 \usepackage[os=win]{menukeys}
@@ -246,11 +246,16 @@ associati alle modifiche registrate nel VCS rendono la consultazione della
 cronologia molto più significativa rispetto al solo elenco di date e orari di
 modifiche.
 
-I DVCS permettono generalmente di impostare più di un \emph{repository} remoto
-su cui copiare il proprio \emph{repository} locale, creando quindi numerose
-copie differenti di backup.  In realtà, sebbene possa essere utile, è spesso
-scomodo avere più di uno o due \emph{repository} remoti in quanto tutte le
-operazioni di sincronizzazione vanno ripetute per ciascun \emph{repository}.
+Come già detto, i VCS permettono di inviare una copia della propria cartella di
+lavoro, comprensiva di tutta la cronologia, a un \emph{repository} remoto.
+Questo può essere l'unica postazione a cui diverse persone che lavorano su un
+unico documento devono fare riferimento.  Il lavoro di gruppo è dunque
+notevolmente facilitato.  Inoltre i DVCS permettono generalmente di impostare
+più di un \emph{repository} remoto su cui copiare il proprio \emph{repository}
+locale, creando quindi numerose copie differenti di backup.  In realtà, sebbene
+possa essere utile, è spesso scomodo avere più di uno o due \emph{repository}
+remoti in quanto tutte le operazioni di sincronizzazione vanno ripetute per
+ciascun \emph{repository}.
 
 I VCS rendono semplice la condivisione di file su più computer.  Chi lavora su
 un documento dal computer fisso di casa, sul proprio laptop e sul computer del
@@ -277,7 +282,7 @@ lo stesso si potrebbe fare per identificare la copia di un documento inviata a
 un proprio amico.
 
 Infine con il meccanismo del \emph{branching} è possibile mantenere delle
-modifiche sperimentali parallelamente alle modifiche ``sicure''.  In un
+modifiche sperimentali parallelamente a una versione ``stabile''.  In un
 documento \LaTeX{} potrebbe trattarsi di una sezione che non si è sicuri si
 voglia aggiungere al documento finale.  Invece nel caso di un pacchetto o di una
 classe \LaTeX{} il \emph{branching} permette di fare esperimenti \TeX{}nici
@@ -288,9 +293,8 @@ modifiche compiute nella copia principale (\emph{cherry-picking}).  Questo può
 essere utile per i laureandi che vogliono avere una copia personale della
 propria tesi differente da quella da consegnare al proprio relatore, per
 assecondare, per esempio, le sue bizzarre richieste riguardanti i margini e
-l'interlinea del
-documento.\footnote{Idea suggerita da \textsf{Lorem Ipsum} su Stack Overflow:
-  \url{http://stackoverflow.com/a/6190412}.}
+l'interlinea del documento.\footnote{Idea suggerita da \textsf{Lorem Ipsum} su
+  Stack Overflow: \url{http://stackoverflow.com/a/6190412}.}
 
 Riepilogando, un VCS richiede un certo, seppur minimo, lavoro da parte
 dell'utente, ma l'utente è ripagato dall'avere il controllo totale di quello che
@@ -891,7 +895,7 @@ messaggio, altrimenti è sufficiente uscire direttamente dall'interfaccia.
 
 Se bene sia in realtà possibile, è altamente sconsigliato modificare un
 \emph{commit} già inviato in remoto con \texttt{git push} (vedi il
-paragrafo~\ref{sec:repository-on-line}) se il \emph{repository} è condiviso con
+paragrafo~\ref{sec:repository-online}) se il \emph{repository} è condiviso con
 altre persone, poiché i loro \emph{repository} non potranno più continuare a
 essere sincronizzati con il \emph{repository} centrale.  Quindi, se si condivide
 il progetto con altri utenti è preferibile riscrivere la cronologia con
@@ -987,7 +991,7 @@ uno differente.
 È inoltre possibile visionare nel terminale una precedente versione di un file
 con la sintassi
 \begin{lstlisting}
-$ git show £\meta{hash del commit} \meta{file}£ 
+$ git show £\meta{hash del commit} \meta{file}£
 \end{lstlisting}
 
 \section{Gestione dei \emph{branch}}
