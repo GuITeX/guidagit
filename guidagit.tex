@@ -1281,36 +1281,73 @@ comando
 git config --global core.editor gedit
 \end{lstlisting}
 
+% XXX: la maggior parte dei comandi dovrebbe essere indipendente dal tipo di
+% repository utilizzato (online oppure una cartella), nelle due sottosezioni
+% inserire solo i comandi effettivamente indipendenti.
 \chapter{\emph{Repository} remoti}
 \label{cha:repository-remoti}
 
-\section{\emph{Repository} on-line}
-\label{sec:repository-on-line}
+Finora abbiamo visto come gestire un \emph{repository} locale.  In questa
+sezione vedremo quali sono  i comandi per mantenere il proprio lavoro in locale
+sincronizzato con un \emph{repository} remoto.
 
-\begin{enumerate}
-\item registrarsi su gitorius (richiede ssh key e passphrase!)
-\item \texttt{git remote add origin git@gitorious.org:git4latex/git4latex.git}
-  (che chiederà la passphrase!)
-\item \texttt{git push origin master}
-  per sincronizzare il tutto di volta in volta a fine giornata
-\end{enumerate}
-
-Prima sincronizzazione da locale verso gitorius:
+Per copiare in locale un \emph{repository} remoto si deve utilizzare il comando
+\texttt{git clone} \meta{indirizzo del repository}.  L'\meta{indirizzo del
+  repository} da inserire sarà fornito da chi gestisce il progetto.  Per i
+\emph{repository} online questo indirizzo è spesso ben visibile nella loro
+pagina Internet.  Per esempio, per copiare il \emph{repository} di questa guida
+si deve eseguire il comando
 \begin{lstlisting}
-$ git remote add origin git@gitorious.org:progetto/progetto.git
+git clone https://github.com/GuITeX/guidagit
 \end{lstlisting}
 
-A fine giornata di lavoro:
-\begin{lstlisting}
-$ git push origin master
-\end{lstlisting}
+Il comando \texttt{git remote} permette di gestire i diversi \emph{repository}
+remoti.  Per far riferimento a un \emph{repository} remoto si utilizza una nome,
+che in maniera predefinita è \texttt{origin}.  È possibile cambiare il nome con
+il comando \texttt{git remote rename} \meta{vecchio nome} \meta{nuovo nome}.
+Per aggiungere un nuovo \emph{repository} bisogna utilizzare sempre il comando
+\texttt{git remote}, ma con un'azione differente: \texttt{git remote add}
+\meta{nome del repository} \meta{indirizzo del repository}.  Se si copia un
+\emph{repository} con \texttt{git clone}, quel \emph{repository} è
+automaticamente aggiunto con il nome \texttt{origin}.  Per cambiare l'indirizzo
+di un \emph{repository} l'azione da eseguire è \texttt{set-url}: \texttt{git
+  remote set-url} \meta{nome del repository} \meta{nuovo indirizzo}.  Infine per
+eliminare dall'elenco dei \emph{repository} remoti usati si dovrà eseguire
+\texttt{git remote rm} \meta{nome del repository}.
 
-Se volete ricreare il \emph{repository} in locale:
+Se si possiede l'autorizzazione a scrivere in un \emph{repository} remoto
+precedentemente configurato, è possibile inviarvi i nuovi \emph{commit} eseguiti
+con il comando \texttt{git push} \meta{nome remoto} \meta{ramo}.  Per esempio,
+per inviare a \texttt{origin} il ramo \texttt{master} il comando da utilizzare è
 \begin{lstlisting}
-$ mkdir riprogetto
-$ cd riprogetto
-$ git clone git://gitorious.org/git4latex/git4latex.git
+git push origin master
 \end{lstlisting}
+Per associare a un ramo \emph{repository} remoto predefinito a cui inviare le
+nuove modifiche, bisogna usare l'opzione \texttt{-u} in questo modo: \texttt{git
+  push -u} \meta{nome remoto} \meta{ramo}.  Quindi, per rendere \texttt{origin}
+il \emph{repository} predefinito del ramo \texttt{master} si eseguirà
+\begin{lstlisting}
+git push -u origin master
+\end{lstlisting}
+Se in \texttt{git push} \meta{nome remoto} \meta{ramo} non si specifica
+\meta{ramo}, verranno inviati tutti i rami che hanno \meta{nome remoto} come
+\emph{repository} remoto predefinito; se non si specifica \meta{nome remoto} il
+ramo verrà inviato nel \emph{repository} remoto predefinito per il ramo attuale.
+In definitiva, la prima volta che si devono inviare le modifiche di un ramo (per
+esempio, \texttt{master}) a un \emph{repository} remoto (per esempio,
+\texttt{origin}) si deve eseguire il comando \texttt{git push -u origin master},
+mentre per tutte le operazioni successive di invio in remoto sarà sufficiente
+dare \texttt{git push} senza ulteriori argomenti.
+
+L'ultima azione da menzionare in questo paragrafo è il \emph{push}, vale a dire
+lo scaricamento di un ramo da un \emph{repository} remoto, quindi l'operazione
+opposta di un \emph{push}: \texttt{git pull} \meta{remoto} \meta{ramo} aggiorna
+il ramo chiamato \meta{ramo} usando il \emph{repository} \meta{remoto}.  Se non
+si specificano gli argomenti, i comportamenti predefiniti sono gli stessi
+descritti sopra per \texttt{git push}.
+
+\section{\emph{Repository} online}
+\label{sec:repository-online}
 
 \section{Repository su periferica esterna (USB)}
 \label{sec:repository-usb}
@@ -1384,7 +1421,7 @@ saranno qui ripetuti.
   \begin{description}
   \item[\normalfont \texttt{git log -}\meta{n}] mostra la cronologia degli
     ultimi \meta{n} \emph{commit};
-  \item[\normalfont \texttt{git log --oneline}] la descrizione dei \emph{commit}
+  \item[\normalfont \texttt{git log -{}-oneline}] la descrizione dei \emph{commit}
     compare su una sola riga ed è composta dall'\emph{hash} abbreviato e dalla
     sola prima riga del messaggio descrittivo;
   \item[\normalfont \texttt{git log -p}] mostra non solo il messaggio che
@@ -1433,14 +1470,33 @@ saranno qui ripetuti.
 \item[\texttt{git merge} \meta{ramo}] fonde \meta{ramo} nel ramo attuale;
 \item[\texttt{git cherry-pick} \meta{commit}] crea nel ramo corrente un
   \emph{commit} uguale a \meta{commit}, eseguito in un altro ramo;
+\item[\texttt{git remote}] permette di gestire i \emph{repository} remoti.
+  Azioni più comuni:
+  \begin{description}
+  \item[\normalfont \texttt{git remote add} \meta{nome} \meta{URL}] aggiunge un
+    \emph{repository} chiamato \meta{nome} e con indirizzo \meta{URL};
+  \item[\normalfont \texttt{git remote rename} \meta{vecchio nome} \meta{nuovo
+      nome}] rinomina il \emph{repository} \meta{vecchio nome} in \meta{nuovo
+      nome};
+  \item[\normalfont \texttt{git remote rm} \meta{nome}] rimuove il
+    \emph{repository} chiamato \meta{nome};
+  \item[\normalfont \texttt{git remote set-url} \meta{nome} \meta{nuovo URL}]
+    cambia l'indirizzo del \emph{repository} chiamato \meta{nome} in \meta{nuvo
+      URL}.
+  \end{description}
 \item[\texttt{git push} \meta{remoto} \meta{ramo}] invia al \emph{repository}
   \meta{remoto} il ramo chiamato \meta{ramo}.  Se non si specifica \meta{ramo}
   verranno inviati tutti i rami che hanno \meta{remoto} come \emph{repository}
   remoto predefinito; se non si specifica \meta{remoto} il ramo verrà inviato
-  nel \emph{repository} remoto predefinito per il ramo attuale;
+  nel \emph{repository} remoto predefinito per il ramo attuale.
+  \begin{description}
+  \item[\normalfont \texttt{git push -u} \meta{remoto} \meta{ramo}] invia
+    \meta{ramo} al \emph{repository} \meta{remoto} e imposta questo come
+    predefinito per quel ramo.
+  \end{description}
 \item[\texttt{git pull} \meta{remoto} \meta{ramo}] aggiorna il ramo chiamato
-  \meta{ramo} usando \emph{repository} \meta{remoto}.  Se non si specificano gli
-  argomenti, i comportamenti predefiniti sono gli stessi descritti sopra per
+  \meta{ramo} usando il \emph{repository} \meta{remoto}.  Se non si specificano
+  gli argomenti, i comportamenti predefiniti sono gli stessi descritti sopra per
   \texttt{git push}.
 \end{plaindescription}
 
