@@ -1,16 +1,15 @@
 * Rivedere tutta la forma
 * Rivedere ed eventualmente completare il capitolo "Presentazione della guida".
-* Completare il capitolo sui repository remoti
+* Parlare dei repository remoti su una periferica USB
+   Qui è spiegato abbastanza bene
+   http://orgmode.org/worg/org-tutorials/org-vcs.html#sec-5-1
 * Risolvere i bad boxes
 * Parlare dei tag
-* Spiegare per bene il formato convenzionale dei messaggi di commit:
-   http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html  Se ne
-   parla già ma forse potrebbe essere fatto meglio
-* Rivedere i TODO all'interno del documeno
 * Rivedere i suggerimenti di Antonio Macrì segnalati qui:
    http://www.guitex.org/home/it/forum/5-tex-e-latex/49517-latex--git?limit=15&start=30#80949
-* Migliori istruzioni sull'installazione di Git nei vari sistemi operativi
-* Decidere se parlare di alcune GUI (git-gui, gitk e altro).  In questo caso
-   togliere dalla presentazione della guida la frase in cui si dice che non si
-   parla delle GUI.
+* Decidere se parlare di alcune GUI (git-gui, gitk e altro).
+   In questo caso togliere dalla presentazione della guida la frase in cui si
+   dice che non si parla delle GUI.
 * Parlare dell'integrazione di Git con gli editor di testo per LaTeX?
+   Al momento Emacs è l'unico editor che conosco che integri Git in maniera
+   predefinita.

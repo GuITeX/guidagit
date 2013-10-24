@@ -20,15 +20,15 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \documentclass[b5paper,11pt,oneside]{guidatematica}
-\ProvidesFile{guidagit.tex}[2013/08/04 v.0.2 Una guida introduttiva a Git per
+\ProvidesFile{guidagit.tex}[2013/10/24 v.0.3 Una guida introduttiva a Git per
 progetti LaTeX]
 
 \usepackage[os=win]{menukeys}
-\usepackage{quoting,hyperref}
+\usepackage{ccicons,quoting,hyperref}
 
 \hypersetup{
   pdftitle={Una guida introduttiva a Git per progetti \LaTeX},
-  pdfauthor={Pietro Giuffrida, Mosè Giordano},
+  pdfauthor={Mosè Giordano, Pietro Giuffrida},
   breaklinks=true, % permette di spezzare i link su più righe
   bookmarksnumbered, % inserisce i numeri delle sezioni nei segnalibri
   %%% opzioni dei colori di guidatematica.cls
@@ -57,10 +57,32 @@ progetti LaTeX]
 % copiato la definizione del comando `\TeX'.
 \newcommand{\GiT}{G\kern-.1667em\lower.5ex\hbox{I}\kern-.125emT\@}
 
+\newsavebox{\codetitlebox}
+
 \begin{document}
-\title{\GiT{} 4 \LaTeX{} \\
-  Una guida introduttiva a Git per progetti \LaTeX}
-\author{Pietro Giuffrida, Mosè Giordano}
+
+\frontmatter{}
+
+\begin{lrbox}{\codetitlebox}
+  \begin{minipage}{0.51\textwidth}
+    \lstset{basicstyle=\large\ttfamily,
+      classoffset=0,
+      morekeywords={git},keywordstyle=\color{blue},
+      classoffset=1,stringstyle=,
+      morekeywords={dependencies},keywordstyle=\color[HTML]{A0522D},
+      frame=shadowbox,frameround=ffff,rulesepcolor=\color[cmyk]{1,0,1,0.6}}
+\begin{lstlisting}
+git commit -m"£\normalfont\LaTeX£"
+\end{lstlisting}
+  \end{minipage}
+\end{lrbox}
+
+\title{%
+  \usebox{\codetitlebox}\\[\bigskipamount]
+  \GiT{} 4 \LaTeX{} \\
+  Una guida introduttiva a Git \\
+  per progetti \LaTeX}
+\author{Mosè Giordano, Pietro Giuffrida}
 
 \frontmatter{}
 \GetFileInfo{guidagit.tex}
@@ -69,6 +91,33 @@ progetti LaTeX]
 \maketitle
 
 \cleardoublepage{}
+
+\chapter{Licenza d'uso}
+\label{cha:licenza}
+
+Dato il carattere ludico della presente guida, abbiamo scelto come licenza la
+Creative Commons \emph{Attribuzione}, \emph{Non Commerciale}, \emph{Condividi
+  allo stesso modo} 2.5 Italy.  Un riassunto della licenza in linguaggio
+accessibile a tutti è reperibile sul sito ufficiale
+\url{http://creativecommons.org/licenses/by-nc-sa/2.5/it/}.
+
+\bigskip\noindent\textsc{tu sei libero:}
+\begin{itemize}
+\item Di riprodurre, distribuire, comunicare al pubblico, esporre in pubblico,
+  rappresentare, eseguire e recitare quest'opera.
+\item Di modificare quest'opera.
+\end{itemize}
+\textsc{alle seguenti condizioni:}
+\begin{itemize}
+\item[\Large\ccAttribution] Devi attribuire la paternità dell'opera nei modi
+  indicati dall'autore o da chi ti ha dato l'opera in licenza e in modo tale da
+  non suggerire che essi avallino te o il modo in cui tu usi l'opera.
+\item[\Large\ccNonCommercial] Non puoi usare quest'opera per fini commerciali.
+\item[\Large\ccShareAlike] Se alteri o trasformi quest'opera, o se la usi per
+  crearne un'altra, puoi distribuire l'opera risultante solo con una licenza
+  identica o equivalente a questa.
+\end{itemize}
+
 \chapter{Presentazione della guida}
 \label{cha:presentazione-guida}
 
@@ -78,24 +127,29 @@ scritto con \LaTeX, un programma di composizione tipografica di alta qualità.
 Qui non si spiegherà il funzionamento di \LaTeX{}, per maggiori informazioni su
 questo programma si possono consultare l'ottima guida di~\cite{pantieri:latex} e
 la documentazione in italiano reperibile a partire dal sito del \guit{}
-(\url{http://www.guitex.org/home/}).
+(\url{http://www.guitex.org}).
 
-Solo i primi due capitoli sono indispensabili.  Nel
-capitolo~\ref{cha:introduzione-vcs} sono presentati i VCS in generale e vengono
-tratte le basi del funzionamento di Git in particolare.  Nel
-capitolo~\ref{cha:git-latex} sono illustrati i passaggi fondamentali per la
+Solo i primi tre capitoli sono indispensabili.  Nel
+capitolo~\ref{cha:introduzione-vcs} si proverà a convincere il lettore
+dell'utilità dei programmi per il controllo delle revisioni (VCS), saranno
+presentati i VCS in generale e verranno trattate le basi del funzionamento di
+Git in particolare.  Nel capitolo~\ref{cha:installare-git} sarà brevemente
+spiegato come installare Git nei vari sistemi operativi.  Nel
+capitolo~\ref{cha:git-latex} saranno illustrati i passaggi fondamentali per la
 creazione di un \emph{repository} locale del proprio progetto, per il
 salvataggio progressivo delle versioni, e quindi per svolgere eventuali
 operazioni di ripristino.  Il capitolo~\ref{cha:repository-remoti} è dedicato
-alla gestione di un \emph{repository} remoto, utile per la collaborazione su un
-unico progetto con altre persone, e il capitolo~\ref{cha:gitwin}
-all'installazione di Git su Windows.
+alla gestione di un \emph{repository} remoto, utile per la collaborazione con
+altre persone su un comune progetto.  Infine il
+capitolo~\ref{cha:riepilogo-comandi} presenta un breve riepilogo schematico di
+tutti i comandi introdotti nella guida.
 
-La guida non contempla l'uso di alcuna interfaccia grafica (GUI).  Tutti i
-comandi e i passaggi illustrati sono eseguiti tramite terminale.  Chi non
-dovesse avere familiarità con la linea di comando può leggere la guida
-di~\cite{giacomelli:console}.  Spesso indicheremo i comandi da eseguire nel
-seguente modo:
+Installando Git vengono fornite due interfacce grafiche (GUI), \texttt{git-gui}
+e \texttt{gitk}, ma questa guida non si occuperà di descrivere l'uso di alcuna
+interfaccia grafica.  Tutti i comandi e i passaggi illustrati vanno eseguiti
+tramite terminale.  Chi non dovesse avere familiarità con la linea di comando
+può leggere la guida di~\cite{giacomelli:console}.  Spesso indicheremo i comandi
+da eseguire nel seguente modo:
 \begin{lstlisting}
 ~/progetto$ git log -4 -p -- main.tex
 \end{lstlisting} %$
@@ -110,35 +164,33 @@ eseguito copiando, o riscrivendo, in un terminale \texttt{git log -4 -p -{}-
 riportate le parti di un comando che non devono essere ricopiate così come sono
 ma andranno sostituite dall'utente, come spiegato nella guida di volta in volta.
 
-Non ho esperienza né di Git né di \LaTeX{} su sistemi operativi non
-Unix-like. Un minimo di compatibilità con altri sistemi è garantita dal fatto
-che i comandi tipici della shell Unix sono evidenziati e commentati, in modo
-che l'utente di altri sistemi operativi o abituato all'uso di GUI possa
-sostituirli svolgendo altrimenti le medesime attività. I comandi di Git
-dovrebbero invece restare i medesimi in ogni sistema operativo, per quanto anche
-in questo caso le medesime attività possano essere svolte mediante GUI.
+Non abbiamo esperienza né di Git né di \LaTeX{} su sistemi operativi non
+Unix-like.  Un minimo di compatibilità con altri sistemi è garantita dal fatto
+che i comandi tipici della shell Unix sono evidenziati e commentati, in modo che
+l'utente di altri sistemi operativi o abituato all'uso di GUI possa sostituirli
+svolgendo altrimenti le medesime attività.  I comandi di Git dovrebbero invece
+restare i medesimi in ogni sistema operativo, per quanto anche in questo caso le
+medesime attività possano essere svolte mediante GUI.
 
-Non sono un esperto di informatica, ma trovo bello far le cose, per quanto
-possibile, con le mie mani, sapere cosa fa la macchina e avere l'illusione che
-nel rapporto quasi-simbiotico con il computer sia io a decidere.
-
-Dato il carattere ludico della presente guida, scelgo come licenza la Creative
-Commons Attribution-NonCommercial-ShareAlike 2.5 Italy. Gli unici vincoli sono
-quindi quelli di riconoscere la paternità dell'opera
-originale, di non lucrare sulla sua distribuzione, e di distribuire l'opera e
-i suoi eventuali derivati con la medesima licenza.\footnote{
-  Quest'opera è stata rilasciata sotto la licenza
-  Creative Commons Attribution-NonCommercial-ShareAlike 2.5 Italy.
-  Per leggere una copia della licenza visita il sito web
-  \url{http://creativecommons.org/licenses/by-nc-sa/2.5/it/}
-  o spedisci una lettera a Creative Commons, 171 Second Street, Suite 300, San
-  Francisco, California, 94105, USA.}
+Non siamo esperti di informatica, ma troviamo bello far le cose, per quanto
+possibile, con le nostre mani, sapere cosa fa la macchina e avere l'illusione
+che nel rapporto quasi-simbiotico con il computer siamo noi a decidere.
 
 Per maggiori informazioni sui vari comandi Git illustrati, loro opzioni e
 argomenti è possibile consultare la documentazione presene sul proprio computer
 eseguendo il comando \texttt{man git-}\meta{comando} e sostituendo a
 \meta{comando} il comando Git che si vuole approfondire.  Così, per saperne di
 più su \texttt{git commit} si dovrà eseguire \texttt{man git-commit}.
+
+\begin{flushright}
+  \begin{minipage}{0.6\textwidth}\centering
+    \textsc{Gli autori}                         \\[1.5ex]
+    \textsc{Mosè Giordano}                      \\
+    \texttt{giordano dot mose at libero dot it} \\[0.5ex]
+    \textsc{Pietro Giuffrida}                   \\
+    \texttt{email at example dot it}            \\
+  \end{minipage}
+\end{flushright}
 
 \newpage
 \tableofcontents
@@ -199,8 +251,9 @@ persone.  Un DVCS può quindi riprodurre il flusso di lavoro di un CVCS ma senza
 avere i suoi aspetti negativi legati alle limitazioni di dover lavorare
 necessariamente con l'unico server centrale.
 
-Fra i più famosi CVCS ricordiamo CVS e Subversion (abbreviato in SVN), i DVCS
-più noti invece sono Bazaar (bzr), Git e Mercurial (hg).
+Fra i più famosi CVCS ricordiamo Concurrent Versions System (abbreviato in CVS)
+e Subversion (SVN), i DVCS più noti invece sono Bazaar (bzr), Git e Mercurial
+(hg).
 
 % Se tutto ciò non è sufficientemente convincente per usare un VCS si può vedere
 % http://tug.org/pracjourn/2007-3/henningsen/henningsen.pdf e
@@ -215,8 +268,7 @@ più noti invece sono Bazaar (bzr), Git e Mercurial (hg).
   non formano un discorso di senso compiuto.  A questo punto un VCS ti
   permetterà di ritornare all'ultima versione corretta del tuo documento.
 \end{quoting}
-Questo esempio, tratto da un commento dell'utente \textsf{h0b0} sul sito TeX
-Stack
+Questo esempio, tratto da un commento da \textsf{h0b0} sul sito TeX Stack
 Exchange,\footnote{\url{http://tex.stackexchange.com/questions/1118\#comment1442\_1118}.}
 spiega abbastanza bene perché sia utile un VCS.  Naturalmente i VCS non sono gli
 unici software con funzioni simili.  Anche i programmi di videoscrittura come
@@ -236,15 +288,15 @@ creare copie del documento principale con nomi complicati e misteriosi del tipo
 \filestyle{documento\_20090524.tex}, \filestyle{documento-OK\_ieri.tex} e così
 via.  Quando la cartella di lavoro inizia ad affollarsi con decine di documenti
 simili si capisce che districarsi in questa foresta di file è tutto meno che
-elegante o utile.  I software di backup oppure di file hosting online hanno
-esattamente questo stesso scopo, ma questi programmi generalmente creano una
-nuova versione dei file ogni volta che viene salvata una modifica nell'editor di
-testo, anche se la modifica consiste nell'aggiunta di un punto o nella
-cancellazione di uno spazio superfluo.  Come già detto, i VCS forniscono un
-controllo migliore su cosa deve e cosa non deve essere visionato e i messaggi
-associati alle modifiche registrate nel VCS rendono la consultazione della
-cronologia molto più significativa rispetto al solo elenco di date e orari di
-modifiche.
+elegante o utile.  I software di backup oppure di \emph{file hosting} online
+hanno esattamente questo stesso scopo, ma questi programmi generalmente creano
+una nuova versione dei file ogni volta che viene salvata una modifica
+nell'editor di testo, anche se la modifica consiste nell'aggiunta di un punto o
+nella cancellazione di uno spazio superfluo.  Come già detto, i VCS forniscono
+un controllo migliore su cosa deve e cosa non deve essere monitorato e i
+messaggi associati alle modifiche registrate nel VCS rendono la consultazione
+della cronologia molto più significativa rispetto al solo elenco di date e orari
+di modifiche.
 
 Come già detto, i VCS permettono di inviare una copia della propria cartella di
 lavoro, comprensiva di tutta la cronologia, a un \emph{repository} remoto.
@@ -293,8 +345,8 @@ modifiche compiute nella copia principale (\emph{cherry-picking}).  Questo può
 essere utile per i laureandi che vogliono avere una copia personale della
 propria tesi differente da quella da consegnare al proprio relatore, per
 assecondare, per esempio, le sue bizzarre richieste riguardanti i margini e
-l'interlinea del documento.\footnote{Idea suggerita da \textsf{Lorem Ipsum} su
-  Stack Overflow: \url{http://stackoverflow.com/a/6190412}.}
+l'interlinea del documento.\footnote{Idea suggerita da \textsf{yoda} su Stack
+  Overflow: \url{http://stackoverflow.com/a/6190412}.}
 
 Riepilogando, un VCS richiede un certo, seppur minimo, lavoro da parte
 dell'utente, ma l'utente è ripagato dall'avere il controllo totale di quello che
@@ -302,12 +354,12 @@ viene registrato, la possibilità di rivedere una cronologia commentata che
 mostra anche le differenze fra ciascuna versione, la capacità di ripristinare in
 ogni momento il progetto a una delle versioni precedenti se necessario,
 l'opportunità di creare dei \emph{branch} per sperimentare sui propri file senza
-alcun timore di perdere il lavoro precedente.  Probabilmente un software di file
-hosting andrebbe ugualmente bene per file semplici e l'operazione di salvataggio
-delle modifiche dei file è automatica, ma un VCS offre un controllo non ancora
-raggiunto da quei programmi e spesso il desiderio di avere l'ultima parola sul
-risultato finale è il motivo per il quale un utente passa dai classici software
-di videoscrittura a \LaTeX{}.
+alcun timore di perdere il lavoro precedente, la possibilità di condividere un
+progetto in tempo reale su più postazioni e con più persone.  Probabilmente un
+software di \emph{file hosting} andrebbe ugualmente bene per file semplici, ma
+un VCS offre un controllo non ancora raggiunto da quei programmi e spesso il
+desiderio di avere l'ultima parola sul risultato finale è il motivo per il quale
+un utente passa dai classici software di videoscrittura a \LaTeX{}.
 
 \section{Git: the stupid content tracker}
 \label{sec:git}
@@ -320,7 +372,7 @@ di videoscrittura a \LaTeX{}.
 Questa guida descrive in particolare uno dei più diffusi DVCS in circolazione,
 sicuramente quello con la comunità più attiva: Git.  Git è software libero
 essendo rilasciato sotto licenza GPL ed è disponibile, oltre che nei
-\emph{repository} delle varie distribuzioni GNU-Linux, all'indirizzo
+\emph{repository} delle varie distribuzioni GNU/Linux, all'indirizzo
 \url{http://git-scm.com/}.  Git è stato creato da Linus Torvalds, inventore del
 kernel Linux, perché aveva bisogno di un buon VCS per gestire lo sviluppo di
 Linux.
@@ -333,9 +385,9 @@ il \emph{commit}.
 Per controllare continuamente l'integrità dei dati Git utilizza un sistema,
 detto \emph{checksum}, che associa a ogni stato di un progetto una sequenza di
 bit che la identifica.  Nella fattispecie Git utilizza l'algoritmo SHA-$1$ che
-restituisce una stringa esadecimale (detta \emph{hash}) composta da $40$
-caratteri alfanumerici (numeri da \texttt{0} a \texttt{9} e lettere da
-\texttt{a} a \texttt{f}) che può apparire così:
+restituisce una stringa esadecimale detta \emph{hash} composta da $40$ caratteri
+alfanumerici (numeri da \texttt{0} a \texttt{9} e lettere da \texttt{a} a
+\texttt{f}) che può apparire così:
 \begin{lstlisting}
 43c5858e91a7090b834dd9f09ddfae1061901ee4
 \end{lstlisting}
@@ -386,6 +438,51 @@ Se una particolare versione di un file si trova nella cartella git è considerat
 è detto \emph{staged}. Se è stato modificato da quando è stata aperta la cartella
 di lavoro ma non ancora aggiunto alla \emph{staging area} allora il file è detto
 \emph{modified}.
+
+\chapter{Installare Git}
+\label{cha:installare-git}
+
+Gli utenti dei sistemi operativi Mac OS e Windows possono scaricare la versione
+più recente di Git dal sito \url{http://git-scm.com/}.  Dopo aver terminato
+l'installazione, si ha la possibilità di usare Git sia tramite interfaccia
+grafica, sia tramite un shell o, per gli utenti Windows, nel più noto Prompt dei
+Comandi.  Altre GUI sono disponibili all'indirizzo
+\url{http://git-scm.com/downloads/guis}.
+
+Gli utenti dei sistemi operativi GNU/Linux o altri sistemi Unix possono
+compilare il codice sorgente di Git scaricabile all'indirizzo
+\url{https://github.com/git/git} oppure installarlo usando il proprio gestore
+pacchetti.  Insieme a Git verranno installate le interfacce grafiche predefinite
+\texttt{git-gui} e \texttt{gitk}.  Ecco i comandi da utilizzare per installare
+Git nelle principali distribuzioni: Debian/Ubuntu
+\begin{lstlisting}
+$ apt-get install git
+\end{lstlisting}
+Fedora
+\begin{lstlisting}
+$ yum install git
+\end{lstlisting}
+Gentoo
+\begin{lstlisting}
+$ emerge --ask --verbose dev-vcs/git
+\end{lstlisting}
+Arch Linux
+\begin{lstlisting}
+$ pacman -S git
+\end{lstlisting}
+FreeBSD
+\begin{lstlisting}
+$ cd /usr/ports/devel/git
+$ make install
+\end{lstlisting}
+Solaris 11 Express
+\begin{lstlisting}
+$ pkg install developer/versioning/git
+\end{lstlisting}
+OpenBSD
+\begin{lstlisting}
+$ pkg_add git
+\end{lstlisting}
 
 \chapter{Git e \LaTeX}
 \label{cha:git-latex}
@@ -465,8 +562,8 @@ nuova revisione.
 In Git, a differenza di altri software VCS, è necessario specificare un
 messaggio di \emph{commit} non vuoto.  Se quando registriamo un nuovo
 \emph{commit} con il comando \texttt{git commit} non specifichiamo un messaggio
-con l'opzione \texttt{-m} si aprirà l'editor di testo associato di default a Git
-in cui potremo scrivere il messaggio del \emph{commit}.  Se si utilizza un
+con l'opzione \texttt{-m} si aprirà l'editor di testo associato per default a
+Git in cui potremo scrivere il messaggio del \emph{commit}.  Se si utilizza un
 editor di testo per scrivere il messaggio di un \emph{commit} è possibile
 inserire messaggi estesi su più righe.  Generalmente si utilizza la seguente
 convenzione:
@@ -661,7 +758,6 @@ nothing to commit (working directory clean)
 \subsection{Ignorare file del progetto:
   \texorpdfstring{\filestyle{.gitignore}}{.gitignore}}
 \label{sec:ignorare-file}
-% TODO: rivedere questa sezione
 
 Come ormai sappiamo bene, per aggiungere dei file alla \emph{staging area}
 dobbiamo usare il comando \texttt{git add} \meta{file}, in cui a \meta{file}
@@ -691,19 +787,21 @@ subito dopo una compilazione, evidentemente Git aggiungerebbe alla \emph{staging
   area} anche i vari file di lavoro, dal pdf, ai file di log.  Per ovviare a
 questo inconveniente, e continuare pigramente a eseguire \texttt{git add .}, è
 utile creare nella nostra directory di un file denominato
-\filestyle{.gitignore}.
+\filestyle{.gitignore} con il seguente contenuto:
 \begin{lstlisting}
-$ echo "*.log" >> .gitignore
-$ echo "*.pdf" >> .gitignore
-$ echo "*.blg" >> .gitignore
-$ echo "*.bbl" >> .gitignore
-$ echo "*.aux" >> .gitignore
-$ echo "*-blx.bib" >> .gitignore
-$ echo "*.out" >> .gitignore
-$ echo "*~" >> .gitignore
-$ git add .gitignore
-$ git commit -am "Aggiunto il file .gitignore"
+*.log
+*.pdf
+*.blg
+*.bbl
+*.aux
+*-blx.bib
+*.out
+*~
 \end{lstlisting}
+Il metacarattere \texttt{*} rappresenta una qualsiasi sequenza di caratteri,
+quindi, per esempio, \texttt{*.log} indica qualsiasi file che termini con
+l'estensione \texttt{.log}.  In un file \filestyle{.gitignore} si possono anche
+inserire dei commenti con il carattere \lstinline|#|.
 
 Mediante questo file, istruiamo Git a proposito di tutti i file che non fanno
 effettivamente parte del progetto, pur essendo presenti nella cartella.  Da
@@ -718,13 +816,21 @@ documento \LaTeX{} saranno i file con estensione, per esempio, \filestyle{.log},
 \filestyle{.aux}, \filestyle{.toc} (per i file ausiliari temporanei) e
 \filestyle{.pdf} (per il file di output).  L'aggiunta del \textsc{pdf} finale
 comporterebbe un inutile duplicato nella cronologia dato che è già presente
-l'intero codice sorgente e inoltre appesantisce notevolmente l'intero
-\emph{repository}.  Se si vuole distribuire il \textsc{pdf} è preferibile
-caricarlo su un apposito sito di \emph{file hosting}.\footnote{Alcuni siti, come
+l'intero codice sorgente.  Inoltre Git è ottimizzato per lavorare con file di
+testo semplice e non ha buone prestazioni se nel \emph{repository} sono presenti
+file binari che sono modificati frequentemente, quindi la presenza del
+\textsc{pdf} appesantisce notevolmente l'intero \emph{repository}.  Se si vuole
+distribuire il documento finale in formato \textsc{pdf} è preferibile caricarlo
+su un apposito sito di \emph{file hosting}.\footnote{Alcuni siti, come
   \url{https://bitbucket.org} e \url{http://sourceforge.net}, che offrono la
   possibilità di ospitare \emph{repository} git remoti permettono inoltre di
   caricare dei file esterni al \emph{repository} proprio come un classico sito
   di \emph{file hosting}.}
+
+Non è necessario, ma è preferibile aggiungere anche il file
+\filestyle{.gitignore} al \emph{repository} in modo che tutti gli utenti che
+condividono il progetto possano avere le stesse configurazioni e non debbano
+crearsi ciascuno il proprio \filestyle{.gitignore} in locale.
 
 \section{Consultare la cronologia}
 \label{sec:consultare-cronologia}
@@ -1291,6 +1397,9 @@ Finora abbiamo visto come gestire un \emph{repository} locale.  In questa
 sezione vedremo quali sono  i comandi per mantenere il proprio lavoro in locale
 sincronizzato con un \emph{repository} remoto.
 
+\section{Gestione di un \emph{repository} remoto}
+\label{sec:gestione-repo-remoto}
+
 Per copiare in locale un \emph{repository} remoto si deve utilizzare il comando
 \texttt{git clone} \meta{indirizzo del repository}.  L'\meta{indirizzo del
   repository} da inserire sarà fornito da chi gestisce il progetto.  Per i
@@ -1349,29 +1458,22 @@ descritti sopra per \texttt{git push}.
 \section{\emph{Repository} online}
 \label{sec:repository-online}
 
-\section{Repository su periferica esterna (USB)}
-\label{sec:repository-usb}
+Fra i principali siti che permettono di ospitare progetti Git ricordiamo
+Bitbucket (\url{https://bitbucket.org}), GitHub (\url{https://github.com}),
+Gitorious (\url{https://gitorious.org}), Google Code (\url{code.google.com}) e
+SourceForge (\url{https://sourceforge.net}).  Su ciascuno di questi siti, dopo
+aver creato un nuovo progetto sarà fornito l'indirizzo del \emph{repository}
+remoto.  Sarà quindi possibile sincronizzare il proprio \emph{repository} locale
+con quello remoto usando i comandi descritti nel paragrafo precedente.
 
-% TODO: vedi http://orgmode.org/worg/org-tutorials/org-vcs.html#sec-5-1
-% suggerisce delle idee interessanti
-\begin{lstlisting}
-$ git clone -l file:///home/pietro/elab/git4latex/ /media/usb/gigt/
-\end{lstlisting}
+% \section{Repository su periferica esterna (USB)}
+% \label{sec:repository-usb}
 
-% TODO: descrivere per bene in questo capitolo come installare git anche sugli
-% altri sistemi operativi
-\chapter{Installazione per Windows}
-\label{cha:gitwin}
-
-Installare Git su un sistema operativo Windows è davvero molto semplice.  Il
-progetto \textsf{msysGit} (pagina del progetto su Google Code:
-\url{http://msysgit.github.com/})
-ha una delle più semplici procedure di installazione.  È sufficiente scaricare
-l'\emph{installer} dalla pagina \url{http://git-scm.com/downloads} ed eseguirlo.
-
-Dopo aver terminato l'installazione, si ha la possibilità di usare Git
-sia tramite interfaccia grafica, sia tramite una shell Unix-like
-emulata o integrata nel più noto Prompt dei Comandi di Windows.
+% % TODO: vedi http://orgmode.org/worg/org-tutorials/org-vcs.html#sec-5-1
+% % suggerisce delle idee interessanti
+% \begin{lstlisting}
+% $ git clone -l file:///home/pietro/elab/git4latex/ /media/usb/gigt/
+% \end{lstlisting}
 
 \chapter{Riepilogo dei comandi più comuni}
 \label{cha:riepilogo-comandi}
@@ -1474,15 +1576,14 @@ saranno qui ripetuti.
   Azioni più comuni:
   \begin{description}
   \item[\normalfont \texttt{git remote add} \meta{nome} \meta{URL}] aggiunge un
-    \emph{repository} chiamato \meta{nome} e con indirizzo \meta{URL};
+    \emph{repository} identificato con \meta{nome} e con indirizzo \meta{URL};
   \item[\normalfont \texttt{git remote rename} \meta{vecchio nome} \meta{nuovo
       nome}] rinomina il \emph{repository} \meta{vecchio nome} in \meta{nuovo
       nome};
   \item[\normalfont \texttt{git remote rm} \meta{nome}] rimuove il
     \emph{repository} chiamato \meta{nome};
-  \item[\normalfont \texttt{git remote set-url} \meta{nome} \meta{nuovo URL}]
-    cambia l'indirizzo del \emph{repository} chiamato \meta{nome} in \meta{nuvo
-      URL}.
+  \item[\normalfont \texttt{git remote set-url} \meta{nome} \meta{URL}] cambia
+    l'indirizzo del \emph{repository} chiamato \meta{nome} in \meta{URL}.
   \end{description}
 \item[\texttt{git push} \meta{remoto} \meta{ramo}] invia al \emph{repository}
   \meta{remoto} il ramo chiamato \meta{ramo}.  Se non si specifica \meta{ramo}
