@@ -20,7 +20,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \documentclass[b5paper,11pt,oneside]{guidatematica}
-\ProvidesFile{guidagit.tex}[2013/10/24 v.0.3 Una guida introduttiva a Git per
+\ProvidesFile{guidagit.tex}[2013/10/25 v.0.3 Una guida introduttiva a Git per
 progetti LaTeX]
 
 \usepackage[os=win]{menukeys}
@@ -64,7 +64,7 @@ progetti LaTeX]
 \frontmatter{}
 
 \begin{lrbox}{\codetitlebox}
-  \begin{minipage}{0.51\textwidth}
+  \begin{minipage}{0.4\textwidth}
     \lstset{basicstyle=\large\ttfamily,
       classoffset=0,
       morekeywords={git},keywordstyle=\color{blue},
@@ -178,9 +178,9 @@ che nel rapporto quasi-simbiotico con il computer siamo noi a decidere.
 
 Per maggiori informazioni sui vari comandi Git illustrati, loro opzioni e
 argomenti è possibile consultare la documentazione presene sul proprio computer
-eseguendo il comando \texttt{man git-}\meta{comando} e sostituendo a
-\meta{comando} il comando Git che si vuole approfondire.  Così, per saperne di
-più su \texttt{git commit} si dovrà eseguire \texttt{man git-commit}.
+eseguendo il comando \texttt{man git-}\meta{azione} e sostituendo ad
+\meta{azione} l'azione Git che si vuole approfondire.  Così, per saperne di più
+su \texttt{git commit} si dovrà eseguire \texttt{man git-commit}.
 
 \begin{flushright}
   \begin{minipage}{0.6\textwidth}\centering
@@ -373,14 +373,17 @@ Questa guida descrive in particolare uno dei più diffusi DVCS in circolazione,
 sicuramente quello con la comunità più attiva: Git.  Git è software libero
 essendo rilasciato sotto licenza GPL ed è disponibile, oltre che nei
 \emph{repository} delle varie distribuzioni GNU/Linux, all'indirizzo
-\url{http://git-scm.com/}.  Git è stato creato da Linus Torvalds, inventore del
+\url{http://git-scm.com}.  Git è stato creato da Linus Torvalds, inventore del
 kernel Linux, perché aveva bisogno di un buon VCS per gestire lo sviluppo di
 Linux.
 
 Git permette di tenere traccia delle modifiche apportate a un progetto
 registrando una copia dei file del progetto in un database.  Sostanzialmente Git
 scatta una foto dei file presenti nella cartella nel momento in cui si effettua
-il \emph{commit}.
+il \emph{commit}.  Per essere efficiente, se un file non è stato modificato in
+un \emph{commit} Git non lo memorizza nuovamente nel \emph{repository} ma crea
+un semplice collegamento all'ultima versione precedentemente salvata di quello
+stesso file.
 
 Per controllare continuamente l'integrità dei dati Git utilizza un sistema,
 detto \emph{checksum}, che associa a ogni stato di un progetto una sequenza di
@@ -443,7 +446,7 @@ di lavoro ma non ancora aggiunto alla \emph{staging area} allora il file è dett
 \label{cha:installare-git}
 
 Gli utenti dei sistemi operativi Mac OS e Windows possono scaricare la versione
-più recente di Git dal sito \url{http://git-scm.com/}.  Dopo aver terminato
+più recente di Git dal sito \url{http://git-scm.com}.  Dopo aver terminato
 l'installazione, si ha la possibilità di usare Git sia tramite interfaccia
 grafica, sia tramite un shell o, per gli utenti Windows, nel più noto Prompt dei
 Comandi.  Altre GUI sono disponibili all'indirizzo
@@ -1352,6 +1355,29 @@ and commit the result with:
         git commit -c 97b8c9b
 \end{lstlisting}
 
+\section{Etichette}
+\label{sec:etichette}
+
+In Git è possibile creare delle etichette (\emph{tag}) per identificare una
+particolare revisione.  L'utilità delle etichette è che hanno dei nomi molti più
+significativi e facili da ricordare rispetto all'\emph{hash} del corrispondente
+\emph{commit}.  L'uso delle etichette è molto vario, si possono usare per
+indicare la revisione corrispondente a una particolare versione del documento,
+qualora si adotti un sistema di numerazione delle versioni, oppure per
+ricordarsi quale sia la revisione della tesi che è stata fatta leggere al
+proprio relatore.  Per creare una nuova etichetta si può usare il comando
+\texttt{git tag} \meta{etichetta} \meta{hash}.  L'argomento obbligatorio
+\meta{etichetta} è il nome con cui sarà etichettato il \emph{commit}
+corrispondente ad \meta{hash}.  L'argomento \meta{hash} è opzionale, se omesso
+verrà etichettato l'ultimo commit.  Quindi, per etichettare l'ultimo
+\emph{commit} con la stringa \texttt{v1.0}, indicante che la versione 1.0 del
+documento, si dovrà usare il comando
+\begin{lstlisting}
+$ git tag v1.0
+\end{lstlisting} % $
+Un \emph{commit} etichettato potrà in seguito essere richiamato
+indifferentemente con il suo \emph{hash} oppure con la corrispondente etichetta.
+
 \section{Configurazioni basilari di Git}
 \label{sec:configurazioni-basilari}
 
@@ -1446,7 +1472,9 @@ In definitiva, la prima volta che si devono inviare le modifiche di un ramo (per
 esempio, \texttt{master}) a un \emph{repository} remoto (per esempio,
 \texttt{origin}) si deve eseguire il comando \texttt{git push -u origin master},
 mentre per tutte le operazioni successive di invio in remoto sarà sufficiente
-dare \texttt{git push} senza ulteriori argomenti.
+dare \texttt{git push} senza ulteriori argomenti.  Per inviare in remoto anche
+tutte le etichette con \texttt{git tag} bisogna aggiungere all'azione
+\texttt{push} l'opzione \texttt{-{}-tags}: \texttt{git push -{}-tags}.
 
 L'ultima azione da menzionare in questo paragrafo è il \emph{push}, vale a dire
 lo scaricamento di un ramo da un \emph{repository} remoto, quindi l'operazione
@@ -1572,6 +1600,9 @@ saranno qui ripetuti.
 \item[\texttt{git merge} \meta{ramo}] fonde \meta{ramo} nel ramo attuale;
 \item[\texttt{git cherry-pick} \meta{commit}] crea nel ramo corrente un
   \emph{commit} uguale a \meta{commit}, eseguito in un altro ramo;
+\item[\texttt{git tag} \meta{etichetta} \meta{commit}] etichetta \meta{commit}
+  con \meta{etichetta}.  L'argomento \meta{commit} è opzionale, se assente verrà
+  etichettata l'ultimo \emph{commit};
 \item[\texttt{git remote}] permette di gestire i \emph{repository} remoti.
   Azioni più comuni:
   \begin{description}
@@ -1583,17 +1614,22 @@ saranno qui ripetuti.
   \item[\normalfont \texttt{git remote rm} \meta{nome}] rimuove il
     \emph{repository} chiamato \meta{nome};
   \item[\normalfont \texttt{git remote set-url} \meta{nome} \meta{URL}] cambia
-    l'indirizzo del \emph{repository} chiamato \meta{nome} in \meta{URL}.
+    l'indirizzo del \emph{repository} chiamato \meta{nome} in \meta{URL};
   \end{description}
 \item[\texttt{git push} \meta{remoto} \meta{ramo}] invia al \emph{repository}
   \meta{remoto} il ramo chiamato \meta{ramo}.  Se non si specifica \meta{ramo}
   verranno inviati tutti i rami che hanno \meta{remoto} come \emph{repository}
   remoto predefinito; se non si specifica \meta{remoto} il ramo verrà inviato
-  nel \emph{repository} remoto predefinito per il ramo attuale.
+  nel \emph{repository} remoto predefinito per il ramo attuale.  Le eventuali
+  etichette create non saranno inviate in remoto se non esplicitamente richiesto
+  con l'opzione \texttt{-{}-tags}.
   \begin{description}
   \item[\normalfont \texttt{git push -u} \meta{remoto} \meta{ramo}] invia
     \meta{ramo} al \emph{repository} \meta{remoto} e imposta questo come
-    predefinito per quel ramo.
+    predefinito per quel ramo;
+  \item[\normalfont \texttt{git push -{}-tags} \meta{remoto} \meta{ramo}] invia
+    \meta{ramo} al \emph{repository} \meta{remoto} insieme a tutte le etichette
+    create.  Gli argomenti \meta{remoto} e \meta{ramo} sono sempre opzionali;
   \end{description}
 \item[\texttt{git pull} \meta{remoto} \meta{ramo}] aggiorna il ramo chiamato
   \meta{ramo} usando il \emph{repository} \meta{remoto}.  Se non si specificano

@@ -6,7 +6,7 @@ Per compilare il documento è necessaria la classe `guidatematica.cls'
 disponibile all’indirizzo https://github.com/GuITeX/guidatematica.
 
 Si può scaricare una copia della guida in formato PDF all’indirizzo
-http://www.dmf.unisalento.it/~giordano/allow_listing/guidagit.pdf.
+https://github.com/GuITeX/guidagit/releases.
 
 Quest'opera è rilasciata con licenza Creative Commons
 Attribution-NonCommercial-ShareAlike 2.5 Italy.  Un riassunto in linguaggio
