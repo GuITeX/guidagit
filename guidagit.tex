@@ -10,17 +10,17 @@
 % Francisco, California, 94105, USA.
 %
 % This work is licensed under the Creative Commons
-% Attribution-NonCommercial-ShareAlike 3.0 Unported License. To view a copy of
-% this license, visit http://creativecommons.org/licenses/by-nc-sa/3.0/ or send
-% a letter to Creative Commons, 171 Second Street, Suite 300, San Francisco,
-% California, 94105, USA.
+% Attribution-NonCommercial-ShareAlike 2.5 Italy License. To view a copy of this
+% license, visit http://creativecommons.org/licenses/by-nc-sa/2.5/it/deed.en or
+% send a letter to Creative Commons, 171 Second Street, Suite 300, San
+% Francisco, California, 94105, USA.
 %
 % For info send a mail to pietro.giuffri@gmail.com
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \documentclass[b5paper,11pt,oneside]{guidatematica}
-\ProvidesFile{guidagit.tex}[2013/10/25 v.0.3 Una guida introduttiva a Git per
+\ProvidesFile{guidagit.tex}[2013/10/29 v.1.0 Una guida introduttiva a Git per
 progetti LaTeX]
 
 \usepackage[os=win]{menukeys}
@@ -164,6 +164,12 @@ eseguito copiando, o riscrivendo, in un terminale \texttt{git log -4 -p -{}-
 riportate le parti di un comando che non devono essere ricopiate così come sono
 ma andranno sostituite dall'utente, come spiegato nella guida di volta in volta.
 
+Per maggiori informazioni sui vari comandi Git illustrati, loro opzioni e
+argomenti è possibile consultare la documentazione presene sul proprio computer
+eseguendo il comando \texttt{man git-}\meta{azione} e sostituendo ad
+\meta{azione} l'azione Git che si vuole approfondire.  Così, per saperne di più
+su \texttt{git commit} si dovrà eseguire \texttt{man git-commit}.
+
 Non abbiamo esperienza né di Git né di \LaTeX{} su sistemi operativi non
 Unix-like.  Un minimo di compatibilità con altri sistemi è garantita dal fatto
 che i comandi tipici della shell Unix sono evidenziati e commentati, in modo che
@@ -176,19 +182,18 @@ Non siamo esperti di informatica, ma troviamo bello far le cose, per quanto
 possibile, con le nostre mani, sapere cosa fa la macchina e avere l'illusione
 che nel rapporto quasi-simbiotico con il computer siamo noi a decidere.
 
-Per maggiori informazioni sui vari comandi Git illustrati, loro opzioni e
-argomenti è possibile consultare la documentazione presene sul proprio computer
-eseguendo il comando \texttt{man git-}\meta{azione} e sostituendo ad
-\meta{azione} l'azione Git che si vuole approfondire.  Così, per saperne di più
-su \texttt{git commit} si dovrà eseguire \texttt{man git-commit}.
+I lettori possono contribuire a migliorare e ampliare le prossime versioni di
+questa guida con le loro critiche e i loro suggerimenti contattando gli autori
+oppure contribuendo direttamente al \emph{repository} presente all'indirizzo
+\url{https://github.com/GuITeX/guidagit}.
 
 \begin{flushright}
   \begin{minipage}{0.6\textwidth}\centering
-    \textsc{Gli autori}                         \\[1.5ex]
-    \textsc{Mosè Giordano}                      \\
-    \texttt{giordano dot mose at libero dot it} \\[0.5ex]
-    \textsc{Pietro Giuffrida}                   \\
-    \texttt{email at example dot it}            \\
+    \textsc{Gli autori}                          \\[1.5ex]
+    \textsc{Mosè Giordano}                       \\
+    \texttt{giordano dot mose at libero dot it}  \\[0.5ex]
+    \textsc{Pietro Giuffrida}                    \\
+    \texttt{pietro dot giuffri at gmail dot com} \\
   \end{minipage}
 \end{flushright}
 
@@ -345,7 +350,7 @@ modifiche compiute nella copia principale (\emph{cherry-picking}).  Questo può
 essere utile per i laureandi che vogliono avere una copia personale della
 propria tesi differente da quella da consegnare al proprio relatore, per
 assecondare, per esempio, le sue bizzarre richieste riguardanti i margini e
-l'interlinea del documento.\footnote{Idea suggerita da \textsf{yoda} su Stack
+l'interlinea del documento.\footnote{Idea proposta da \textsf{yoda} su Stack
   Overflow: \url{http://stackoverflow.com/a/6190412}.}
 
 Riepilogando, un VCS richiede un certo, seppur minimo, lavoro da parte
