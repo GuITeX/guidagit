@@ -6,6 +6,7 @@ Per compilare il documento è necessaria la classe `guidatematica.cls'
 disponibile all’indirizzo https://github.com/GuITeX/guidatematica.
 
 Si può scaricare una copia della guida in formato PDF all’indirizzo
+http://www.guitex.org/home/images/doc/GuideGuIT/guidagit.pdf oppure
 https://github.com/GuITeX/guidagit/releases.
 
 Quest’opera è rilasciata con licenza Creative Commons
