@@ -20,7 +20,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \documentclass[b5paper,11pt,oneside]{guidatematica}
-\ProvidesFile{guidagit.tex}[2013/10/29 v.1.0 Una guida introduttiva a Git per
+\ProvidesFile{guidagit.tex}[2013/11/07 v.1.0 Una guida introduttiva a Git per
 progetti LaTeX]
 
 \usepackage[os=win]{menukeys}
@@ -209,18 +209,18 @@ oppure contribuendo direttamente al \emph{repository} presente all'indirizzo
 \label{sec:cose-vcs}
 
 Un \emph{version control system}, abbreviato in VCS, è un programma che permette
-di tener traccia di tutte le modifiche e le evoluzione effettuate nel corso
+di tener traccia di tutte le modifiche e le evoluzioni effettuate nel corso
 della stesura di un codice o di un qualsiasi progetto su supporto digitale.
 
 Un software VCS permette di mantenere una copia del proprio codice sorgente, sia
 in locale sia in remoto, senza incorrere in un eccessivo dispendio di energie e
-senza deconcentrarsi eccessivamente dalla stesure del proprio testo.  In linea
-di principio un VCS permette di tenere sotto controllo qualsiasi documento,
-siano essi foto, documenti realizzati con programma di videoscrittura, fogli di
-calcolo, ecc\dots ma un VCS dà il meglio di sé con i file di testo semplice, non
-formattato, poiché permette di vedere tutte le modifiche apportate di volta in
-volta al file.  Proprio per questo l'uso principale dei VCS è quello di
-controllare lo sviluppo dei software.  Anche il codice dei documenti \LaTeX{}
+senza deconcentrarsi eccessivamente dalla stesura del proprio testo.  In linea
+di principio un VCS permette di tenere sotto controllo qualsiasi documento, sia
+esso una foto, un documento realizzati con programma di videoscrittura, un
+foglio di calcolo, ecc\dots ma un VCS dà il meglio di sé con i file di testo
+semplice, non formattato, poiché permette di vedere tutte le modifiche apportate
+di volta in volta al file.  Proprio per questo l'uso principale dei VCS è quello
+di controllare lo sviluppo dei software.  Anche il codice dei documenti \LaTeX{}
 si scrive su file di testo semplice e quindi un software VCS è particolarmente
 adatto a essere utilizzato in accoppiata con \LaTeX.
 
@@ -267,10 +267,10 @@ e Subversion (SVN), i DVCS più noti invece sono Bazaar (bzr), Git e Mercurial
 \label{sec:perche-usare-vcs}
 
 \begin{quoting}
-  Supponi che stai lavorando per tutta la notte su un documento importante, come
-  la tesi di laurea o un articolo.  Il giorno dopo ti svegli e ti chiedi come
-  mai una scimmia abbia usato la tua tastiera per scrivere parole casuali che
-  non formano un discorso di senso compiuto.  A questo punto un VCS ti
+  Supponi che tu stia lavorando per tutta la notte su un documento importante,
+  come la tesi di laurea o un articolo.  Il giorno dopo ti svegli e ti chiedi
+  come mai una scimmia abbia usato la tua tastiera per scrivere parole casuali
+  che non formano un discorso di senso compiuto.  A questo punto un VCS ti
   permetterà di ritornare all'ultima versione corretta del tuo documento.
 \end{quoting}
 Questo esempio, tratto da un commento da \textsf{h0b0} sul sito TeX Stack
@@ -282,7 +282,7 @@ modifiche ai documenti, ma i VCS forniscono un controllo maggiore su quali
 modifiche devono effettivamente essere registrate.  I VCS offrono anche la
 possibilità di aggiungere ai \emph{commit} un messaggio descrittivo, in modo da
 poter rivedere successivamente la ragione dei cambiamenti apportati in passato.
-A differenza delle cronologia in Writer o Word, un VCS non è legato a uno
+A differenza della cronologia in Writer o Word, un VCS non è legato a uno
 specifico editor di testo \LaTeX{}, anche se alcuni editor possono fornire una
 migliore integrazione con i VCS rispetto ad altri.
 
@@ -516,8 +516,8 @@ rispettivamente per creare la directory (\texttt{mkdir} \meta{nome directory}),
 per spostarsi al suo interno (\texttt{cd} \meta{nome directory}) e per creare un
 file vuoto chiamato \filestyle{np\_main.tex} (\texttt{touch} \meta{nome file}).
 
-I passaggi successivi, eseguiti sempre dati dall'interno della cartella in cui
-si troverà il progetto, sono quelli specifici di Git:
+I passaggi successivi, eseguiti sempre dall'interno della cartella in cui si
+troverà il progetto, sono quelli specifici di Git:
 \begin{itemize}
 \item con \texttt{git init} si crea un nuovo \emph{repository} vuoto, cioè
   essenzialmente la cartella nascosta chiamata \filestyle{.git/} che conterrà
@@ -526,10 +526,11 @@ si troverà il progetto, sono quelli specifici di Git:
 \item \texttt{git add .} aggiunge l'argomento (in questo caso `\filestyle{.}',
   che è un'abbreviazione del percorso della cartella in cui siamo posizionati)
   alla \emph{staging area} del \emph{repository} appena creato;
-\item col comando \texttt{commit -am "nota di versione"} effettuiamo il commit
-  che, come detto, salva una copia dei file contenuti nella \emph{staging area}
-  all'interno del database.  Nella cronologia delle modifiche, a questa
-  operazione risulterà associato il messaggio \texttt{"nota di versione"}.
+\item col comando \texttt{commit -am``}\meta{nota di versione}\texttt{''}
+  effettuiamo il commit che, come detto, salva una copia dei file contenuti
+  nella \emph{staging area} all'interno del database.  Nella cronologia delle
+  modifiche, a questa operazione risulterà associato il messaggio \meta{nota di
+    versione}.
 \end{itemize}
 Così facendo saremo già pronti a lavorare con il nostro editor di fiducia sul
 file \filestyle{.tex} appena creato.
@@ -539,9 +540,9 @@ dobbiamo eseguire le seguenti operazioni (il seguente elenco puntato deve essere
 confrontato con quello presente nel paragrafo~\ref{sec:git} a
 pagina~\pageref{list:lavoro-git}):
 \begin{enumerate}
-\item si modificano i file del codice sorgente presenti nella con il nostro
-  editor di testo di fiducia, oppure se ne aggiungono di nuovi (per esempio
-  possono essere aggiunte nuove figure);
+\item si modificano i file del codice sorgente presenti nella cartella con il
+  nostro editor di testo di fiducia, oppure se ne aggiungono di nuovi (per
+  esempio possono essere aggiunte nuove figure);
 \item si aggiungono i file che vogliamo registrare nel successivo \emph{commit}
   alla \emph{staging area} con il comando \texttt{git add} \meta{file}, dove al
   posto di \meta{file} va sostituito l'elenco, separato da uno spazio, dei file
@@ -873,7 +874,7 @@ quindi la data di salvataggio (\texttt{Date}) e il messaggio descrittivo.
 
 È possibile mostrare solo l'elenco degli ultimi $n$ \emph{commit} aggiungendo
 l'opzione \texttt{-}\meta{n}. Dunque per mostrare solo l'ultimo \emph{commit}
-possiamo usare il comando \texttt{git commit -1}.  Si può consultare la
+possiamo usare il comando \texttt{git log -1}.  Si può consultare la
 cronologia relativa a uno o più specifici file e non all'intero
 \emph{repository} passando come argomento del comando l'elenco dei file di
 interesse, separati da uno spazio: \texttt{git log -{}-} \meta{file}.  Se si
@@ -1007,7 +1008,7 @@ della cronologia.  A questo punto si aprirà la solita interfaccia che compare a
 momento del salvataggio di un \emph{commit}: è possibile modificare il
 messaggio, altrimenti è sufficiente uscire direttamente dall'interfaccia.
 
-Se bene sia in realtà possibile, è altamente sconsigliato modificare un
+Sebbene sia in realtà possibile, è altamente sconsigliato modificare un
 \emph{commit} già inviato in remoto con \texttt{git push} (vedi il
 paragrafo~\ref{sec:repository-online}) se il \emph{repository} è condiviso con
 altre persone, poiché i loro \emph{repository} non potranno più continuare a
@@ -1293,8 +1294,8 @@ Fast-forward
  1 files changed, 18 insertions(+), 0 deletions(-)
  create mode 100644 capitolo5.tex
 \end{lstlisting} %$
-Dopo di ciò possiamo normalmente fare il \emph{commit} con
-\texttt{git add .} e \texttt{git commit -am "messaggio di commit"}.
+Dopo di ciò possiamo normalmente fare il \emph{commit} con \texttt{git add .} e
+\texttt{git commit -m``}\meta{messaggio di commit}\texttt{''}.
 
 Può verificarsi un problema se uno o più file sono stati modificati nello stesso
 punto in tutti e due i rami che si vogliono fondere, dopo che è stato creato il
