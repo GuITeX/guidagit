@@ -631,7 +631,7 @@ no changes added to commit (use "git add" and/or "git commit -a")
 \end{lstlisting}
 In questo esempio nella \emph{working directory} sono presenti due file, tutti e
 due \emph{modified} ma non \emph{staged}, come ben spiegato da Git. Nell'ultima
-riga dell'output Git ci suggerisce anche come aggiungere i file alla
+riga dell'output, Git ci suggerisce anche come aggiungere i file alla
 \emph{staging area}, cioè usando i già visti \texttt{git add} \meta{file} oppure
 \texttt{git commit -a}.  Se aggiungiamo il file \filestyle{git4latex.tex} alla
 \emph{staging area} l'output di \texttt{git status} diventerà
@@ -804,7 +804,7 @@ di file ausiliari (\filestyle{.toc}, \filestyle{.out}, \dots), nonché di un
 subito dopo una compilazione, evidentemente Git aggiungerebbe alla \emph{staging
   area} anche i vari file di lavoro, dal pdf, ai file di log.  Per ovviare a
 questo inconveniente, e continuare pigramente a eseguire \texttt{git add .}, è
-utile creare nella nostra directory di un file denominato
+utile creare nella nostra directory un file denominato
 \filestyle{.gitignore} con il seguente contenuto:
 \begin{lstlisting}
 *.log
@@ -983,7 +983,7 @@ omesso se non ci sono possibili ambiguità, per esempio se il file da passare
 come argomento non ha lo stesso nome di uno dei \emph{branch} (vedi
 paragrafo~\ref{sec:branch}) del \emph{repository}. Il comando \texttt{git
   checkout -{}-} \meta{file} può anche essere usato per ripristinare file
-accidentalmente cancellati prima effettuare un nuovo \emph{commit}. In questo
+accidentalmente cancellati prima di effettuare un nuovo \emph{commit}. In questo
 caso l'uso del doppio trattino è necessario dal momento che il file cancellato
 non si trova nella \emph{working directory} e Git non capirebbe che \meta{file}
 è con certezza un elenco di file cancellati. Altri modi per ripristinare file
@@ -1148,7 +1148,7 @@ esempio perché abbiamo intenzione di scrivere un capitolo per il nostro documen
 un \emph{branch} nel quale scriveremo solo questo capitolo mentre nel ramo
 principale \emph{master} continueremo normalmente a modificare il documento.
 Quando il capitolo sarà pronto, se il risultato sarà soddisfacente potremo
-procedere alla funsione del ramo ``sperimentale'' in quello principale, operazione
+procedere alla fusione del ramo ``sperimentale'' in quello principale, operazione
 chiamata \emph{merge} in gergo, e nel nostro documento ``comparirà magicamente''
 il capitolo che abbiamo sviluppato nel \emph{branch}, in caso contrario possiamo
 semplicemente cancellare il \emph{branch}, come se avessimo potato il ramo
@@ -1221,7 +1221,8 @@ $ git branch
 \end{lstlisting}
 Che significa che ci siamo spostati in un altro \emph{branch}?  Abbiamo cambiato
 cartella?  No, siamo sempre nella stessa cartella (possiamo controllarlo con il
-comand \texttt{pwd}), ma è stato Git che ha modificato la nostra cartella di
+comand \texttt{pwd}%è command o comando? e cos'è pwd?!
+), ma è stato Git che ha modificato la nostra cartella di
 lavoro, la \emph{working directory}, andando a prendere dal suo database
 l'ultimo \emph{snapshot}, l'ultima ``fotografia'', del \emph{branch} che gli
 abbiamo richiesto.  In alternativa a \texttt{git branch} \meta{nome branch}, per
@@ -1421,7 +1422,7 @@ git config --global color.diff auto
 git config --global color.interactive auto
 git config --global color.status auto
 \end{lstlisting}
-Possiamo poi impostare l'editor di testo predefinito da associre a Git con
+Possiamo poi impostare l'editor di testo predefinito da associare a Git con
 l'opzione \texttt{core.editor}.  Se per esempio vogliamo usare Gedit daremo il
 comando
 \begin{lstlisting}
@@ -1491,7 +1492,7 @@ dare \texttt{git push} senza ulteriori argomenti.  Per inviare in remoto anche
 tutte le etichette con \texttt{git tag} bisogna aggiungere all'azione
 \texttt{push} l'opzione \texttt{-{}-tags}: \texttt{git push -{}-tags}.
 
-L'ultima azione da menzionare in questo paragrafo è il \emph{push}, vale a dire
+L'ultima azione da menzionare in questo paragrafo è il \emph{pull}, vale a dire
 lo scaricamento di un ramo da un \emph{repository} remoto, quindi l'operazione
 opposta di un \emph{push}: \texttt{git pull} \meta{remoto} \meta{ramo} aggiorna
 il ramo chiamato \meta{ramo} usando il \emph{repository} \meta{remoto}.  Se non
