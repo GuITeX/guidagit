@@ -1452,6 +1452,17 @@ si deve eseguire il comando
 \begin{lstlisting}
 git clone https://github.com/GuITeX/guidagit
 \end{lstlisting}
+Questa operazione copierà l'intero \emph{repository} remoto all'interno di una
+sottocartella, creata automaticamente, con lo stesso nome del \emph{repository}
+remoto, \texttt{guidagit} nel precedente esempio.  Poiché la cartella così
+creata contiene già al suo interno il \emph{repository}, non bisogna
+iniziallizzarlo con \texttt{git init}.  Se si vuole assegnare alla cartella un
+nome diverso da quello predefinito, bisogna specificarlo come ulteriore
+argomento del comando \texttt{git clone}.  Dunque
+\begin{lstlisting}
+git clone  https://github.com/GuITeX/guidagit git4latex
+\end{lstlisting}
+creerà una cartella chiamata \texttt{git4latex} invece di \texttt{guidagit}.
 
 Il comando \texttt{git remote} permette di gestire i diversi \emph{repository}
 remoti.  Per far riferimento a un \emph{repository} remoto si utilizza una nome,
@@ -1620,6 +1631,10 @@ saranno qui ripetuti.
 \item[\texttt{git tag} \meta{etichetta} \meta{commit}] etichetta \meta{commit}
   con \meta{etichetta}.  L'argomento \meta{commit} è opzionale, se assente verrà
   etichettata l'ultimo \emph{commit};
+\item[\texttt{git clone} \meta{URL} \meta{nome cartella}] copia il
+  \emph{repository} remoto che si trova all'indirizzo \meta{URL} in una cartella
+  chiamata \meta{cartella}.  Quest'ultimo argomento è facoltativo, se non
+  specificato verrà usato il nome del \emph{repository} remoto;
 \item[\texttt{git remote}] permette di gestire i \emph{repository} remoti.
   Azioni più comuni:
   \begin{description}

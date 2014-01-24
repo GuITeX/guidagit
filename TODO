@@ -12,4 +12,4 @@
 * Parlare dell'integrazione di Git con gli editor di testo per LaTeX?
    Al momento Emacs è l'unico editor che conosco che integri Git in maniera
    predefinita.
-* Azioni da descrivere: archive (suggerita da Liverpool), clone.
+* Azioni da descrivere: archive (suggerita da Liverpool).
