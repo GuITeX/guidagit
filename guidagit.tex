@@ -20,7 +20,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \documentclass[b5paper,11pt,oneside]{guidatematica}
-\ProvidesFile{guidagit.tex}[2013/11/07 v.1.0 Una guida introduttiva a Git per
+\ProvidesFile{guidagit.tex}[2014/01/24 v.1.1 Una guida introduttiva a Git per
 progetti LaTeX]
 
 \usepackage[os=win]{menukeys}
@@ -1221,14 +1221,15 @@ $ git branch
 \end{lstlisting}
 Che significa che ci siamo spostati in un altro \emph{branch}?  Abbiamo cambiato
 cartella?  No, siamo sempre nella stessa cartella (possiamo controllarlo con il
-comand \texttt{pwd}%è command o comando? e cos'è pwd?!
-), ma è stato Git che ha modificato la nostra cartella di
-lavoro, la \emph{working directory}, andando a prendere dal suo database
-l'ultimo \emph{snapshot}, l'ultima ``fotografia'', del \emph{branch} che gli
-abbiamo richiesto.  In alternativa a \texttt{git branch} \meta{nome branch}, per
-creare un nuovo ramo si può usare il comando \texttt{git checkout -b} \meta{nome
-  branch} che in più effettua direttamente il \emph{checkout} del nuovo
-\emph{branch}:
+comando \texttt{pwd}\footnote{Il comando Unix \texttt{pwd} (\emph{\textbf{p}rint
+    \textbf{w}orking \textbf{d}irectory}) stampa sullo schermo il percorso della
+  cartella in cui è attualmente posizionato il terminale.}), ma è stato Git che
+ha modificato il contenuto della nostra cartella di lavoro, la \emph{working
+  directory}, andando a prendere dal suo database l'ultimo \emph{snapshot},
+l'ultima ``fotografia'', del \emph{branch} che gli abbiamo richiesto.  In
+alternativa a \texttt{git branch} \meta{nome branch}, per creare un nuovo ramo
+si può usare il comando \texttt{git checkout -b} \meta{nome branch} che in più
+effettua direttamente il \emph{checkout} del nuovo \emph{branch}:
 \begin{lstlisting}
 $ git checkout -b foo
 Switched to a new branch 'foo'
