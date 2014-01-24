@@ -1,0 +1,81 @@
+%% Copyright (C) 2013-2014 M. Giordano, P. Giuffrida.
+%%
+%% ----------------------------------------------------------------------------
+%%
+%% Quest'opera è distribuita con licenza Creative Commons,
+%% + Attribuzione
+%% + Non commerciale
+%% + Condividi allo stesso modo
+%% 2.5 Italia.
+%%
+%% Per leggere una copia della licenza visita il sito
+%% + http://creativecommons.org/licenses/by-nc-sa/2.5/it/
+%%
+%% ----------------------------------------------------------------------------
+%%
+%% This work is licensed under the Creative Commons,
+%% + Attribution
+%% + Non Commercial
+%% + Share Alike
+%% 2.5 Italy License.
+%%
+%% To view a copy of this license, visit the web site
+%% http://creativecommons.org/licenses/by-nc-sa/2.5/it/deed.en
+%%
+%% For info send a mail to pietro.giuffri@gmail.com
+%%
+%% ----------------------------------------------------------------------------
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{guidagit}[2014/01/24 v.0.0.1 Preambolo di guidagit.tex]
+
+\RequirePackage[os=win]{menukeys}
+\RequirePackage{ccicons}
+\RequirePackage{quoting}
+
+% graphicx è caricato dalla classe guidatematica.cls
+\graphicspath{{figure/}}
+
+% listings è caricato dalla classe guidatematica.cls
+\lstset{basicstyle=\small\ttfamily,
+  keywordstyle=\color{blue},
+  commentstyle=\color{red},
+  stringstyle=\color{purple},
+  frame=lines,
+  breaklines = true, % per mandare a capo le righe troppo lunghe
+  breakautoindent = true, % indenta le righe spezzate
+  breakindent = 30pt, % indenta le righe di 30pt
+  language=bash,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  emph={touch,mkdir,echo,rm},
+  emphstyle=\color{blue},
+  escapechar={£},
+}
+
+\RequirePackage{hyperref}
+\hypersetup{
+  pdftitle  = {Una guida introduttiva a Git per progetti \LaTeX},
+  pdfauthor = {Mosè Giordano, Pietro Giuffrida},
+  breaklinks= true,  % permette di spezzare i link su più righe
+  bookmarksnumbered, % inserisce i numeri delle sezioni nei segnalibri
+  % opzioni dei colori di guidatematica.cls
+  colorlinks,linkcolor={blue},
+  citecolor={blue!80!black},
+  urlcolor={blue},
+}
+
+% Comando per scrivere `GiT' con lo stile di `TeX', da usare nel titolo.  Ho
+% copiato la definizione del comando `\TeX'.
+\newcommand{\GiT}{G\kern-.1667em\lower.5ex\hbox{I}\kern-.125emT\@}
+
+\newsavebox{\codetitlebox}
+
+% end of file guidagit.sty
+
+% Local Variables:
+% mode: latex
+% coding: utf-8
+% time-stamp-pattern: "30/\\\\ProvidesPackage{.*}\\[%:y/%02m/%02d v"
+% End:

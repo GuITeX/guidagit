@@ -1,63 +1,36 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% LICENZA
-%
-% Quest'opera è stata rilasciata sotto la licenza
-% Creative Commons Attribution-NonCommercial-ShareAlike 2.5 Italy.
-% Per leggere una copia della licenza visita il sito web
-% http://creativecommons.org/licenses/by-nc-sa/2.5/it/
-% o spedisci una lettera a Creative Commons, 171 Second Street, Suite 300, San
-% Francisco, California, 94105, USA.
-%
-% This work is licensed under the Creative Commons
-% Attribution-NonCommercial-ShareAlike 2.5 Italy License. To view a copy of this
-% license, visit http://creativecommons.org/licenses/by-nc-sa/2.5/it/deed.en or
-% send a letter to Creative Commons, 171 Second Street, Suite 300, San
-% Francisco, California, 94105, USA.
-%
-% For info send a mail to pietro.giuffri@gmail.com
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Copyright (C) 2013-2014 M. Giordano, P. Giuffrida.
+%%
+%% ----------------------------------------------------------------------------
+%%
+%% Quest'opera è distribuita con licenza Creative Commons,
+%% + Attribuzione
+%% + Non commerciale
+%% + Condividi allo stesso modo
+%% 2.5 Italia.
+%%
+%% Per leggere una copia della licenza visita il sito
+%% + http://creativecommons.org/licenses/by-nc-sa/2.5/it/
+%%
+%% ----------------------------------------------------------------------------
+%%
+%% This work is licensed under the Creative Commons,
+%% + Attribution
+%% + Non Commercial
+%% + Share Alike
+%% 2.5 Italy License.
+%%
+%% To view a copy of this license, visit the web site
+%% http://creativecommons.org/licenses/by-nc-sa/2.5/it/deed.en
+%%
+%% For info send a mail to pietro.giuffri@gmail.com
+%%
+%% ----------------------------------------------------------------------------
 
 \documentclass[b5paper,11pt,oneside]{guidatematica}
-\ProvidesFile{guidagit.tex}[2014/01/24 v.1.1 Una guida introduttiva a Git per
+\ProvidesFile{guidagit.tex}[2014/01/24 v.1.2 Una guida introduttiva a Git per
 progetti LaTeX]
 
-\usepackage[os=win]{menukeys}
-\usepackage{ccicons,quoting,hyperref}
-
-\hypersetup{
-  pdftitle={Una guida introduttiva a Git per progetti \LaTeX},
-  pdfauthor={Mosè Giordano, Pietro Giuffrida},
-  breaklinks=true, % permette di spezzare i link su più righe
-  bookmarksnumbered, % inserisce i numeri delle sezioni nei segnalibri
-  %%% opzioni dei colori di guidatematica.cls
-  colorlinks,linkcolor={blue},
-  citecolor={blue!80!black},urlcolor={blue},
-}
-
-\lstset{basicstyle=\small\ttfamily,
-  keywordstyle=\color{blue},
-  commentstyle=\color{red},
-  stringstyle=\color{purple},
-  frame=lines,
-  breaklines = true, % per mandare a capo le righe troppo lunghe
-  breakautoindent = true, % indenta le righe spezzate
-  breakindent = 30pt, % indenta le righe di 30pt
-  language=bash,
-  showspaces=false,
-  showstringspaces=false,
-  showtabs=false,
-  emph={touch,mkdir,echo,rm},
-  emphstyle=\color{blue},
-  escapechar={£},
-}
-
-% comando per scrivere `GiT' con lo stile di `TeX', da usare nel titolo.  Ho
-% copiato la definizione del comando `\TeX'.
-\newcommand{\GiT}{G\kern-.1667em\lower.5ex\hbox{I}\kern-.125emT\@}
-
-\newsavebox{\codetitlebox}
+\usepackage{guidagit}
 
 \begin{document}
 
@@ -1670,11 +1643,11 @@ saranno qui ripetuti.
 \end{plaindescription}
 
 \backmatter{}
-\bibliography{bibliografia}
+\bibliography{guidagit}
 \end{document}
 
 % Local Variables:
 % TeX-master: t
 % fill-column: 80
-% time-stamp-pattern: "23/\\\\ProvidesFile{.*}\\[%:y/%02m/%02d v"
+% time-stamp-pattern: "30/\\\\ProvidesFile{.*}\\[%:y/%02m/%02d v"
 % End:
